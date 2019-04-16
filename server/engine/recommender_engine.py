@@ -16,6 +16,7 @@ class RecEngine:
         deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, cs.deploymentTime)
         leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, cs.leasingPeriod)
         cs.serviceSimilarity = [regionIndex, serviceTypeIndex, deploymentTimeIndex, leasingPeriodIndex, cs.min_price]
+        print('CUSTOMER: ', cs.serviceSimilarity)
 
     def calc_service_index(self):
         "Update the serviceSimilarity array of each service"
@@ -26,6 +27,7 @@ class RecEngine:
             deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, s.deployment)
             leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, s.leasingPeriod)
             s.serviceSimilarity = [regionIndex, serviceTypeIndex, deploymentTimeIndex, leasingPeriodIndex, s.price]
+            print('SERVICE: ', s.serviceSimilarity)
 
     def calc_similarity(self):
         "Calculate the cosine similarity of the service list and return a sorted list"
@@ -61,6 +63,7 @@ class RecEngine:
 
         #TODO: Note that we're still not using the weights
         w = [cs.regionWeight, cs.serviceTypeWeight, cs.deploymentWeight, cs.leasingWeight, cs.priceWeight]
+
         #Customer definitions/requirements
         x = cs.serviceSimilarity
         for s in sh.services:
@@ -81,15 +84,23 @@ class RecEngine:
 
     def recommend_services(self, topNServices = None):
         "Filter the sorted services to find the most (topServices) similar ones"
-        #sortedServices = self.calc_cosine_similarity()
         sortedServices = self.calc_similarity()
-        if topNServices and topNServices > 0 and topNServices <= len(sortedServices):
-            counter = 0
-            for i, (k, v) in enumerate(sortedServices):
-                if counter == topNServices: break
-                counter += 1
-                print ("Ranking", i, "Service ID:", k)
-                for s in self.servicesHelper.services:
-                    if s.id == k:
-                        print("CHF:", s.price, s.type, s.region, s.deployment, s.leasingPeriod)
-                        print("Rating:", s.rating, "Euclidean", s.euclideanDistance, "Jaccard:", s.jaccardSimilarity, "Cosine:", s.cosineSimilarity, "Manhattan:", s.manhattanDistance)
+        result = []
+
+        for i, (k, v) in enumerate(sortedServices):
+            print("Ranking", i + 1, "Service ID:", k)
+            for s in self.servicesHelper.services:
+                if s.id == k:
+                    print('---------------------------------------------------------------------------------------')
+                    print(s.currency, s.price, s.type, s.region, s.deployment, s.leasingPeriod, 'Features:', s.features)
+                    print("Rating:", s.rating, "Euclidean", s.euclideanDistance, "Jaccard:", s.jaccardSimilarity,
+                          "Cosine:", s.cosineSimilarity, "Manhattan:", s.manhattanDistance)
+                    print('---------------------------------------------------------------------------------------')
+                    result.append(s)
+
+        if topNServices > 0:
+            # Return top n services that match customer's profile
+            return result[0:topNServices]
+        else:
+            # Return whole list with relevant services
+            return result

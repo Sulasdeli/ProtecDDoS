@@ -8,10 +8,12 @@ PRIORITY = ["HIGH", "MEDIUM", "LOW"]
 
 class ServicesHelper:
     "Helper class of Services"
-    #Store all "service" objects
+
+    #Store all services and filters them
     services = []
 
-    def __init__(self):
+    def __init__(self, services):
+        self.services = services
         self.type_dict = self.dict_characteristics(TYPE)
         self.region_dict = self.dict_characteristics(REGIONS)
         self.deployment_dict = self.dict_characteristics(DEPLOYMENT_TIME)
@@ -20,7 +22,7 @@ class ServicesHelper:
     def dict_characteristics(self, serviceCharacteristic):
         "Return a dictionary of a given characteristic with key from 1 to the size of the list"
         assert isinstance(serviceCharacteristic, list), "Characteristic should be a list"
-        return {random.randint(1,1000): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
+        return {random.randint(1,10000): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
 
     def calculate_index(self, serviceCharacteristic, indivCharacteristic):
         assert isinstance(serviceCharacteristic, dict), "Characteristic should be a dictionary"
@@ -37,11 +39,11 @@ class ServicesHelper:
                     index = key
         return index
 
-    def filter_by_price(self, min = None, max = None, list = None):
+    def filter_by_price(self, min = None, max = None, updatedServices = None):
         "Return services between a price range"
         servicesFound = []
-        if list is not None:
-            services = list
+        if updatedServices is not None:
+            services = updatedServices
         else:
             services = self.services
         if max and min:
@@ -58,29 +60,29 @@ class ServicesHelper:
                     servicesFound.append(s)
         return servicesFound
 
-    def filter_by_type(self, type, list = None):
+    def filter_by_type(self, types, updatedServices = None):
         "Return services of a given type"
-        assert type in TYPE, "Invalid Service Type"
+        assert types in TYPE, "Invalid Service Type"
         servicesFound = []
-        if list is not None:
-            services = list
+        if updatedServices is not None:
+            services = updatedServices
         else:
             services = self.services
         for s in services:
-            if s.type == type:
+            if set(types) <= set(s.type):
                 servicesFound.append(s)
         return servicesFound
 
-    def filter_by_region(self, region, list = None):
+    def filter_by_region(self, regions, updatedServices = None):
         "Return services of a given region"
-        assert region in REGIONS, "Invalid Service Region"
+        assert isinstance(regions, list), "regions should be a list"
         servicesFound = []
-        if list is not None:
-            services = list
+        if updatedServices is not None:
+            services = updatedServices
         else:
             services = self.services
         for s in services:
-            if s.region == region:
+            if set(regions) <= set(s.region):
                 servicesFound.append(s)
         return servicesFound
 
@@ -109,3 +111,9 @@ class ServicesHelper:
             if leasingPeriod in s.leasingPeriod:
                 servicesFound.append(s)
         return servicesFound
+
+    def apply_filters_to_services(self, cs):
+        list = self.filter_by_price(max=cs.max_price)
+        list = self.filter_by_region(cs.region, list)
+        list = self.filter_by_type(cs.serviceType, list)
+        self.services = list

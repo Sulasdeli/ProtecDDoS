@@ -32,7 +32,7 @@ class Provider(db.Model):
     region = db.Column(db.PickleType, nullable=False)
     deployment = db.Column(db.Text, nullable=False)
     leasingPeriod = db.Column(db.Text, nullable=False)
-    price = db.Column(db.Text, nullable=False)
+    price = db.Column(db.Integer, nullable=False)
     currency = db.Column(db.Text, nullable=False)
 
     @property
@@ -66,7 +66,7 @@ def load_data(app, db):
                                     'organizations respond to the latest threats',
                         type='PROACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='MINUTES',
-                        leasingPeriod='MONTHS', price='5000', currency='USD')
+                        leasingPeriod='MONTHS', price=5000, currency='USD')
 
     service2 = Provider(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
                         description='Cloudflare’s advanced DDoS protection, provisioned as a service at the network '
@@ -75,7 +75,7 @@ def load_data(app, db):
                                     'and ICMP protocols, as well as SYN/ACK, DNS amplification and Layer 7 attacks',
                         type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'DNS'],
                         region=['SOUTH AMERICA', 'EUROPE'], deployment='MINUTES',
-                        leasingPeriod='MONTHS', price='3500', currency='EUR')
+                        leasingPeriod='MONTHS', price=3500, currency='USD')
 
     service3 = Provider(providerName='Imperva', serviceName='Incapsula',
                         description='The Imperva Incapsula service delivers a multi-faceted approach to DDoS defense, '
@@ -85,7 +85,7 @@ def load_data(app, db):
                                     'data centers.',
                         type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price='750', currency='EUR')
+                        leasingPeriod='MONTHS', price=500, currency='USD')
 
     service4 = Provider(providerName='Verisign', serviceName='Verisign DDoS Protection Service',
                         description='Verisign DDoS Protection Services help organisations reduce the risk of '
@@ -95,14 +95,14 @@ def load_data(app, db):
                                     'the organisational network or in the cloud',
                         type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price='750', currency='EUR')
+                        leasingPeriod='MONTHS', price=999, currency='USD')
 
     service5 = Provider(providerName='Arbor Networks', serviceName='Arbor Cloud',
                         description='Arbor Cloud is a DDoS service powered by the world’s leading experts in DDoS '
                                     'mitigation, together with the most widely deployed DDoS protection technology',
                         type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION' 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price='750', currency='EUR')
+                        leasingPeriod='MONTHS', price=600, currency='USD')
 
     service6 = Provider(providerName='Check Point Software Technologies', serviceName='DDos Protector',
                         description='Check Point DDoS Protector™Appliances block Denial of Service attacks within '
@@ -114,7 +114,7 @@ def load_data(app, db):
                                     'before they cause damage.',
                         type='REACTIVE', features=['APPLICATION', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price='750', currency='EUR')
+                        leasingPeriod='MONTHS', price=2500, currency='USD')
 
     service7 = Provider(providerName='Corero Network Security, Inc.', serviceName='SmartWall® Threat Defense System',
                         description='The Corero SmartWall Threat Defense System (TDS) delivers comprehensive DDoS '
@@ -126,7 +126,7 @@ def load_data(app, db):
                                     'remain online, continuously, even whilst under attack',
                         type='REACTIVE', features=['APPLICATION', 'VOLUMETRIC'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price='750', currency='EUR')
+                        leasingPeriod='MONTHS', price=3200, currency='USD')
 
     service8 = Provider(providerName='Flowmon Networks', serviceName='Flowmon DDoS Defender',
                         description='Flowmon DDoS Defender puts advanced artificial intelligence between your critical '
@@ -135,7 +135,7 @@ def load_data(app, db):
                                     'protection',
                         type='REACTIVE', features=['APPLICATION'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price='750', currency='EUR')
+                        leasingPeriod='MONTHS', price=2345, currency='USD')
 
     service9 = Provider(providerName='Level 3 Communications', serviceName='Level 3 DDos Mitigation',
                         description='Level 3 provides layers of defense through enhanced network routing, rate '
@@ -146,8 +146,8 @@ def load_data(app, db):
                                     'managed service can proactively detect and mitigate the threats of today to help '
                                     'ensure business-as-usual for employees, partners and customers',
                         type='REACTIVE', features=['APPLICATION', 'VOLUMETRIC'],
-                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price='750', currency='EUR')
+                        region=['EUROPE'], deployment='MINUTES',
+                        leasingPeriod='SECONDS', price=107, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
                         description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
@@ -156,9 +156,9 @@ def load_data(app, db):
                                     'and application delivery, F5 protects and ensures availability of an '
                                     'organization\'s network and application infrastructure under the most '
                                     'demanding conditions',
-                        type='PROACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
-                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='MINUTES',
-                        leasingPeriod='MONTHS', price='5000', currency='USD')
+                        type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
+                        region=['EUROPE'], deployment='MINUTES',
+                        leasingPeriod='DAYS', price=106, currency='USD')
 
     with app.app_context():
         db.session.add(service1)
