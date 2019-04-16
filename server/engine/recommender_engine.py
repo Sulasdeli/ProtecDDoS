@@ -11,23 +11,21 @@ class RecEngine:
         "Return an array with the customer index"
         cs = self.customerHelper
         sh = self.servicesHelper
-        regionIndex = sh.get_key_from_value(sh.region_dict, cs.region)
-        serviceTypeIndex = sh.get_key_from_value(sh.type_dict, cs.serviceType)
-        deploymentTimeIndex = sh.get_key_from_value(sh.deployment_dict, cs.deploymentTime)
-        leasingPeriodIndex = sh.get_key_from_value(sh.leasing_dict, cs.leasingPeriod)
+        regionIndex = sh.calculate_index(sh.region_dict, cs.region)
+        serviceTypeIndex = sh.calculate_index(sh.type_dict, cs.serviceType)
+        deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, cs.deploymentTime)
+        leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, cs.leasingPeriod)
         cs.serviceSimilarity = [regionIndex, serviceTypeIndex, deploymentTimeIndex, leasingPeriodIndex, cs.min_price]
-        return True
 
     def calc_service_index(self):
         "Update the serviceSimilarity array of each service"
         sh = self.servicesHelper
         for s in sh.services:
-            regionIndex = sh.get_key_from_value(sh.region_dict, s.region)
-            serviceTypeIndex = sh.get_key_from_value(sh.type_dict, s.type)
-            deploymentTimeIndex = sh.get_key_from_value(sh.deployment_dict, s.deployment)
-            leasingPeriodIndex = sh.get_key_from_value(sh.leasing_dict, s.leasingPeriod)
+            regionIndex = sh.calculate_index(sh.region_dict, s.region)
+            serviceTypeIndex = sh.calculate_index(sh.type_dict, s.type)
+            deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, s.deployment)
+            leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, s.leasingPeriod)
             s.serviceSimilarity = [regionIndex, serviceTypeIndex, deploymentTimeIndex, leasingPeriodIndex, s.price]
-        return True
 
     def calc_similarity(self):
         "Calculate the cosine similarity of the service list and return a sorted list"

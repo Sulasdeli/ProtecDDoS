@@ -1,4 +1,5 @@
-#Hardcoded allowed values to describe service characteristics / ideally should be read from a DB
+import random
+
 TYPE = ["REACTIVE", "PROACTIVE"]
 REGIONS = ["NORTH AMERICA", "SOUTH AMERICA", "EUROPE", "ASIA", "AFRICA"]
 DEPLOYMENT_TIME = ["SECONDS", "MINUTES", "HOURS", "DAYS"]
@@ -19,13 +20,22 @@ class ServicesHelper:
     def dict_characteristics(self, serviceCharacteristic):
         "Return a dictionary of a given characteristic with key from 1 to the size of the list"
         assert isinstance(serviceCharacteristic, list), "Characteristic should be a list"
-        return {i+1 : serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
+        return {random.randint(1,1000): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
 
-    def get_key_from_value(self, serviceCharacteristic, value):
+    def calculate_index(self, serviceCharacteristic, indivCharacteristic):
         assert isinstance(serviceCharacteristic, dict), "Characteristic should be a dictionary"
-        for key, item in serviceCharacteristic.items():
-            if value == item:
-                return key
+        assert isinstance(indivCharacteristic, list) or isinstance(indivCharacteristic, str)
+        index = 0
+
+        if isinstance(indivCharacteristic, list):
+            for key, item in serviceCharacteristic.items():
+                if item in indivCharacteristic:
+                    index += key
+        elif isinstance(indivCharacteristic, str):
+            for key, item in serviceCharacteristic.items():
+                if indivCharacteristic == item:
+                    index = key
+        return index
 
     def filter_by_price(self, min = None, max = None, list = None):
         "Return services between a price range"
