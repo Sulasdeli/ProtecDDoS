@@ -1,10 +1,5 @@
 import random
-
-TYPE = ["REACTIVE", "PROACTIVE"]
-REGIONS = ["NORTH AMERICA", "SOUTH AMERICA", "EUROPE", "ASIA", "AFRICA"]
-DEPLOYMENT_TIME = ["SECONDS", "MINUTES", "HOURS", "DAYS"]
-LEASING_PERIOD = ["MINUTES", "HOURS", "DAYS", "WEEKS", "MONTHS"]
-PRIORITY = ["HIGH", "MEDIUM", "LOW"]
+from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYMENT_TIME, LEASING_PERIOD
 
 class ServicesHelper:
     "Helper class of Services"
@@ -22,7 +17,7 @@ class ServicesHelper:
     def dict_characteristics(self, serviceCharacteristic):
         "Return a dictionary of a given characteristic with key from 1 to the size of the list"
         assert isinstance(serviceCharacteristic, list), "Characteristic should be a list"
-        return {random.randint(1,10000): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
+        return {i+100000: serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
 
     def calculate_index(self, serviceCharacteristic, indivCharacteristic):
         assert isinstance(serviceCharacteristic, dict), "Characteristic should be a dictionary"
@@ -39,24 +34,16 @@ class ServicesHelper:
                     index = key
         return index
 
-    def filter_by_price(self, min = None, max = None, updatedServices = None):
+    def filter_by_price(self,maxPrice = None, updatedServices = None):
         "Return services between a price range"
         servicesFound = []
         if updatedServices is not None:
             services = updatedServices
         else:
             services = self.services
-        if max and min:
+        if maxPrice:
             for s in services:
-                if s.price >= min and s.price <= max:
-                    servicesFound.append(s)
-        elif max and not min:
-            for s in services:
-                if s.price <= max:
-                    servicesFound.append(s)
-        elif min and not max:
-            for s in services:
-                if s.price >= min:
+                if s.price <= maxPrice:
                     servicesFound.append(s)
         return servicesFound
 
@@ -113,7 +100,7 @@ class ServicesHelper:
         return servicesFound
 
     def apply_filters_to_services(self, cs):
-        list = self.filter_by_price(max=cs.max_price)
+        list = self.filter_by_price(cs.max_price)
         list = self.filter_by_region(cs.region, list)
         list = self.filter_by_type(cs.serviceType, list)
         self.services = list

@@ -146,8 +146,8 @@ def load_data(app, db):
                                     'managed service can proactively detect and mitigate the threats of today to help '
                                     'ensure business-as-usual for employees, partners and customers',
                         type='REACTIVE', features=['APPLICATION', 'VOLUMETRIC'],
-                        region=['EUROPE'], deployment='MINUTES',
-                        leasingPeriod='SECONDS', price=107, currency='USD')
+                        region=['EUROPE'], deployment='SECONDS',
+                        leasingPeriod='MONTHS', price=107, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
                         description=' F5’s DDoS Protection solution protects the fundamental elements of an application'

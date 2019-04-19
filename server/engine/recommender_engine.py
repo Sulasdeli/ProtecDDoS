@@ -82,7 +82,7 @@ class RecEngine:
         sortedCosineSimilarity = [(k, similarity[k]) for k in sorted(similarity, key=similarity.get)]
         return sortedCosineSimilarity
 
-    def recommend_services(self, topNServices = None):
+    def recommend_services(self, topNServices = -1):
         "Filter the sorted services to find the most (topServices) similar ones"
         sortedServices = self.calc_similarity()
         result = []
