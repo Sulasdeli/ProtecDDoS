@@ -7,10 +7,11 @@ from engine.recommender_engine import RecEngine
 from engine.entities.customer import Customer
 from engine.helpers.service_helper import ServicesHelper
 from engine.schemas.recommend_provider_schema import recommend_provider_schema
-
+from engine.helpers.similarity_functions import cosine_similarity
 
 @app.route("/")
 def helloWorld():
+  print(cosine_similarity([3, 45, 7, 2], [2, 54, 13, 15]))
   return 'Hello World!'
 
 @app.route("/v1/providers")
@@ -28,15 +29,15 @@ def recommend_provider():
   cs.name = "Erion"
   cs.region = ["EUROPE"]
   cs.serviceType = "REACTIVE"
-  cs.deploymentTime = "MINUTES"
+  cs.serviceTypeWeight = 1
+  cs.deploymentTime = "SECONDS"
+  cs.deploymentWeight = 1
   cs.leasingPeriod = "DAYS"
-  cs.min_price = 0
+  cs.leasingWeight = 1
   cs.max_price = 5000
+  cs.priceWeight = 3
 
   # Set the services helper
-
-  #recommend_provider_schema.validate(request.get_json())
-
   helper = ServicesHelper(Provider.query.all())
   helper.apply_filters_to_services(cs)
 

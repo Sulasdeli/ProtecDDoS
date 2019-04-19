@@ -4,10 +4,7 @@ class Customer:
     name = None
 
     region = None
-    regionWeight = None
-
     max_price = None
-    min_price = None
     currency = None
     priceWeight = None
 

@@ -1,11 +1,7 @@
-import random
 from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYMENT_TIME, LEASING_PERIOD
 
 class ServicesHelper:
     "Helper class of Services"
-
-    #Store all services and filters them
-    services = []
 
     def __init__(self, services):
         self.services = services
@@ -17,7 +13,7 @@ class ServicesHelper:
     def dict_characteristics(self, serviceCharacteristic):
         "Return a dictionary of a given characteristic with key from 1 to the size of the list"
         assert isinstance(serviceCharacteristic, list), "Characteristic should be a list"
-        return {i+100000: serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
+        return {i + 1: serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
 
     def calculate_index(self, serviceCharacteristic, indivCharacteristic):
         assert isinstance(serviceCharacteristic, dict), "Characteristic should be a dictionary"
@@ -56,7 +52,7 @@ class ServicesHelper:
         else:
             services = self.services
         for s in services:
-            if set(types) <= set(s.type):
+            if types == s.type:
                 servicesFound.append(s)
         return servicesFound
 

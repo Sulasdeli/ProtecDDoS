@@ -1,5 +1,8 @@
 from datetime import datetime
 from engine import db
+from engine.helpers.service_helper import ServicesHelper
+from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYMENT_TIME, LEASING_PERIOD
+import random
 
 
 class User(db.Model):
@@ -65,7 +68,7 @@ def load_data(app, db):
                                     'attacks and leverages Akamai’s visibility into global web traffic to help '
                                     'organizations respond to the latest threats',
                         type='PROACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
-                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='MINUTES',
+                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=5000, currency='USD')
 
     service2 = Provider(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
@@ -74,7 +77,7 @@ def load_data(app, db):
                                     'mitigate DDoS attacks of all forms and sizes including those that target the UDP '
                                     'and ICMP protocols, as well as SYN/ACK, DNS amplification and Layer 7 attacks',
                         type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'DNS'],
-                        region=['SOUTH AMERICA', 'EUROPE'], deployment='MINUTES',
+                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='MINUTES',
                         leasingPeriod='MONTHS', price=3500, currency='USD')
 
     service3 = Provider(providerName='Imperva', serviceName='Incapsula',
@@ -147,7 +150,7 @@ def load_data(app, db):
                                     'ensure business-as-usual for employees, partners and customers',
                         type='REACTIVE', features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price=107, currency='USD')
+                        leasingPeriod='DAYS', price=107, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
                         description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
@@ -156,8 +159,8 @@ def load_data(app, db):
                                     'and application delivery, F5 protects and ensures availability of an '
                                     'organization\'s network and application infrastructure under the most '
                                     'demanding conditions',
-                        type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
-                        region=['EUROPE'], deployment='MINUTES',
+                        type='REACTIVE', features=['APPLICATION', 'VOLUMETRIC'],
+                        region=['EUROPE'], deployment='HOURS',
                         leasingPeriod='DAYS', price=106, currency='USD')
 
     with app.app_context():
@@ -172,3 +175,17 @@ def load_data(app, db):
         db.session.add(service9)
         db.session.add(service10)
         db.session.commit()
+
+# For testing purposes
+# def mock_services():
+#     sh = ServicesHelper([])
+#     for i in range(0, 1000):
+#         s = Provider()
+#         s.id = i
+#         s.price = random.randint(0, 5000)
+#         s.type = "REACTIVE" if i % 2 == 0 else "PROACTIVE"
+#         s.region = [REGIONS[i % len(REGIONS)]]
+#         s.deployment = DEPLOYMENT_TIME[i % len(DEPLOYMENT_TIME)]
+#         s.leasingPeriod = LEASING_PERIOD[i % len(LEASING_PERIOD)]
+#         sh.services.append(s)
+#     return sh
