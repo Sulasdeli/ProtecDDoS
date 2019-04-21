@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Sidebar from "./SideBarContent";
 
 class Home extends Component {
 
