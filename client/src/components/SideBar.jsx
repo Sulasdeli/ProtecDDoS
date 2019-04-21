@@ -27,7 +27,7 @@ class SideBar extends Component {
                         activeKey={this.state.activeKey}
                         onSelect={this.handleSelect}
                     >
-                        <Sidenav.Body>
+                        <Sidenav.Body style={{height: '93vh'}}>
                             <Nav>
                                 <Nav.Item componentClass={Link} to='/home' icon={<Icon icon="home" />}>
                                     Home
