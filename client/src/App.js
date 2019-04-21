@@ -3,23 +3,24 @@ import Routes from './routes'
 import 'rsuite/dist/styles/rsuite.min.css'
 import SideBarContent from "./views/SideBarContent";
 import {Header, Footer, Container, Sidebar} from "rsuite";
-
-
+import {BrowserRouter} from "react-router-dom";
 
 class App extends Component {
   render() {
     return (
         <div className="show-container">
-            <Container>
-                <Sidebar>
-                    <SideBarContent/>
-                </Sidebar>
+            <BrowserRouter>
                 <Container>
-                    <Header>Header</Header>
-                    <Routes/>
-                    <Footer>Footer</Footer>
+                    <Sidebar>
+                        <SideBarContent/>
+                    </Sidebar>
+                    <Container>
+                        <Header>Header</Header>
+                        <Routes/>
+                        <Footer>Footer</Footer>
+                    </Container>
                 </Container>
-            </Container>
+            </BrowserRouter>
         </div>
     );
   }

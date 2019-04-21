@@ -1,11 +1,13 @@
 import React from 'react'
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
-import Home from '../views/Home';
+import {Route, Switch} from 'react-router-dom'
+import HomePage from '../views/HomePage';
+import SearchPage from "../views/SearchPage";
+import UploadPage from "../views/UploadPage";
 
 export default () => (
-    <BrowserRouter>
         <Switch>
-            <Route path="/" render={props => <Home {...props} />}/>
+            <Route path="/" exact render={props => <HomePage {...props} />}/>
+            <Route path="/search" render={props => <SearchPage {...props} />}/>
+            <Route path="/upload" render={props => <UploadPage {...props} />}/>
         </Switch>
-    </BrowserRouter>
 )

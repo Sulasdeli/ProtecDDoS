@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Sidenav, Nav, Dropdown, Icon} from "rsuite";
-import {NavLink} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import styled from 'styled-components'
 
 const Header = styled.div`
@@ -42,28 +42,28 @@ class SideBarContent extends Component {
                 <Header>
                     <span style={{ fontSize:20 }}> DDoS Protection Advisor</span>
                 </Header>
-                <Sidenav
-                    expanded={expanded}
-                    defaultOpenKeys={['3', '4']}
-                    activeKey={this.state.activeKey}
-                    onSelect={this.handleSelect}
-                >
-                    <Sidenav.Body>
-                        <Nav>
-                            <Nav.Item eventKey="1" icon={<Icon icon="search" />}>
-                                Search
-                            </Nav.Item>
-                            <Dropdown
-                                placement="rightTop"
-                                eventKey="3"
-                                title="Ratings"
-                                icon={<Icon icon="star-o" />}
-                            >
-                                <Dropdown.Item eventKey="3-1" icon={<Icon icon="file-upload"/>}>Upload Log File</Dropdown.Item>
-                            </Dropdown>
-                        </Nav>
-                    </Sidenav.Body>
-                </Sidenav>
+                    <Sidenav
+                        expanded={expanded}
+                        defaultOpenKeys={['3', '4']}
+                        activeKey={this.state.activeKey}
+                        onSelect={this.handleSelect}
+                    >
+                        <Sidenav.Body>
+                            <Nav>
+                                <Nav.Item eventKey="1" componentClass={Link} to='/search' icon={<Icon icon="search" />}>
+                                    Search
+                                </Nav.Item>
+                                <Dropdown
+                                    placement="rightTop"
+                                    eventKey="2"
+                                    title="Ratings"
+                                    icon={<Icon icon="star-o"/>}
+                                >
+                                    <Dropdown.Item eventKey="2-1" componentClass={Link} to='/upload' icon={<Icon icon="file-upload"/>}>Upload Attack Log File</Dropdown.Item>
+                                </Dropdown>
+                            </Nav>
+                        </Sidenav.Body>
+                    </Sidenav>
             </div>
         );
     }

@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import Sidebar from "./SideBarContent";
 
-class Home extends Component {
+class UploadPage extends Component {
 
     render() {
         return (
             <div>
                 <p>
-                    Home Page
+                    Upload page
                 </p>
             </div>
         );
     }
 }
 
-export default Home;
+export default UploadPage;
