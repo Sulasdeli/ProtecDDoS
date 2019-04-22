@@ -7,12 +7,10 @@ from engine.recommender_engine import RecEngine
 from engine.entities.customer import Customer
 from engine.helpers.service_helper import ServicesHelper
 from engine.schemas.recommend_provider_schema import recommend_provider_schema
-from engine.helpers.similarity_functions import cosine_similarity
 
 @app.route("/")
 def helloWorld():
-  print(cosine_similarity([3, 45, 7, 2], [2, 54, 13, 15]))
-  return 'Hello World!'
+  return 'Home Page'
 
 @app.route("/v1/providers")
 def getProviders():
