@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import {Pagination, Panel} from "rsuite";
 import {Card, CardContent, CardMedia, Typography} from "@material-ui/core";
+import styled from 'styled-components'
+
 const styles = theme => ({
     card: {
         display: 'flex',
@@ -27,12 +29,23 @@ const styles = theme => ({
     },
 });
 
+const PaginationContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const Container = styled.div`
+    min-height: 600px;
+    justify-content: space-between;
+`;
+
 class Services extends Component {
     constructor() {
         super();
         this.state = {
             currentPage: 1,
-            servicesPerPage: 5
+            servicesPerPage: 3
         };
         this.handleClick = this.handleClick.bind(this);
     }
@@ -43,29 +56,21 @@ class Services extends Component {
         });
     }
 
-    handleSelect(eventKey) {
-        this.setState({
-            activePage: eventKey
-        });
-    }
-
     render() {
         const {currentPage, servicesPerPage } = this.state;
         const services = this.props.services;
-        // Logic for displaying todos
+        // Logic for displaying recommended services
         const indexOfLastService = currentPage * servicesPerPage;
         const indexOfFirstService = indexOfLastService - servicesPerPage;
         const currentServices = services.slice(indexOfFirstService, indexOfLastService);
 
-        console.log(this.props.services)
-
         const renderServices = currentServices.map((service, index) => {
             return (
-                <Panel header={service.providerName}>
+                <Panel>
                     <Card style={styles.card}>
                         <CardMedia
                             style={styles.cover}
-                            image="client/src/views/cloudflare.jpg"
+                            image="./cloudflare.jpg"
                         />
                         <div style={styles.details}>
                             <CardContent style={styles.content}>
@@ -77,7 +82,6 @@ class Services extends Component {
                                 </Typography>
                             </CardContent>
                             <div>
-
                             </div>
                         </div>
                     </Card>
@@ -92,21 +96,22 @@ class Services extends Component {
         }
 
         return (
-            <div>
-                <ul>
-                    {renderServices}
-                </ul>
-                <Pagination
-                    prev
-                    last
-                    next
-                    first
-                    size="lg"
-                    pages={pageNumbers.length}
-                    activePage={this.state.currentPage}
-                    onSelect={this.handleClick}
-                />
-            </div>
+            <Container>
+                {renderServices}
+                <PaginationContainer>
+                    <Pagination
+                        prev
+                        last
+                        next
+                        first
+                        size="sm"
+                        pages={pageNumbers.length}
+                        activePage={this.state.currentPage}
+                        onSelect={this.handleClick}
+                    />
+                </PaginationContainer>
+                <br/>
+            </Container>
         );
     }
 }

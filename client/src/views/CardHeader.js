@@ -9,13 +9,14 @@ const Container = styled.div`
   flex-direction: row;
   align-items: baseline;
   color: white;
-  background: #34c3ff;
 `;
 
-const CardHeader = ({ title }) => (
-    <Container>
+const CardHeader = ({ title , iconName, backgroundColor}) => (
+    <Container style={{background: backgroundColor}}>
         &nbsp;
-        <Icon icon="user-info" size="2x" />
+        &nbsp;
+        <Icon icon={iconName} size="2x" />
+        &nbsp;
         &nbsp;
         <h2>{title}</h2>
     </Container>

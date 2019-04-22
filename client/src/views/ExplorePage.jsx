@@ -15,7 +15,6 @@ import {
     Form,
     Radio,
     RadioGroup,
-    Panel,
     PanelGroup,
 } from "rsuite";
 import regions from "../const/regions";
@@ -23,8 +22,8 @@ import serviceTypes from "../const/serviceTypes";
 import leasingPeriods from "../const/leasingPeriods";
 import deploymentTimes from "../const/deploymentTimes";
 import {getDomain} from "../helpers/getDomain";
-import Service from '../views/Service'
 import Services from "../components/Services";
+import Loader from "../views/Loader"
 
 const PageContent = styled.div`
   display: flex;
@@ -33,6 +32,14 @@ const PageContent = styled.div`
   justify-content: center;
   flex-direction: column;
   width: 1000px;
+`;
+
+const EmptyListContainer = styled.div`
+  text-align: center;
+  min-height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const styles = {
@@ -56,7 +63,7 @@ class ExplorePage extends Component {
     constructor() {
         super();
         this.state = {
-            submitted: false,
+            isLoading: false,
             userProfile: {
                 region: ['EUROPE'],
                 serviceType: ['REACTIVE'],
@@ -84,7 +91,7 @@ class ExplorePage extends Component {
     submitForm = () => {
         this.setState({
             ...this.state,
-            submitted: true
+            isLoading: true
         });
         fetch(`${getDomain()}/v1/recommend`, {
             method: "POST",
@@ -96,13 +103,19 @@ class ExplorePage extends Component {
         })
             .then(res => res.json())
             .then(jsonResponse => {
-                this.setState(
-                    {
-                        ...this.state,
-                        services: jsonResponse
-                    }
-                )
-                console.log(this.state.services)
+                this.setState({
+                    ...this.state,
+                    services: jsonResponse,
+                });
+
+                setTimeout(() => {
+                    this.setState(
+                        {
+                            ...this.state,
+                            isLoading: false
+                        }
+                    );
+                }, 2000)
             })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {
@@ -117,8 +130,8 @@ class ExplorePage extends Component {
         return (
             <div>
                 <PageContent>
-                    <Card style={{marginTop: '50px'}}>
-                        <CardHeader title='User Profile'/>
+                    <Card style={{marginTop: '25px'}}>
+                        <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(60deg, #26c6da, #00acc1)'/>
                         <CardContent>
                             <Form layout="horizontal">
                                 <FormGroup style={styles.formGroup}>
@@ -171,7 +184,7 @@ class ExplorePage extends Component {
                                 </FormGroup>
                                 <FormGroup style={{float: 'right', marginBottom: '15px'}}>
                                     <ButtonToolbar>
-                                        <Button htmlType="submit" onClick={this.submitForm} style={{background: '#43a047'}} appearance='primary'>Submit</Button>
+                                        <Button htmlType="submit" onClick={this.submitForm} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
                                     </ButtonToolbar>
                                 </FormGroup>
                             </Form>
@@ -180,14 +193,19 @@ class ExplorePage extends Component {
                     <br/>
                     <Card style={{width: '800px'}}>
                         <PanelGroup>
+                            <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(60deg, #ffa726, #fb8c00)'/>
                             {this.state.services.length > 0 ? (
-                                    <Services services={this.state.services}/>
+                                this.state.isLoading ? (
+                                    <Loader text='Loading...'/>
                                 ) : (
-                                    <Panel style={{textAlign: 'center'}}>
+                                    <Services services={this.state.services}/>
+                                )
+                                ) : (
+                                    <EmptyListContainer>
                                         <span>
                                             The List of recommended Services is empty
                                         </span>
-                                    </Panel>
+                                    </EmptyListContainer>
                             )}
                         </PanelGroup>
                     </Card>
