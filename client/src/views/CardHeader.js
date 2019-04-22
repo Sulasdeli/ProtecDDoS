@@ -4,7 +4,7 @@ import {Icon} from "rsuite";
 
 const Container = styled.div`
   font-size: 18px;
-  padding: 10px;
+  padding: 5px;
   display: flex;
   flex-direction: row;
   align-items: baseline;

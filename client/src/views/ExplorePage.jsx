@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {Card, CardContent} from "@material-ui/core";
 import CardHeader from "./CardHeader";
@@ -13,14 +12,16 @@ import {
     InputGroup,
     InputPicker,
     TagPicker,
-    Form, Header,
-    ButtonGroup, Radio, RadioGroup
+    Form,
+    Radio, RadioGroup,
+    Panel,
 } from "rsuite";
 import regions from "../const/regions";
 import serviceTypes from "../const/serviceTypes";
 import leasingPeriods from "../const/leasingPeriods";
 import deploymentTimes from "../const/deploymentTimes";
 import {getDomain} from "../helpers/getDomain";
+import Service from '../views/Service'
 
 const Userprofile = styled.div`
   display: flex;
@@ -54,13 +55,13 @@ class ExplorePage extends Component {
         this.state = {
             submitted: false,
             userProfile: {
-                region: [''],
-                serviceType: [''],
-                deploymentTime: '',
+                region: ['EUROPE'],
+                serviceType: ['REACTIVE'],
+                deploymentTime: 'SECONDS',
                 deploymentTimeWeight: 1,
-                leasingPeriod: '',
+                leasingPeriod: 'DAYS',
                 leasingPeriodWeight: 1,
-                budget: 0,
+                budget: 5000,
                 budgetWeight: 1
             },
             services: []
@@ -76,8 +77,12 @@ class ExplorePage extends Component {
         });
     };
 
+    // Fetch services from server based on user profile
     submitForm = () => {
-        console.log(JSON.stringify(this.state.userProfile))
+        this.setState({
+            ...this.state,
+            submitted: true
+        });
         fetch(`${getDomain()}/v1/recommend`, {
             method: "POST",
             headers: {
@@ -86,9 +91,15 @@ class ExplorePage extends Component {
             },
             body: JSON.stringify(this.state.userProfile)
         })
-            .then(res => console.log(res))
+            .then(res => res.json())
             .then(jsonResponse => {
-                console.log(jsonResponse);
+                this.setState(
+                    {
+                        ...this.state,
+                        services: jsonResponse
+                    }
+                )
+                console.log(this.state.services)
             })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {
@@ -102,74 +113,68 @@ class ExplorePage extends Component {
     render() {
         return (
             <div>
-                {!this.state.submitted ? (
-                    <Userprofile>
-                        <Card style={{marginTop: '50px'}}>
-                            <CardHeader title='User Profile'/>
-                            <CardContent>
-                                <Form layout="horizontal">
-                                    <FormGroup style={styles.formGroup}>
-                                        <ControlLabel>Coverage Region(s)</ControlLabel>
-                                        <TagPicker data={regions} onChange={this.handleChange("region")} style={styles.inputForm}  />
-                                    </FormGroup>
-                                    <FormGroup style={styles.formGroup}>
-                                        <ControlLabel>Service Type(s)</ControlLabel>
-                                        <TagPicker data={serviceTypes} onChange={this.handleChange("serviceType")} style={styles.inputForm}  />
-                                        <HelpBlock tooltip>Required</HelpBlock>
-                                    </FormGroup>
-                                    <FormGroup style={styles.formGroup}>
-                                        <ControlLabel>Deployment Time</ControlLabel>
-                                        <InputPicker data={deploymentTimes} onChange={this.handleChange("deploymentTime")} style={styles.inputForm}/>
-                                        &nbsp;
-                                        &nbsp;
-                                        <RadioGroup name="radioList" inline appearance="picker" defaultValue="A">
-                                            <span style={styles.radioGroupLabel}>Priority: </span>
-                                            <Radio onChange={this.handleChange("deploymentTimeWeight")} value="1">Low</Radio>
-                                            <Radio onChange={this.handleChange("deploymentTimeWeight")} value="2">Medium</Radio>
-                                            <Radio onChange={this.handleChange("deploymentTimeWeight")} value="3">High</Radio>
-                                        </RadioGroup>
-                                    </FormGroup>
-                                    <FormGroup style={styles.formGroup}>
-                                        <ControlLabel>Leasing Period</ControlLabel>
-                                        <InputPicker data={leasingPeriods} onChange={this.handleChange("leasingPeriod")} style={styles.inputForm}/>
-                                        &nbsp;
-                                        &nbsp;
-                                        <RadioGroup name="radioList" inline appearance="picker" defaultValue="A">
-                                            <span style={styles.radioGroupLabel}>Priority: </span>
-                                            <Radio onChange={this.handleChange("leasingPeriodWeight")} value="1">Low</Radio>
-                                            <Radio onChange={this.handleChange("leasingPeriodWeight")} value="2">Medium</Radio>
-                                            <Radio onChange={this.handleChange("leasingPeriodWeight")} value="3">High</Radio>
-                                        </RadioGroup>
-                                    </FormGroup>
-                                    <FormGroup style={styles.formGroup}>
-                                        <ControlLabel>Budget</ControlLabel>
-                                        <InputGroup style={styles.inputForm}>
-                                            <Input  onChange={this.handleChange("budget")}/>
-                                            <InputGroup.Addon>.-</InputGroup.Addon>
-                                        </InputGroup>
-                                        &nbsp;
-                                        &nbsp;
-                                        <RadioGroup name="radioList" inline appearance="picker" defaultValue="A">
-                                            <span style={styles.radioGroupLabel}>Priority: </span>
-                                            <Radio onChange={this.handleChange("budgetWeight")} value="1">Low</Radio>
-                                            <Radio onChange={this.handleChange("budgetWeight")} value="2">Medium</Radio>
-                                            <Radio onChange={this.handleChange("budgetWeight")} value="3">High</Radio>
-                                        </RadioGroup>
-                                    </FormGroup>
-                                    <FormGroup style={{float: 'right', marginBottom: '15px'}}>
-                                        <ButtonToolbar>
-                                            <Button htmlType="submit" onClick={this.submitForm} appearance="primary">Submit</Button>
-                                        </ButtonToolbar>
-                                    </FormGroup>
-                                </Form>
-                            </CardContent>
-                        </Card>
-                    </Userprofile>
-                ) : (
-                    <div>
-                        list of services
-                    </div>
-                )}
+                <Userprofile>
+                    <Card style={{marginTop: '50px'}}>
+                        <CardHeader title='User Profile'/>
+                        <CardContent>
+                            <Form layout="horizontal">
+                                <FormGroup style={styles.formGroup}>
+                                    <ControlLabel>Coverage Region(s)</ControlLabel>
+                                    <TagPicker data={regions} value={this.state.userProfile.region} onChange={this.handleChange("region")} style={styles.inputForm}  />
+                                </FormGroup>
+                                <FormGroup style={styles.formGroup}>
+                                    <ControlLabel>Service Type(s)</ControlLabel>
+                                    <TagPicker data={serviceTypes} value={this.state.userProfile.serviceType} onChange={this.handleChange("serviceType")} style={styles.inputForm}  />
+                                    <HelpBlock tooltip>Required</HelpBlock>
+                                </FormGroup>
+                                <FormGroup style={styles.formGroup}>
+                                    <ControlLabel>Deployment Time</ControlLabel>
+                                    <InputPicker data={deploymentTimes} value={this.state.userProfile.deploymentTime} onChange={this.handleChange("deploymentTime")} style={styles.inputForm}/>
+                                    &nbsp;
+                                    &nbsp;
+                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue="1">
+                                        <span style={styles.radioGroupLabel}>Priority: </span>
+                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value="1">Low</Radio>
+                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value="2">Medium</Radio>
+                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value="3">High</Radio>
+                                    </RadioGroup>
+                                </FormGroup>
+                                <FormGroup style={styles.formGroup}>
+                                    <ControlLabel>Leasing Period</ControlLabel>
+                                    <InputPicker data={leasingPeriods} value={this.state.userProfile.leasingPeriod} onChange={this.handleChange("leasingPeriod")} style={styles.inputForm}/>
+                                    &nbsp;
+                                    &nbsp;
+                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue="1">
+                                        <span style={styles.radioGroupLabel}>Priority: </span>
+                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value="1">Low</Radio>
+                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value="2">Medium</Radio>
+                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value="3">High</Radio>
+                                    </RadioGroup>
+                                </FormGroup>
+                                <FormGroup style={styles.formGroup}>
+                                    <ControlLabel>Budget</ControlLabel>
+                                    <InputGroup style={styles.inputForm}>
+                                        <Input value={this.state.userProfile.budget} onChange={this.handleChange("budget")}/>
+                                        <InputGroup.Addon>.-</InputGroup.Addon>
+                                    </InputGroup>
+                                    &nbsp;
+                                    &nbsp;
+                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue="1">
+                                        <span style={styles.radioGroupLabel}>Priority: </span>
+                                        <Radio onChange={this.handleChange("budgetWeight")} value="1">Low</Radio>
+                                        <Radio onChange={this.handleChange("budgetWeight")} value="2">Medium</Radio>
+                                        <Radio onChange={this.handleChange("budgetWeight")} value="3">High</Radio>
+                                    </RadioGroup>
+                                </FormGroup>
+                                <FormGroup style={{float: 'right', marginBottom: '15px'}}>
+                                    <ButtonToolbar>
+                                        <Button htmlType="submit" onClick={this.submitForm} appearance="primary">Submit</Button>
+                                    </ButtonToolbar>
+                                </FormGroup>
+                            </Form>
+                        </CardContent>
+                    </Card>
+                </Userprofile>
             </div>
         );
     }

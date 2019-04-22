@@ -27,7 +27,7 @@ class SideBar extends Component {
                         activeKey={this.state.activeKey}
                         onSelect={this.handleSelect}
                     >
-                        <Sidenav.Body style={{height: '93vh'}}>
+                        <Sidenav.Body style={{height: '96vh'}}>
                             <Nav>
                                 <Nav.Item componentClass={Link} to='/search' icon={<Icon icon="search" />}>
                                     Explore
