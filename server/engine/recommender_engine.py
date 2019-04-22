@@ -14,20 +14,18 @@ class RecEngine:
         "Return an array with the customer index"
         cs = self.customer
         sh = self.services
-        serviceTypeIndex = sh.calculate_index(sh.type_dict, cs.serviceType)
         deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, cs.deploymentTime)
         leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, cs.leasingPeriod)
-        cs.serviceSimilarity = [serviceTypeIndex, deploymentTimeIndex, leasingPeriodIndex, cs.max_price]
+        cs.serviceSimilarity = [deploymentTimeIndex, leasingPeriodIndex, cs.max_price]
         print('CUSTOMER: ', cs.serviceSimilarity)
 
     def calc_service_index(self):
         "Update the serviceSimilarity array of each service"
         sh = self.services
         for s in sh.services:
-            serviceTypeIndex = sh.calculate_index(sh.type_dict, s.type)
             deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, s.deployment)
             leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, s.leasingPeriod)
-            s.serviceSimilarity = [serviceTypeIndex, deploymentTimeIndex, leasingPeriodIndex, self.customer.max_price - s.price]
+            s.serviceSimilarity = [deploymentTimeIndex, leasingPeriodIndex, self.customer.max_price - s.price]
             print('SERVICE: ', s.serviceSimilarity)
 
     def calc_similarity(self):
@@ -43,7 +41,7 @@ class RecEngine:
         self.calc_service_index()
 
         #TODO: Note that we're still not using the weights
-        w = [cs.serviceTypeWeight, cs.deploymentWeight, cs.leasingWeight, cs.priceWeight]
+        w = [cs.deploymentWeight, cs.leasingWeight, cs.priceWeight]
 
         #Customer definitions/requirements
         x = np.multiply(cs.serviceSimilarity, w)

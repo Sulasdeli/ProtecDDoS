@@ -28,7 +28,6 @@ def recommend_provider():
   cs.name = "Erion"
   cs.region = ["EUROPE"]
   cs.serviceType = "REACTIVE"
-  cs.serviceTypeWeight = 1
   cs.deploymentTime = "SECONDS"
   cs.deploymentWeight = 1
   cs.leasingPeriod = "DAYS"
