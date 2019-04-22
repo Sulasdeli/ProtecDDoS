@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {Pagination, Panel} from "rsuite";
+import {Pagination, Panel, Tag} from "rsuite";
 import {Card, CardContent, CardMedia, Typography} from "@material-ui/core";
 import styled from 'styled-components'
+import PriceTag from "../views/PriceTag";
 
 const styles = theme => ({
     card: {
@@ -70,19 +71,20 @@ class Services extends Component {
                     <Card style={styles.card}>
                         <CardMedia
                             style={styles.cover}
-                            image="./cloudflare.jpg"
+                            image="../../assets/cloudflare.jpg"
                         />
                         <div style={styles.details}>
                             <CardContent style={styles.content}>
-                                <Typography component="h5" variant="h5">
-                                    {service.id}
-                                </Typography>
-                                <Typography variant="subtitle1" color="textSecondary">
-                                    {service.providerName}
-                                </Typography>
+                                <div>
+                                    <Typography component="h6" variant="h6">
+                                        {service.providerName + ': ' + service.serviceName}
+                                    </Typography>
+                                    <Typography component="p" color="textSecondary">
+                                        {service.description}
+                                    </Typography>
+                                </div>
                             </CardContent>
-                            <div>
-                            </div>
+                            <PriceTag service={service} index={index} pageNumber={this.state.currentPage}/>
                         </div>
                     </Card>
                 </Panel>

@@ -37,7 +37,8 @@ def recommend_provider():
   cs.priceWeight = 3
 
   # Set the services helper
-  helper = mock_services()
+  #helper = mock_services()
+  helper = ServicesHelper(Provider.query.all())
   helper.apply_filters_to_services(cs)
 
   re = RecEngine(helper, cs)
