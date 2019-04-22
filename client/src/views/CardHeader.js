@@ -3,18 +3,22 @@ import React from 'react'
 import {Icon} from "rsuite";
 
 const Container = styled.div`
-  transition: all 150ms ease;
   font-size: 18px;
-  padding: 16px;
-  align-items: center;
-  justify-content: space-between;
+  padding: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
   color: white;
-  background: #2d66c5;
+  background: #34c3ff;
 `;
 
-export default CardHeader = ({ title }) => (
+const CardHeader = ({ title }) => (
     <Container>
-        <Icon icon="home" />
+        &nbsp;
+        <Icon icon="user-info" size="2x" />
+        &nbsp;
         <h2>{title}</h2>
     </Container>
-)
+);
+
+export default CardHeader

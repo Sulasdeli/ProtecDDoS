@@ -29,11 +29,8 @@ class SideBar extends Component {
                     >
                         <Sidenav.Body style={{height: '93vh'}}>
                             <Nav>
-                                <Nav.Item componentClass={Link} to='/home' icon={<Icon icon="home" />}>
-                                    Home
-                                </Nav.Item>
                                 <Nav.Item componentClass={Link} to='/search' icon={<Icon icon="search" />}>
-                                    Search
+                                    Explore
                                 </Nav.Item>
                                 <Dropdown
                                     placement="rightTop"
