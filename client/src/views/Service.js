@@ -1,6 +1,7 @@
 import React from 'react'
 import {Card, CardContent, Typography, CardMedia} from "@material-ui/core";
 import withStyles from "@material-ui/core/es/styles/withStyles";
+import {Panel} from "rsuite";
 
 const styles = theme => ({
     card: {
@@ -30,26 +31,27 @@ const styles = theme => ({
 
 
 const Service = ({ service }) => (
-    <Card style={styles.card}>
-        <CardMedia
-            style={styles.cover}
-            image="/static/images/cards/live-from-space.jpg"
-            title="Live from space album cover"
-        />
-        <div style={styles.details}>
-            <CardContent style={styles.content}>
-                <Typography component="h5" variant="h5">
-                    Live From Space
-                </Typography>
-                <Typography variant="subtitle1" color="textSecondary">
-                    Mac Miller
-                </Typography>
-            </CardContent>
-            <div>
+    <Panel header={service.providerName}>
+        <Card style={styles.card}>
+            <CardMedia
+                style={styles.cover}
+                image="client/src/views/cloudflare.jpg"
+            />
+            <div style={styles.details}>
+                <CardContent style={styles.content}>
+                    <Typography component="h5" variant="h5">
+                        {service.providerName}
+                    </Typography>
+                    <Typography variant="subtitle1" color="textSecondary">
+                        {service.providerName}
+                    </Typography>
+                </CardContent>
+                <div>
 
+                </div>
             </div>
-        </div>
-    </Card>
+        </Card>
+    </Panel>
 );
 
 export default withStyles(styles, { withTheme: true })(Service);

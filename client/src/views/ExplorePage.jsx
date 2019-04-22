@@ -13,8 +13,10 @@ import {
     InputPicker,
     TagPicker,
     Form,
-    Radio, RadioGroup,
+    Radio,
+    RadioGroup,
     Panel,
+    PanelGroup,
 } from "rsuite";
 import regions from "../const/regions";
 import serviceTypes from "../const/serviceTypes";
@@ -22,8 +24,9 @@ import leasingPeriods from "../const/leasingPeriods";
 import deploymentTimes from "../const/deploymentTimes";
 import {getDomain} from "../helpers/getDomain";
 import Service from '../views/Service'
+import Services from "../components/Services";
 
-const Userprofile = styled.div`
+const PageContent = styled.div`
   display: flex;
   align-content: center;
   align-items: center;
@@ -113,7 +116,7 @@ class ExplorePage extends Component {
     render() {
         return (
             <div>
-                <Userprofile>
+                <PageContent>
                     <Card style={{marginTop: '50px'}}>
                         <CardHeader title='User Profile'/>
                         <CardContent>
@@ -168,13 +171,27 @@ class ExplorePage extends Component {
                                 </FormGroup>
                                 <FormGroup style={{float: 'right', marginBottom: '15px'}}>
                                     <ButtonToolbar>
-                                        <Button htmlType="submit" onClick={this.submitForm} appearance="primary">Submit</Button>
+                                        <Button htmlType="submit" onClick={this.submitForm} style={{background: '#43a047'}} appearance='primary'>Submit</Button>
                                     </ButtonToolbar>
                                 </FormGroup>
                             </Form>
                         </CardContent>
                     </Card>
-                </Userprofile>
+                    <br/>
+                    <Card style={{width: '800px'}}>
+                        <PanelGroup>
+                            {this.state.services.length > 0 ? (
+                                    <Services services={this.state.services}/>
+                                ) : (
+                                    <Panel style={{textAlign: 'center'}}>
+                                        <span>
+                                            The List of recommended Services is empty
+                                        </span>
+                                    </Panel>
+                            )}
+                        </PanelGroup>
+                    </Card>
+                </PageContent>
             </div>
         );
     }

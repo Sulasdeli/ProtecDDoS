@@ -177,15 +177,15 @@ def load_data(app, db):
         db.session.commit()
 
 # For testing purposes
-# def mock_services():
-#     sh = ServicesHelper([])
-#     for i in range(0, 1000):
-#         s = Provider()
-#         s.id = i
-#         s.price = random.randint(0, 5000)
-#         s.type = "REACTIVE" if i % 2 == 0 else "PROACTIVE"
-#         s.region = [REGIONS[i % len(REGIONS)]]
-#         s.deployment = DEPLOYMENT_TIME[i % len(DEPLOYMENT_TIME)]
-#         s.leasingPeriod = LEASING_PERIOD[i % len(LEASING_PERIOD)]
-#         sh.services.append(s)
-#     return sh
+def mock_services():
+    sh = ServicesHelper([])
+    for i in range(0, 1000):
+        s = Provider()
+        s.id = i
+        s.price = random.randint(0, 5000)
+        s.type = "REACTIVE" if i % 2 == 0 else "PROACTIVE"
+        s.region = [REGIONS[i % len(REGIONS)]]
+        s.deployment = DEPLOYMENT_TIME[i % len(DEPLOYMENT_TIME)]
+        s.leasingPeriod = LEASING_PERIOD[i % len(LEASING_PERIOD)]
+        sh.services.append(s)
+    return sh

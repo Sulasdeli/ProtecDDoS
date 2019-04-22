@@ -7,6 +7,7 @@ from engine.recommender_engine import RecEngine
 from engine.entities.customer import Customer
 from engine.helpers.service_helper import ServicesHelper
 from engine.schemas.recommend_provider_schema import recommend_provider_schema
+from engine.database.models import mock_services
 
 @app.route("/")
 def helloWorld():
@@ -36,7 +37,7 @@ def recommend_provider():
   cs.priceWeight = 3
 
   # Set the services helper
-  helper = ServicesHelper(Provider.query.all())
+  helper = mock_services()
   helper.apply_filters_to_services(cs)
 
   re = RecEngine(helper, cs)
