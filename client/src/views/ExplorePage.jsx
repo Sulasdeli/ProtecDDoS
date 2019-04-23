@@ -149,11 +149,11 @@ class ExplorePage extends Component {
                                     <InputPicker data={deploymentTimes} value={this.state.userProfile.deploymentTime} onChange={this.handleChange("deploymentTime")} style={styles.inputForm}/>
                                     &nbsp;
                                     &nbsp;
-                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue="1">
+                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
                                         <span style={styles.radioGroupLabel}>Priority: </span>
-                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value="1">Low</Radio>
-                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value="2">Medium</Radio>
-                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value="3">High</Radio>
+                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value={1}>Low</Radio>
+                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value={2}>Medium</Radio>
+                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value={3}>High</Radio>
                                     </RadioGroup>
                                 </FormGroup>
                                 <FormGroup style={styles.formGroup}>
@@ -161,11 +161,11 @@ class ExplorePage extends Component {
                                     <InputPicker data={leasingPeriods} value={this.state.userProfile.leasingPeriod} onChange={this.handleChange("leasingPeriod")} style={styles.inputForm}/>
                                     &nbsp;
                                     &nbsp;
-                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue="1">
+                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
                                         <span style={styles.radioGroupLabel}>Priority: </span>
-                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value="1">Low</Radio>
-                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value="2">Medium</Radio>
-                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value="3">High</Radio>
+                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value={1}>Low</Radio>
+                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value={2}>Medium</Radio>
+                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value={3}>High</Radio>
                                     </RadioGroup>
                                 </FormGroup>
                                 <FormGroup style={styles.formGroup}>
@@ -176,11 +176,11 @@ class ExplorePage extends Component {
                                     </InputGroup>
                                     &nbsp;
                                     &nbsp;
-                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue="1">
+                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
                                         <span style={styles.radioGroupLabel}>Priority: </span>
-                                        <Radio onChange={this.handleChange("budgetWeight")} value="1">Low</Radio>
-                                        <Radio onChange={this.handleChange("budgetWeight")} value="2">Medium</Radio>
-                                        <Radio onChange={this.handleChange("budgetWeight")} value="3">High</Radio>
+                                        <Radio onChange={this.handleChange("budgetWeight")} value={1}>Low</Radio>
+                                        <Radio onChange={this.handleChange("budgetWeight")} value={2}>Medium</Radio>
+                                        <Radio onChange={this.handleChange("budgetWeight")} value={3}>High</Radio>
                                     </RadioGroup>
                                 </FormGroup>
                                 <FormGroup style={{float: 'right', marginBottom: '15px'}}>

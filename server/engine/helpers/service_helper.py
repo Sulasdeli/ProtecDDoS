@@ -45,14 +45,14 @@ class ServicesHelper:
 
     def filter_by_type(self, types, updatedServices = None):
         "Return services of a given type"
-        assert types in TYPE, "Invalid Service Type"
+        assert isinstance(types, list), "Service Type should be a list"
         servicesFound = []
         if updatedServices is not None:
             services = updatedServices
         else:
             services = self.services
         for s in services:
-            if types == s.type:
+            if set(types) <= set(s.type):
                 servicesFound.append(s)
         return servicesFound
 
@@ -96,7 +96,12 @@ class ServicesHelper:
         return servicesFound
 
     def apply_filters_to_services(self, cs):
-        list = self.filter_by_price(cs.max_price)
+        list = self.filter_by_price(cs.budget)
+        print(len(list))
         list = self.filter_by_region(cs.region, list)
+        print(len(list))
+
         list = self.filter_by_type(cs.serviceType, list)
+        print(len(list))
+
         self.services = list

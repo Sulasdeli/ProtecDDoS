@@ -16,7 +16,7 @@ class RecEngine:
         sh = self.services
         deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, cs.deploymentTime)
         leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, cs.leasingPeriod)
-        cs.serviceSimilarity = [deploymentTimeIndex, leasingPeriodIndex, cs.max_price]
+        cs.serviceSimilarity = [deploymentTimeIndex, leasingPeriodIndex, cs.budget]
         print('CUSTOMER: ', cs.serviceSimilarity)
 
     def calc_service_index(self):
@@ -25,7 +25,7 @@ class RecEngine:
         for s in sh.services:
             deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, s.deployment)
             leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, s.leasingPeriod)
-            s.serviceSimilarity = [deploymentTimeIndex, leasingPeriodIndex, self.customer.max_price - s.price]
+            s.serviceSimilarity = [deploymentTimeIndex, leasingPeriodIndex, self.customer.budget - s.price]
             print('SERVICE: ', s.serviceSimilarity)
 
     def calc_similarity(self):
@@ -41,13 +41,13 @@ class RecEngine:
         self.calc_service_index()
 
         #TODO: Note that we're still not using the weights
-        w = [cs.deploymentWeight, cs.leasingWeight, cs.priceWeight]
+        customerProfileWeights = [cs.deploymentTimeWeight, cs.leasingPeriodWeight, cs.budgetWeight]
 
         #Customer definitions/requirements
-        x = np.multiply(cs.serviceSimilarity, w)
+        x = np.multiply(cs.serviceSimilarity, customerProfileWeights)
         for s in sh.services:
             #Service characteristics
-            y = np.multiply(s.serviceSimilarity, w)
+            y = np.multiply(s.serviceSimilarity, customerProfileWeights)
             print(y)
             #Calc of metrics
             s.euclideanDistance = euclidean_distance(x, y) #higher -> better

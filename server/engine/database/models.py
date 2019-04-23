@@ -30,7 +30,7 @@ class Provider(db.Model):
     providerName = db.Column(db.String(100), nullable=False)
     serviceName = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False, default=datetime.utcnow)
-    type = db.Column(db.Text, nullable=False)
+    type = db.Column(db.PickleType, nullable=False)
     features = db.Column(db.PickleType, nullable=False)
     region = db.Column(db.PickleType, nullable=False)
     deployment = db.Column(db.Text, nullable=False)
@@ -61,14 +61,14 @@ class Provider(db.Model):
 
 class CustomerProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    region = db.Column(db.String(100), nullable=False)
-    serviceType = db.Column(db.String(100), nullable=False)
+    region = db.Column(db.PickleType, nullable=False)
+    serviceType = db.Column(db.PickleType, nullable=False)
     deploymentTime = db.Column(db.Text, nullable=False, default=datetime.utcnow)
-    deploymentTimeWeight = db.Column(db.Text, nullable=False)
+    deploymentTimeWeight = db.Column(db.Integer, nullable=False)
     leasingPeriod = db.Column(db.PickleType, nullable=False)
     leasingPeriodWeight = db.Column(db.PickleType, nullable=False)
-    budget = db.Column(db.Text, nullable=False)
-    budgetWeight = db.Column(db.Text, nullable=False)
+    budget = db.Column(db.Integer, nullable=False)
+    budgetWeight = db.Column(db.Integer, nullable=False)
 
     @property
     def serialize(self):
@@ -88,6 +88,17 @@ class CustomerProfile(db.Model):
     def __repr__(self):
         return f"CustomerProfile('{self.region}', '{self.serviceType}', '{self.deploymentTime}', '{self.leasingPeriod}', '{self.budget}')"
 
+    def json_to_obj(self, json):
+        self.region = json["region"]
+        self.serviceType = json["serviceType"]
+        self.deploymentTime = json["deploymentTime"]
+        self.deploymentTimeWeight = json["deploymentTimeWeight"]
+        self.leasingPeriod = json["leasingPeriod"]
+        self.leasingPeriodWeight = json["leasingPeriodWeight"]
+        self.budget = json["budget"]
+        self.budgetWeight = json["budgetWeight"]
+        return self
+
 
 def load_data(app, db):
     service1 = Provider(providerName='Akamai', serviceName='Kona Site Defender',
@@ -97,7 +108,7 @@ def load_data(app, db):
                                     ' without compromising the user experience. Kona Site Defender can stop the largest'
                                     'attacks and leverages Akamai’s visibility into global web traffic to help '
                                     'organizations respond to the latest threats',
-                        type='PROACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
+                        type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=5000, currency='USD')
 
@@ -106,7 +117,7 @@ def load_data(app, db):
                                     'edge, matches the sophistication and scale of such threats, and can be used to '
                                     'mitigate DDoS attacks of all forms and sizes including those that target the UDP '
                                     'and ICMP protocols, as well as SYN/ACK, DNS amplification and Layer 7 attacks',
-                        type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'DNS'],
+                        type=['REACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='MINUTES',
                         leasingPeriod='MONTHS', price=3500, currency='USD')
 
@@ -116,7 +127,7 @@ def load_data(app, db):
                                     'online assets from these threats. Incapsula DDoS protection services are backed '
                                     'by a 24x7 security team, 99.999% uptime SLA, and a powerful, global network of '
                                     'data centers.',
-                        type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
+                        type=['REACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=500, currency='USD')
 
@@ -126,14 +137,14 @@ def load_data(app, db):
                                     'disrupting or disabling their internet-based services. Unlike traditional security'
                                     ' solutions, Verisign DDoS Protection Services filter harmful traffic upstream of '
                                     'the organisational network or in the cloud',
-                        type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
+                        type=['REACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=999, currency='USD')
 
     service5 = Provider(providerName='Arbor Networks', serviceName='Arbor Cloud',
                         description='Arbor Cloud is a DDoS service powered by the world’s leading experts in DDoS '
                                     'mitigation, together with the most widely deployed DDoS protection technology',
-                        type='REACTIVE', features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION' 'SSL', 'DNS'],
+                        type=['REACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION' 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=600, currency='USD')
 
@@ -145,7 +156,7 @@ def load_data(app, db):
                                     'downtime to businesses who rely on networks and Web services to operate. DDoS '
                                     'Protectors extend company’s security perimeters to block destructive DDoS attacks '
                                     'before they cause damage.',
-                        type='REACTIVE', features=['APPLICATION', 'DNS'],
+                        type=['REACTIVE'], features=['APPLICATION', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=2500, currency='USD')
 
@@ -157,7 +168,7 @@ def load_data(app, db):
                                     'attacks, in seconds vs minutes (in contrast to legacy DDoS solutions), allowing '
                                     'good user traffic to flow uninterrupted and enabling applications and services to '
                                     'remain online, continuously, even whilst under attack',
-                        type='REACTIVE', features=['APPLICATION', 'VOLUMETRIC'],
+                        type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=3200, currency='USD')
 
@@ -166,7 +177,7 @@ def load_data(app, db):
                                     'systems and criminals. Without any changes in infrastructure, in a matter of '
                                     'minutes, network and security engineers will have up-and-running active DDoS '
                                     'protection',
-                        type='REACTIVE', features=['APPLICATION'],
+                        type=['REACTIVE'], features=['APPLICATION'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=2345, currency='USD')
 
@@ -178,7 +189,7 @@ def load_data(app, db):
                                     'data correlation. Tailored for any business and IT/security budget, our flexible '
                                     'managed service can proactively detect and mitigate the threats of today to help '
                                     'ensure business-as-usual for employees, partners and customers',
-                        type='REACTIVE', features=['APPLICATION', 'VOLUMETRIC'],
+                        type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='SECONDS',
                         leasingPeriod='DAYS', price=107, currency='USD')
 
@@ -189,7 +200,7 @@ def load_data(app, db):
                                     'and application delivery, F5 protects and ensures availability of an '
                                     'organization\'s network and application infrastructure under the most '
                                     'demanding conditions',
-                        type='REACTIVE', features=['APPLICATION', 'VOLUMETRIC'],
+                        type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='HOURS',
                         leasingPeriod='DAYS', price=106, currency='USD')
 
