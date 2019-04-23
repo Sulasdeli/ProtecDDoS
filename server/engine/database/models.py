@@ -59,6 +59,36 @@ class Provider(db.Model):
         return f"Provider('{self.serviceName}', '{self.type}', '{self.region}', '{self.price}', '{self.currency}')"
 
 
+class CustomerProfile(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    region = db.Column(db.String(100), nullable=False)
+    serviceType = db.Column(db.String(100), nullable=False)
+    deploymentTime = db.Column(db.Text, nullable=False, default=datetime.utcnow)
+    deploymentTimeWeight = db.Column(db.Text, nullable=False)
+    leasingPeriod = db.Column(db.PickleType, nullable=False)
+    leasingPeriodWeight = db.Column(db.PickleType, nullable=False)
+    budget = db.Column(db.Text, nullable=False)
+    budgetWeight = db.Column(db.Text, nullable=False)
+
+    @property
+    def serialize(self):
+        """Return object data in easily serializable format"""
+        return {
+            'id': self.id,
+            'region': self.region,
+            'serviceType': self.serviceType,
+            'deploymentTime': self.deploymentTime,
+            'deploymentTimeWeight': self.deploymentTimeWeight,
+            'leasingPeriod': self.leasingPeriod,
+            'leasingPeriodWeight': self.leasingPeriodWeight,
+            'budget': self.budget,
+            'budgetWeight': self.budgetWeight,
+        }
+
+    def __repr__(self):
+        return f"CustomerProfile('{self.region}', '{self.serviceType}', '{self.deploymentTime}', '{self.leasingPeriod}', '{self.budget}')"
+
+
 def load_data(app, db):
     service1 = Provider(providerName='Akamai', serviceName='Kona Site Defender',
                         description='Kona Site Defender combines automated DDoS mitigation with a highly '
