@@ -40,7 +40,6 @@ class RecEngine:
         self.calc_customer_index()
         self.calc_service_index()
 
-        #TODO: Note that we're still not using the weights
         customerProfileWeights = [cs.deploymentTimeWeight, cs.leasingPeriodWeight, cs.budgetWeight]
 
         #Customer definitions/requirements
@@ -48,7 +47,6 @@ class RecEngine:
         for s in sh.services:
             #Service characteristics
             y = np.multiply(s.serviceSimilarity, customerProfileWeights)
-            print(y)
             #Calc of metrics
             s.euclideanDistance = euclidean_distance(x, y) #higher -> better
             s.jaccardSimilarity = jaccard_similarity(x, y) #higher -> better

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Route, Switch, Redirect} from 'react-router-dom'
-import ExplorePage from "../views/ExplorePage";
+import ExplorePage from "../components/ExplorePage";
 import UploadPage from "../views/UploadPage";
 
 export default () => (

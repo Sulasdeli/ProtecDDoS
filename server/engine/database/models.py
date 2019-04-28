@@ -109,17 +109,17 @@ def load_data(app, db):
                                     'attacks and leverages Akamai’s visibility into global web traffic to help '
                                     'organizations respond to the latest threats',
                         type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
-                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price=5000, currency='USD')
+                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
+                        leasingPeriod='DAYS', price=4999, currency='USD')
 
     service2 = Provider(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
                         description='Cloudflare’s advanced DDoS protection, provisioned as a service at the network '
                                     'edge, matches the sophistication and scale of such threats, and can be used to '
                                     'mitigate DDoS attacks of all forms and sizes including those that target the UDP '
                                     'and ICMP protocols, as well as SYN/ACK, DNS amplification and Layer 7 attacks',
-                        type=['REACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'DNS'],
+                        type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='MINUTES',
-                        leasingPeriod='MONTHS', price=3500, currency='USD')
+                        leasingPeriod='MONTHS', price=4900, currency='USD')
 
     service3 = Provider(providerName='Imperva', serviceName='Incapsula',
                         description='The Imperva Incapsula service delivers a multi-faceted approach to DDoS defense, '

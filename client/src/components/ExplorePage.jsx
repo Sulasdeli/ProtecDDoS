@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Card, CardContent} from "@material-ui/core";
-import CardHeader from "./CardHeader";
+import CardHeader from "../views/CardHeader";
 import styled from "styled-components";
 import {
     Button,
@@ -15,14 +15,14 @@ import {
     Form,
     Radio,
     RadioGroup,
-    PanelGroup,
+    PanelGroup, InputNumber,
 } from "rsuite";
 import regions from "../const/regions";
 import serviceTypes from "../const/serviceTypes";
 import leasingPeriods from "../const/leasingPeriods";
 import deploymentTimes from "../const/deploymentTimes";
 import {getDomain} from "../helpers/getDomain";
-import Services from "../components/Services";
+import Services from "./Services";
 import Loader from "../views/Loader"
 
 const PageContent = styled.div`
@@ -93,6 +93,7 @@ class ExplorePage extends Component {
             ...this.state,
             isLoading: true
         });
+        console.log(JSON.stringify(this.state.userProfile))
         fetch(`${getDomain()}/v1/recommend`, {
             method: "POST",
             headers: {
@@ -103,7 +104,7 @@ class ExplorePage extends Component {
         })
             .then(res => res.json())
             .then(jsonResponse => {
-                console.log(jsonResponse)
+
                 this.setState({
                     ...this.state,
                     services: jsonResponse,
@@ -132,16 +133,16 @@ class ExplorePage extends Component {
             <div>
                 <PageContent>
                     <Card style={{marginTop: '25px'}}>
-                        <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(60deg, #26c6da, #00acc1)'/>
+                        <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(0deg, #26c6da, #00acc1)'/>
                         <CardContent>
                             <Form layout="horizontal">
                                 <FormGroup style={styles.formGroup}>
                                     <ControlLabel>Coverage Region(s)</ControlLabel>
-                                    <TagPicker data={regions} value={this.state.userProfile.region} onChange={this.handleChange("region")} style={styles.inputForm}  />
+                                    <TagPicker data={regions} value={this.state.userProfile.region} onChange={this.handleChange("region")} style={styles.inputForm}/>
                                 </FormGroup>
                                 <FormGroup style={styles.formGroup}>
                                     <ControlLabel>Service Type(s)</ControlLabel>
-                                    <TagPicker data={serviceTypes} value={this.state.userProfile.serviceType} onChange={this.handleChange("serviceType")} style={styles.inputForm}  />
+                                    <TagPicker data={serviceTypes} value={this.state.userProfile.serviceType} onChange={this.handleChange("serviceType")} style={styles.inputForm}/>
                                     <HelpBlock tooltip>Required</HelpBlock>
                                 </FormGroup>
                                 <FormGroup style={styles.formGroup}>
@@ -170,10 +171,7 @@ class ExplorePage extends Component {
                                 </FormGroup>
                                 <FormGroup style={styles.formGroup}>
                                     <ControlLabel>Budget</ControlLabel>
-                                    <InputGroup style={styles.inputForm}>
-                                        <Input value={this.state.userProfile.budget} onChange={this.handleChange("budget")}/>
-                                        <InputGroup.Addon>.-</InputGroup.Addon>
-                                    </InputGroup>
+                                    <InputNumber value={this.state.userProfile.budget} onChange={this.handleChange("budget")} postfix="CHF" style={styles.inputForm}/>
                                     &nbsp;
                                     &nbsp;
                                     <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
@@ -194,7 +192,7 @@ class ExplorePage extends Component {
                     <br/>
                     <Card style={{width: '800px'}}>
                         <PanelGroup>
-                            <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(60deg, #ffa726, #fb8c00)'/>
+                            <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(0deg, #ffa726, #fb8c00)'/>
                             {this.state.services.length > 0 ? (
                                 this.state.isLoading ? (
                                     <Loader text='Loading...'/>
