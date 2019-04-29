@@ -97,7 +97,7 @@ class ExplorePage extends Component {
             ...this.state,
             isLoading: true
         });
-        console.log(JSON.stringify(this.state.userProfile))
+
         fetch(`${getDomain()}/v1/recommend`, {
             method: "POST",
             headers: {
@@ -121,7 +121,7 @@ class ExplorePage extends Component {
                             isLoading: false
                         }
                     );
-                }, 2000)
+                }, 0)
             })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {

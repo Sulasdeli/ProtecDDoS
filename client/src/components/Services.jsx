@@ -1,34 +1,7 @@
 import React, { Component } from 'react';
-import {Pagination, Panel, Tag} from "rsuite";
-import {Card, CardContent, CardMedia, Typography} from "@material-ui/core";
+import {Pagination} from "rsuite";
 import styled from 'styled-components'
-import PriceTag from "../views/PriceTag";
-
-const styles = theme => ({
-    card: {
-        display: 'flex',
-    },
-    details: {
-        display: 'flex',
-        flexDirection: 'column',
-    },
-    content: {
-        flex: '1 0 auto',
-    },
-    cover: {
-        width: 151,
-    },
-    controls: {
-        display: 'flex',
-        alignItems: 'center',
-        paddingLeft: theme.spacing.unit,
-        paddingBottom: theme.spacing.unit,
-    },
-    playIcon: {
-        height: 38,
-        width: 38,
-    },
-});
+import Service from "../views/service";
 
 const PaginationContainer = styled.div`
     display: flex;
@@ -66,27 +39,9 @@ class Services extends Component {
         const currentServices = services.slice(indexOfFirstService, indexOfLastService);
 
         const renderServices = currentServices.map((service, index) => {
+            console.log(service)
             return (
-                <Panel>
-                    <Card style={styles.card}>
-                        <CardMedia
-                            style={styles.cover}
-                        />
-                        <div style={styles.details}>
-                            <CardContent style={styles.content}>
-                                <div>
-                                    <Typography component="h6" variant="h6">
-                                        {service.providerName + ': ' + service.serviceName}
-                                    </Typography>
-                                    <Typography component="p" color="textSecondary">
-                                        {service.description}
-                                    </Typography>
-                                </div>
-                            </CardContent>
-                            <PriceTag service={service} index={index} pageNumber={this.state.currentPage}/>
-                        </div>
-                    </Card>
-                </Panel>
+                <Service service={service} index={index} currentPage={this.state.currentPage}/>
             )
         });
 

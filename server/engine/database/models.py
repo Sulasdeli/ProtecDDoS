@@ -110,7 +110,7 @@ def load_data(app, db):
                                     'organizations respond to the latest threats',
                         type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='DAYS', price=4999, currency='USD')
+                        leasingPeriod='DAYS', price=4950, currency='USD')
 
     service2 = Provider(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
                         description='Cloudflare’s advanced DDoS protection, provisioned as a service at the network '
@@ -118,7 +118,7 @@ def load_data(app, db):
                                     'mitigate DDoS attacks of all forms and sizes including those that target the UDP '
                                     'and ICMP protocols, as well as SYN/ACK, DNS amplification and Layer 7 attacks',
                         type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'DNS'],
-                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='MINUTES',
+                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=4900, currency='USD')
 
     service3 = Provider(providerName='Imperva', serviceName='Incapsula',
@@ -127,9 +127,9 @@ def load_data(app, db):
                                     'online assets from these threats. Incapsula DDoS protection services are backed '
                                     'by a 24x7 security team, 99.999% uptime SLA, and a powerful, global network of '
                                     'data centers.',
-                        type=['REACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
-                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price=500, currency='USD')
+                        type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
+                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='HOURS',
+                        leasingPeriod='WEEKS', price=4500, currency='USD')
 
     service4 = Provider(providerName='Verisign', serviceName='Verisign DDoS Protection Service',
                         description='Verisign DDoS Protection Services help organisations reduce the risk of '
@@ -137,9 +137,9 @@ def load_data(app, db):
                                     'disrupting or disabling their internet-based services. Unlike traditional security'
                                     ' solutions, Verisign DDoS Protection Services filter harmful traffic upstream of '
                                     'the organisational network or in the cloud',
-                        type=['REACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
+                        type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price=999, currency='USD')
+                        leasingPeriod='MONTHS', price=4875, currency='USD')
 
     service5 = Provider(providerName='Arbor Networks', serviceName='Arbor Cloud',
                         description='Arbor Cloud is a DDoS service powered by the world’s leading experts in DDoS '
