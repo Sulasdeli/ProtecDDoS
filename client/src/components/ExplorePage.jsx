@@ -8,8 +8,7 @@ import {
     ControlLabel,
     FormGroup,
     HelpBlock,
-    Input,
-    InputGroup,
+    Alert,
     InputPicker,
     TagPicker,
     Form,
@@ -126,9 +125,9 @@ class ExplorePage extends Component {
             })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {
-                    console.log("The server cannot be reached");
+                    Alert.error('The server cannot be reached');
                 } else {
-                    console.log(`Something went wrong : ${err.message}`);
+                    Alert.error( err.message);
                 }
             });
     };
