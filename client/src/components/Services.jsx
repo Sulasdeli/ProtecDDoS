@@ -71,7 +71,6 @@ class Services extends Component {
                     <Card style={styles.card}>
                         <CardMedia
                             style={styles.cover}
-                            image="../../assets/cloudflare.jpg"
                         />
                         <div style={styles.details}>
                             <CardContent style={styles.content}>

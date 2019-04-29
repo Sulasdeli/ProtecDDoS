@@ -27,16 +27,21 @@ import Loader from "../views/Loader"
 
 const PageContent = styled.div`
   display: flex;
-  align-content: center;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 1000px;
+  align-items: baseline;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 20px;  
+  @media (max-width: 1800px) {
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 `;
 
 const EmptyListContainer = styled.div`
   text-align: center;
   min-height: 600px;
+  align-content: space-around;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -130,7 +135,6 @@ class ExplorePage extends Component {
 
     render() {
         return (
-            <div>
                 <PageContent>
                     <Card style={{marginTop: '25px'}}>
                         <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(0deg, #26c6da, #00acc1)'/>
@@ -190,6 +194,7 @@ class ExplorePage extends Component {
                         </CardContent>
                     </Card>
                     <br/>
+                    <br/>
                     <Card style={{width: '800px'}}>
                         <PanelGroup>
                             <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(0deg, #ffa726, #fb8c00)'/>
@@ -199,17 +204,16 @@ class ExplorePage extends Component {
                                 ) : (
                                     <Services services={this.state.services}/>
                                 )
-                                ) : (
-                                    <EmptyListContainer>
-                                        <span>
-                                            The List of recommended Services is empty
-                                        </span>
-                                    </EmptyListContainer>
+                            ) : (
+                                <EmptyListContainer>
+                                    <span>
+                                        The List of recommended Services is empty
+                                    </span>
+                                </EmptyListContainer>
                             )}
                         </PanelGroup>
                     </Card>
                 </PageContent>
-            </div>
         );
     }
 }

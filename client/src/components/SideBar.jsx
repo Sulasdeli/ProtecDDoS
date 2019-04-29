@@ -21,7 +21,7 @@ class SideBar extends Component {
         const { expanded } = this.state;
 
         return (
-            <div className='rs-sidebar-wrapper fixed' style={{ width: 250}}>
+            <div className='rs-sidebar-wrapper fixed' style={{ minWidth: 200}}>
                     <Sidenav
                         expanded={expanded}
                         activeKey={this.state.activeKey}
