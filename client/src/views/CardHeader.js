@@ -11,15 +11,15 @@ const Container = styled.div`
   color: white;
 `;
 
-const CardHeader = ({ title , iconName, backgroundColor}) => (
-    <Container style={{background: backgroundColor}}>
-        &nbsp;
-        &nbsp;
-        <Icon icon={iconName} size="2x" />
-        &nbsp;
-        &nbsp;
-        <h2>{title}</h2>
-    </Container>
+const CardHeader = ({ title , iconName, backgroundColor, position, width, zIndex, borderRadius}) => (
+   <Container style={{background: backgroundColor, position: position, width: width, zIndex: zIndex, borderRadius: borderRadius}}>
+       &nbsp;
+       &nbsp;
+       <Icon icon={iconName} size="2x" />
+       &nbsp;
+       &nbsp;
+       <h2>{title}</h2>
+   </Container>
 );
 
 export default CardHeader

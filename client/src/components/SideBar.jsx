@@ -21,13 +21,13 @@ class SideBar extends Component {
         const { expanded } = this.state;
 
         return (
-            <div className='rs-sidebar-wrapper fixed' style={{ minWidth: 200}}>
+            <div className='rs-sidebar-wrapper fixed' style={{ minWidth: 250}}>
                     <Sidenav
                         expanded={expanded}
                         activeKey={this.state.activeKey}
                         onSelect={this.handleSelect}
                     >
-                        <Sidenav.Body style={{height: '96vh'}}>
+                        <Sidenav.Body style={{height: '96.8vh'}}>
                             <Nav>
                                 <Nav.Item componentClass={Link} to='/search' icon={<Icon icon="search" />}>
                                     Explore

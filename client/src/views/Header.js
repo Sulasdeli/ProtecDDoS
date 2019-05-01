@@ -4,12 +4,12 @@ import {Icon} from "rsuite";
 
 const Container = styled.div`
   font-size: 18px;
-  padding: 16px;
+  padding: 15px;
   align-items: center;
   justify-content: space-between;
   color: white;
   background: rgba(0,0,0,0.98);
-  height: 50px;
+  height: 10%;
 `;
 
 const GithubLink = styled.a`

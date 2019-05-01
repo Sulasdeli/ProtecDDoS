@@ -10,8 +10,6 @@ import Container from "react-bootstrap/Container";
 
 const AppContent = styled.div`
   background: #eff0f7;
-  height: 100%;
-  width: 100%;
 `;
 
 class App extends Component {

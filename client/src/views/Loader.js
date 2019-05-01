@@ -4,7 +4,7 @@ import {Loader} from "rsuite";
 
 const Container = styled.div`
   text-align: center;
-  min-height: 600px;
+  min-height: 800px;
   display: flex;
   flex-direction: column;
   justify-content: center;

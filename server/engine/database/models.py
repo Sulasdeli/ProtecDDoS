@@ -110,7 +110,7 @@ def load_data(app, db):
                                     'organizations respond to the latest threats',
                         type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='DAYS', price=4950, currency='USD')
+                        leasingPeriod='MINUTES', price=4950, currency='USD')
 
     service2 = Provider(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
                         description='Cloudflare’s advanced DDoS protection, provisioned as a service at the network '
@@ -144,9 +144,9 @@ def load_data(app, db):
     service5 = Provider(providerName='Arbor Networks', serviceName='Arbor Cloud',
                         description='Arbor Cloud is a DDoS service powered by the world’s leading experts in DDoS '
                                     'mitigation, together with the most widely deployed DDoS protection technology',
-                        type=['REACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION' 'SSL', 'DNS'],
-                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price=600, currency='USD')
+                        type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION' 'SSL', 'DNS'],
+                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='DAYS',
+                        leasingPeriod='MONTHS', price=3000, currency='USD')
 
     service6 = Provider(providerName='Check Point Software Technologies', serviceName='DDos Protector',
                         description='Check Point DDoS Protector™Appliances block Denial of Service attacks within '

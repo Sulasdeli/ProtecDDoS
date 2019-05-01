@@ -26,10 +26,9 @@ import Loader from "../views/Loader"
 
 const PageContent = styled.div`
   display: flex;
-  align-items: baseline;
   flex-direction: row;
   justify-content: space-around;
-  margin-top: 20px;  
+  margin-top: 45px;  
   @media (max-width: 1800px) {
     align-items: center;
     justify-content: center;
@@ -39,11 +38,22 @@ const PageContent = styled.div`
 
 const EmptyListContainer = styled.div`
   text-align: center;
-  min-height: 600px;
+  min-height: 800px;
   align-content: space-around;
   display: flex;
   flex-direction: column;
   justify-content: center;
+`;
+
+const ServicesContainer = styled.div`
+  margin-top: 50px;
+`;
+
+const ProviderCard = styled.div`
+  width: 800px;
+  overflow: hidden;
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
 `;
 
 const styles = {
@@ -54,6 +64,9 @@ const styles = {
     },
     inputForm: {
         width: '250px'
+    },
+    picker: {
+        width: '525px'
     },
     formGroup: {
         display: 'flex',
@@ -135,17 +148,17 @@ class ExplorePage extends Component {
     render() {
         return (
                 <PageContent>
-                    <Card style={{marginTop: '25px'}}>
+                    <Card style={{height: "450px"}}>
                         <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(0deg, #26c6da, #00acc1)'/>
                         <CardContent>
                             <Form layout="horizontal">
                                 <FormGroup style={styles.formGroup}>
                                     <ControlLabel>Coverage Region(s)</ControlLabel>
-                                    <TagPicker data={regions} value={this.state.userProfile.region} onChange={this.handleChange("region")} style={styles.inputForm}/>
+                                    <TagPicker data={regions} value={this.state.userProfile.region} onChange={this.handleChange("region")} style={styles.picker}/>
                                 </FormGroup>
                                 <FormGroup style={styles.formGroup}>
                                     <ControlLabel>Service Type(s)</ControlLabel>
-                                    <TagPicker data={serviceTypes} value={this.state.userProfile.serviceType} onChange={this.handleChange("serviceType")} style={styles.inputForm}/>
+                                    <TagPicker data={serviceTypes} value={this.state.userProfile.serviceType} onChange={this.handleChange("serviceType")} style={styles.picker}/>
                                     <HelpBlock tooltip>Required</HelpBlock>
                                 </FormGroup>
                                 <FormGroup style={styles.formGroup}>
@@ -194,24 +207,28 @@ class ExplorePage extends Component {
                     </Card>
                     <br/>
                     <br/>
-                    <Card style={{width: '800px'}}>
-                        <PanelGroup>
-                            <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(0deg, #ffa726, #fb8c00)'/>
-                            {this.state.services.length > 0 ? (
-                                this.state.isLoading ? (
-                                    <Loader text='Loading...'/>
+                    <ProviderCard>
+                        <Card style={{overflowY: "scroll"}}>
+                            <PanelGroup>
+                                <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(0deg, #ffa726, #fb8c00)' position="fixed" width="800px" zIndex="1" borderRadius="5px 5px 0 0"/>
+                                {this.state.services.length > 0 ? (
+                                    this.state.isLoading ? (
+                                        <Loader text='Loading...'/>
+                                    ) : (
+                                        <ServicesContainer>
+                                            <Services services={this.state.services}/>
+                                        </ServicesContainer>
+                                    )
                                 ) : (
-                                    <Services services={this.state.services}/>
-                                )
-                            ) : (
-                                <EmptyListContainer>
+                                    <EmptyListContainer>
                                     <span>
                                         The List of recommended Services is empty
                                     </span>
-                                </EmptyListContainer>
-                            )}
-                        </PanelGroup>
-                    </Card>
+                                    </EmptyListContainer>
+                                )}
+                            </PanelGroup>
+                        </Card>
+                    </ProviderCard>
                 </PageContent>
         );
     }

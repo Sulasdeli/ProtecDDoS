@@ -10,7 +10,6 @@ const PaginationContainer = styled.div`
 `;
 
 const Container = styled.div`
-    min-height: 600px;
     justify-content: space-between;
 `;
 
@@ -39,7 +38,6 @@ class Services extends Component {
         const currentServices = services.slice(indexOfFirstService, indexOfLastService);
 
         const renderServices = currentServices.map((service, index) => {
-            console.log(service)
             return (
                 <Service service={service} index={index} currentPage={this.state.currentPage}/>
             )

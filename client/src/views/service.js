@@ -39,13 +39,16 @@ const Service = ({service, index, currentPage}) => (
             <div style={styles.details}>
                 <CardContent style={styles.content}>
                     <div>
-                        <Typography component="h6" variant="h6">
+                        <Typography component="h6" variant="h6" style={{fontWeight: 'bold'}}>
                             {service.providerName + ': ' + service.serviceName}
                         </Typography>
+                        <Divider/>
                         <Typography component="p" color="textSecondary">
                             {service.description}
                         </Typography>
                     </div>
+                    <Divider/>
+
                     <div style={{marginTop: 30}}>
                         <span style={{fontWeight: "bold"}}>
                             Deployment time: {service.deployment}
