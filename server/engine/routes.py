@@ -29,7 +29,7 @@ def recommend_provider():
 
   # Set the services helper
   #helper = mock_services()
-  helper = ServicesHelper(Provider.query.all())
+  helper = ServicesHelper(Provider.query.all(), custProfile.budget)
   helper.apply_filters_to_services(custProfile)
 
   re = RecEngine(helper, custProfile)

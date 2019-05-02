@@ -139,7 +139,7 @@ def load_data(app, db):
                                     'the organisational network or in the cloud',
                         type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price=4875, currency='USD')
+                        leasingPeriod='MONTHS', price=3700, currency='USD')
 
     service5 = Provider(providerName='Arbor Networks', serviceName='Arbor Cloud',
                         description='Arbor Cloud is a DDoS service powered by the world’s leading experts in DDoS '
@@ -158,7 +158,7 @@ def load_data(app, db):
                                     'before they cause damage.',
                         type=['REACTIVE'], features=['APPLICATION', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price=2500, currency='USD')
+                        leasingPeriod='DAYS', price=2400, currency='USD')
 
     service7 = Provider(providerName='Corero Network Security, Inc.', serviceName='SmartWall® Threat Defense System',
                         description='The Corero SmartWall Threat Defense System (TDS) delivers comprehensive DDoS '
@@ -170,7 +170,7 @@ def load_data(app, db):
                                     'remain online, continuously, even whilst under attack',
                         type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
-                        leasingPeriod='MONTHS', price=3200, currency='USD')
+                        leasingPeriod='MINUTES', price=3200, currency='USD')
 
     service8 = Provider(providerName='Flowmon Networks', serviceName='Flowmon DDoS Defender',
                         description='Flowmon DDoS Defender puts advanced artificial intelligence between your critical '
@@ -191,7 +191,7 @@ def load_data(app, db):
                                     'ensure business-as-usual for employees, partners and customers',
                         type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='SECONDS',
-                        leasingPeriod='DAYS', price=107, currency='USD')
+                        leasingPeriod='DAYS', price=1070, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
                         description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
@@ -202,7 +202,7 @@ def load_data(app, db):
                                     'demanding conditions',
                         type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='HOURS',
-                        leasingPeriod='DAYS', price=106, currency='USD')
+                        leasingPeriod='DAYS', price=500, currency='USD')
 
     with app.app_context():
         db.session.add(service1)

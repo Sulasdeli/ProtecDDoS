@@ -3,7 +3,8 @@ from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYME
 class ServicesHelper:
     "Helper class of Services"
 
-    def __init__(self, services):
+    def __init__(self, services, customer_budget):
+        self.customer_budget = customer_budget
         self.services = services
         self.type_dict = self.dict_characteristics(TYPE)
         self.region_dict = self.dict_characteristics(REGIONS)
@@ -13,7 +14,7 @@ class ServicesHelper:
     def dict_characteristics(self, serviceCharacteristic):
         "Return a dictionary of a given characteristic with key from 1 to the size of the list"
         assert isinstance(serviceCharacteristic, list), "Characteristic should be a list"
-        return {i + 1: serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
+        return {i * ((self.customer_budget / 2) / len(serviceCharacteristic)): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
 
     def calculate_index(self, serviceCharacteristic, indivCharacteristic):
         assert isinstance(serviceCharacteristic, dict), "Characteristic should be a dictionary"
