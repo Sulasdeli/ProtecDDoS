@@ -1,7 +1,7 @@
 from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYMENT_TIME, LEASING_PERIOD
 
 class ServicesHelper:
-    "Helper class of Services"
+    """Helper class of Services"""
 
     def __init__(self, services, customer_budget):
         self.customer_budget = customer_budget
@@ -12,9 +12,9 @@ class ServicesHelper:
         self.leasing_dict = self.dict_characteristics(LEASING_PERIOD)
 
     def dict_characteristics(self, serviceCharacteristic):
-        "Return a dictionary of a given characteristic with key from 1 to the size of the list"
+        """Return a dictionary of a given characteristic with calculated indices"""
         assert isinstance(serviceCharacteristic, list), "Characteristic should be a list"
-        return {i * ((self.customer_budget / 2) / len(serviceCharacteristic)): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
+        return {(i+1) * ((self.customer_budget / 2) / len(serviceCharacteristic)): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
 
     def calculate_index(self, serviceCharacteristic, indivCharacteristic):
         assert isinstance(serviceCharacteristic, dict), "Characteristic should be a dictionary"
@@ -32,7 +32,7 @@ class ServicesHelper:
         return index
 
     def filter_by_price(self,maxPrice = None, updatedServices = None):
-        "Return services between a price range"
+        """Return services between a price range"""
         servicesFound = []
         if updatedServices is not None:
             services = updatedServices
@@ -45,7 +45,7 @@ class ServicesHelper:
         return servicesFound
 
     def filter_by_type(self, types, updatedServices = None):
-        "Return services of a given type"
+        """Return services of a given type"""
         assert isinstance(types, list), "Service Type should be a list"
         servicesFound = []
         if updatedServices is not None:
@@ -58,7 +58,7 @@ class ServicesHelper:
         return servicesFound
 
     def filter_by_region(self, regions, updatedServices = None):
-        "Return services of a given region"
+        """Return services of a given region"""
         assert isinstance(regions, list), "regions should be a list"
         servicesFound = []
         if updatedServices is not None:
@@ -71,7 +71,7 @@ class ServicesHelper:
         return servicesFound
 
     def filter_by_deployment(self, deploymentPeriod, list = None):
-        "Return services within a deployment time frame"
+        """Return services within a deployment time frame"""
         assert deploymentPeriod in DEPLOYMENT_TIME, "Invalid Deployment Time"
         servicesFound = []
         if list is not None:
@@ -84,7 +84,7 @@ class ServicesHelper:
         return servicesFound
 
     def filter_by_leasing(self, leasingPeriod, list = None):
-        "Return services within a leasing period"
+        """Return services within a leasing period"""
         assert leasingPeriod in LEASING_PERIOD, ("Invalid Leasing Period")
         servicesFound = []
         if list is not None:
@@ -98,11 +98,6 @@ class ServicesHelper:
 
     def apply_filters_to_services(self, cs):
         list = self.filter_by_price(cs.budget)
-        print(len(list))
         list = self.filter_by_region(cs.region, list)
-        print(len(list))
-
         list = self.filter_by_type(cs.serviceType, list)
-        print(len(list))
-
         self.services = list

@@ -191,7 +191,7 @@ def load_data(app, db):
                                     'ensure business-as-usual for employees, partners and customers',
                         type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='SECONDS',
-                        leasingPeriod='DAYS', price=1070, currency='USD')
+                        leasingPeriod='DAYS', price=107, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
                         description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
@@ -202,7 +202,7 @@ def load_data(app, db):
                                     'demanding conditions',
                         type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='HOURS',
-                        leasingPeriod='DAYS', price=500, currency='USD')
+                        leasingPeriod='DAYS', price=106, currency='USD')
 
     with app.app_context():
         db.session.add(service1)
