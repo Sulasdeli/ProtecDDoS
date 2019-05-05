@@ -110,7 +110,7 @@ def load_data(app, db):
                                     'organizations respond to the latest threats',
                         type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION LAYER', 'SSL', 'DNS'],
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
-                        leasingPeriod='MINUTES', price=4950, currency='USD')
+                        leasingPeriod='MINUTES', price=3500, currency='USD')
 
     service2 = Provider(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
                         description='Cloudflare’s advanced DDoS protection, provisioned as a service at the network '
@@ -128,8 +128,8 @@ def load_data(app, db):
                                     'by a 24x7 security team, 99.999% uptime SLA, and a powerful, global network of '
                                     'data centers.',
                         type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION', 'SSL', 'DNS'],
-                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='HOURS',
-                        leasingPeriod='WEEKS', price=4500, currency='USD')
+                        region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
+                        leasingPeriod='DAYS', price=4500, currency='USD')
 
     service4 = Provider(providerName='Verisign', serviceName='Verisign DDoS Protection Service',
                         description='Verisign DDoS Protection Services help organisations reduce the risk of '
@@ -190,8 +190,8 @@ def load_data(app, db):
                                     'managed service can proactively detect and mitigate the threats of today to help '
                                     'ensure business-as-usual for employees, partners and customers',
                         type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
-                        region=['EUROPE'], deployment='SECONDS',
-                        leasingPeriod='DAYS', price=107, currency='USD')
+                        region=['EUROPE'], deployment='MINUTES',
+                        leasingPeriod='DAYS', price=1090, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
                         description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
@@ -202,7 +202,7 @@ def load_data(app, db):
                                     'demanding conditions',
                         type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='HOURS',
-                        leasingPeriod='DAYS', price=106, currency='USD')
+                        leasingPeriod='DAYS', price=890, currency='USD')
 
     with app.app_context():
         db.session.add(service1)

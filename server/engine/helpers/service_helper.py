@@ -14,7 +14,7 @@ class ServicesHelper:
     def dict_characteristics(self, serviceCharacteristic):
         """Return a dictionary of a given characteristic with calculated indices"""
         assert isinstance(serviceCharacteristic, list), "Characteristic should be a list"
-        return {(i+1) * ((self.customer_budget / 2) / len(serviceCharacteristic)): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
+        return {(i+1) * ((self.customer_budget/2) / len(serviceCharacteristic)): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
 
     def calculate_index(self, serviceCharacteristic, indivCharacteristic):
         assert isinstance(serviceCharacteristic, dict), "Characteristic should be a dictionary"
