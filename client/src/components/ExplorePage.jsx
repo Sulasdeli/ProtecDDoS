@@ -134,7 +134,7 @@ class ExplorePage extends Component {
                             isLoading: false
                         }
                     );
-                }, 0)
+                }, 1000)
             })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {
