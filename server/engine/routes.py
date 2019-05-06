@@ -17,6 +17,15 @@ def helloWorld():
 def getProviders():
   return jsonify([i.serialize for i in Provider.query.all()])
 
+@app.route("/v1/providers/<id>")
+def getProvider(id):
+
+  provider = Provider.query.get(id)
+
+  if provider == None:
+    raise BadRequest("Provider with the specified ID does not exist")
+  return jsonify(provider.serialize)
+
 @app.route("/v1/recommend", methods=['POST'])
 def recommend_provider():
 
