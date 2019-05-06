@@ -208,7 +208,7 @@ class ExplorePage extends Component {
                     <br/>
                     <br/>
                     <ProviderCard>
-                        <Card style={{overflowY: "scroll", minHeight: "1080px"}}>
+                        <Card>
                             <PanelGroup>
                                 <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(0deg, #ffa726, #fb8c00)' position="fixed" width="800px" zIndex="1" borderRadius="5px 5px 0 0"/>
                                 {this.state.services.length > 0 ? (
@@ -216,7 +216,7 @@ class ExplorePage extends Component {
                                         <Loader text='Loading...'/>
                                     ) : (
                                         <ServicesContainer>
-                                            <Services services={this.state.services}/>
+                                            <Services {...this.props} services={this.state.services} />
                                         </ServicesContainer>
                                     )
                                 ) : (

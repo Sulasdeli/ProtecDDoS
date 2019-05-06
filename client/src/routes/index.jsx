@@ -6,8 +6,9 @@ import UploadPage from "../components/UploadPage";
 export default () => (
         <Switch>
             <Route path="/" exact render={() => <Redirect to='/explore'/>}/>
-            <Route path="/explore" render={props => <ExplorePage {...props} />}/>
-            <Route path="/upload" render={props => <UploadPage {...props} />}/>
-            <Redirect from='/*' to='/explore' />
+            <Route path="/explore" exact render={props => <ExplorePage {...props}/>}/>
+            <Route path="/explore/:id" exact render={props => <UploadPage {...props}/>}/>
+            <Route path="/upload" exact render={props => <UploadPage {...props}/>}/>
+            <Redirect from='/*' to='/explore'/>
         </Switch>
 )

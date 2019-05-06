@@ -20,14 +20,13 @@ class Services extends Component {
             currentPage: 1,
             servicesPerPage: 3
         };
-        this.handleClick = this.handleClick.bind(this);
     }
 
-    handleClick(event) {
+    handleClick = (event) => {
         this.setState({
             currentPage: Number(event)
         });
-    }
+    };
 
     render() {
         const {currentPage, servicesPerPage } = this.state;
@@ -39,7 +38,7 @@ class Services extends Component {
 
         const renderServices = currentServices.map((service, index) => {
             return (
-                <Service service={service} index={index} currentPage={this.state.currentPage}/>
+                <Service service={service} index={index} currentPage={this.state.currentPage} history={this.props.history}/>
             )
         });
 

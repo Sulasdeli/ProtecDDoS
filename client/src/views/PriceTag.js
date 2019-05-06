@@ -2,16 +2,12 @@ import styled from 'styled-components'
 import React from 'react'
 import {Tag} from "rsuite";
 
-const Container = styled.div`
-  float: right;
-  margin-bottom: 10px;
-  margin-right: 10px;
-`;
-
 const styles = {
     green: {
         background: 'linear-gradient(60deg, #66bb6a, #43a047)',
-        color: "white"
+        color: "white",
+        fontSize: "15px",
+        fontWeight: "bold"
     },
     yellow: {
         background: 'linear-gradient(60deg, #ffa726, #fb8c00)',
@@ -28,9 +24,7 @@ const getStyle = (index, pageNumber) => {
 };
 
 const PriceTag = ({service, index, pageNumber}) => (
-    <Container>
-        <Tag style={getStyle(index, pageNumber)}>{service.price + ' ' + service.currency}</Tag>
-    </Container>
+    <Tag style={getStyle(index, pageNumber)}>{service.price + ' ' + service.currency}</Tag>
 );
 
 export default PriceTag
