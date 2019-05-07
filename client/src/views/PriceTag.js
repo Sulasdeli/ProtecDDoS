@@ -6,8 +6,6 @@ const styles = {
     green: {
         background: 'linear-gradient(60deg, #66bb6a, #43a047)',
         color: "white",
-        fontSize: "15px",
-        fontWeight: "bold"
     },
     yellow: {
         background: 'linear-gradient(60deg, #ffa726, #fb8c00)',

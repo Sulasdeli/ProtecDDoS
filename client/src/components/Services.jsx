@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Pagination} from "rsuite";
 import styled from 'styled-components'
-import Service from "../views/service";
+import Service from "../views/Service";
 
 const PaginationContainer = styled.div`
     display: flex;

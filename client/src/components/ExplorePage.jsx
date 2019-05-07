@@ -25,35 +25,27 @@ import Services from "./Services";
 import Loader from "../views/Loader"
 
 const PageContent = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
   margin-top: 45px;  
-  @media (max-width: 1800px) {
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  @media (min-width: 1900px) {
+    flex-direction: row;
   }
 `;
 
 const EmptyListContainer = styled.div`
   text-align: center;
   min-height: 800px;
-  align-content: space-around;
   display: flex;
   flex-direction: column;
   justify-content: center;
 `;
 
-const ServicesContainer = styled.div`
-  margin-top: 50px;
-`;
-
 const ProviderCard = styled.div`
   width: 800px;
-  overflow: hidden;
-  border-radius: 5px 5px 5px 5px;
-  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 2px 1px -1px rgba(0,0,0,0.12);
+  max-height: 80vh;
+  margin-bottom: 90px;
 `;
 
 const styles = {
@@ -148,7 +140,7 @@ class ExplorePage extends Component {
     render() {
         return (
                 <PageContent>
-                    <Card style={{height: "450px"}}>
+                    <Card style={{height: "450px", borderRadius: "10px 10px 10px 10px"}}>
                         <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(0deg, #26c6da, #00acc1)'/>
                         <CardContent>
                             <Form layout="horizontal">
@@ -208,25 +200,21 @@ class ExplorePage extends Component {
                     <br/>
                     <br/>
                     <ProviderCard>
-                        <Card>
-                            <PanelGroup>
-                                <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(0deg, #ffa726, #fb8c00)' position="fixed" width="800px" zIndex="1" borderRadius="5px 5px 0 0"/>
-                                {this.state.services.length > 0 ? (
-                                    this.state.isLoading ? (
-                                        <Loader text='Loading...'/>
-                                    ) : (
-                                        <ServicesContainer>
-                                            <Services {...this.props} services={this.state.services} />
-                                        </ServicesContainer>
-                                    )
+                        <Card style={{borderRadius: "10px 10px 10px 10px"}}>
+                            <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(0deg, #ffa726, #fb8c00)'/>
+                            {this.state.services.length > 0 ? (
+                                this.state.isLoading ? (
+                                    <Loader text='Loading...'/>
                                 ) : (
-                                    <EmptyListContainer>
-                                    <span>
-                                        The List of recommended Services is empty
-                                    </span>
-                                    </EmptyListContainer>
-                                )}
-                            </PanelGroup>
+                                    <Services {...this.props} services={this.state.services} />
+                                )
+                            ) : (
+                                <EmptyListContainer>
+                                <span>
+                                    The List of recommended Services is empty
+                                </span>
+                                </EmptyListContainer>
+                            )}
                         </Card>
                     </ProviderCard>
                 </PageContent>

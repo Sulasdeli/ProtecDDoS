@@ -23,7 +23,7 @@ class App extends Component {
                         <Col>
                             <SideBar/>
                         </Col>
-                        <Col style={{width: "calc(100%  - 200px)"}}>
+                        <Col style={{width: "calc(100%  - 200px)", overflow: "scroll", height: "100vh", display: 'flex', justifyContent: "center"}}>
                             <Routes/>
                         </Col>
                     </Row>

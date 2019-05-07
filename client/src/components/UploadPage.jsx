@@ -34,7 +34,6 @@ class UploadPage extends Component {
             });
         };
         const handleFileChosen = (file) => {
-            console.log(file)
             if (file[0]) {
                 fileReader = new FileReader();
                 fileReader.onloadend = handleFileRead;
