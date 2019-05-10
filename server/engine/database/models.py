@@ -145,7 +145,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=4900, currency='USD')
 
     service3 = Provider(providerName='Imperva', serviceName='Incapsula',
-                        imageName='default.png',
+                        imageName='imperva.svg',
                         description='The Imperva Incapsula service delivers a multi-faceted approach to DDoS defense, '
                                     'providing blanket protection from all DDoS attacks to shield your critical '
                                     'online assets from these threats. Incapsula DDoS protection services are backed '
@@ -156,7 +156,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=4500, currency='USD')
 
     service4 = Provider(providerName='Verisign', serviceName='Verisign DDoS Protection Service',
-                        imageName='default.png',
+                        imageName='verisign.png',
                         description='Verisign DDoS Protection Services help organisations reduce the risk of '
                                     'catastrophic DDoS attacks by detecting and filtering malicious traffic aimed at '
                                     'disrupting or disabling their internet-based services. Unlike traditional security'
@@ -167,7 +167,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=3700, currency='USD')
 
     service5 = Provider(providerName='Arbor Networks', serviceName='Arbor Cloud',
-                        imageName='default.png',
+                        imageName='arbor.png',
                         description='Arbor Cloud is a DDoS service powered by the world’s leading experts in DDoS '
                                     'mitigation, together with the most widely deployed DDoS protection technology',
                         type=['PROACTIVE'], features=['VOLUMETRIC', 'PROTOCOL', 'APPLICATION' 'SSL', 'DNS'],
@@ -175,7 +175,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=3000, currency='USD')
 
     service6 = Provider(providerName='Check Point Software Technologies', serviceName='DDos Protector',
-                        imageName='default.png',
+                        imageName='checkPoint.png',
                         description='Check Point DDoS Protector™Appliances block Denial of Service attacks within '
                                     'seconds with multi-layered protection and up to 40 Gbps of performance. Modern '
                                     'DDoS attacks use new techniques to exploit areas where traditional security '
@@ -188,7 +188,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=2400, currency='USD')
 
     service7 = Provider(providerName='Corero Network Security, Inc.', serviceName='SmartWall® Threat Defense System',
-                        imageName='default.png',
+                        imageName='corero.png',
                         description='The Corero SmartWall Threat Defense System (TDS) delivers comprehensive DDoS '
                                     'protection, eliminating attacks automatically and in real-time.The SmartWall '
                                     'Network Threat Defense (NTD) solutions include innovative technology for the '
@@ -201,7 +201,7 @@ def load_data(app, db):
                         leasingPeriod='MINUTES', price=3200, currency='USD')
 
     service8 = Provider(providerName='Flowmon Networks', serviceName='Flowmon DDoS Defender',
-                        imageName='default.png',
+                        imageName='flowmon.png',
                         description='Flowmon DDoS Defender puts advanced artificial intelligence between your critical '
                                     'systems and criminals. Without any changes in infrastructure, in a matter of '
                                     'minutes, network and security engineers will have up-and-running active DDoS '
@@ -211,7 +211,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=2345, currency='USD')
 
     service9 = Provider(providerName='Level 3 Communications', serviceName='Level 3 DDos Mitigation',
-                        imageName='default.png',
+                        imageName='level3.png',
                         description='Level 3 provides layers of defense through enhanced network routing, rate '
                                     'limiting and filtering that can be paired with advanced network-based detection '
                                     'and mitigation scrubbing center solutions. Our mitigation approach is informed by '
@@ -224,7 +224,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=1090, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
-                         imageName='default.png',
+                         imageName='f5silverline.png',
                          description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
                                     ' (network, DNS, SSL, and HTTP) against distributed denial-of-service attacks. '
                                     'Leveraging the intrinsic security capabilities of intelligent traffic management '

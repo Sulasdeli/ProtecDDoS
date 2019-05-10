@@ -34,7 +34,7 @@ const Service = ({service, index, currentPage, history}) => (
             <div style={styles.details}>
                 <CardContent style={styles.content}>
                     <div style={{display: 'flex', alignItems: 'center'}}>
-                        <ServiceLogo imageUrl={service.image} width="80px" marginRight="20px"/>
+                        <ServiceLogo imageUrl={service.image} width="90px" marginRight="20px"/>
                         <div style={{width: "100vh",display: "flex", justifyContent: "space-between"}}>
                             <Typography variant="h5" style={{fontWeight: 'bold'}}>
                                 {service.serviceName}

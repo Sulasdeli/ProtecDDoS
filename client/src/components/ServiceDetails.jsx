@@ -9,10 +9,9 @@ import ServiceTypography from "../views/ServiceTypography";
 import FeatureTable from "../views/FeatureTable";
 
 const Container = styled.div`
-    width: 1500px;
+    width: 70vh;
     margin-top: 45px;
 `;
-
 
 class ServiceDetails extends Component {
     constructor() {
@@ -69,7 +68,7 @@ class ServiceDetails extends Component {
                             <CardContent style={{display: 'flex', alignItems: 'center', marginTop: '15px'}}>
                                 <ServiceLogo imageUrl={this.state.service.image} width={200} alignSelf="flex-start" marginRight="20px"/>
                                 <div>
-                                    <Typography variant="h5" style={{fontWeight: 'bold'}}>
+                                    <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 35}}>
                                         {this.state.service.serviceName}
                                     </Typography>
                                     <hr/>

@@ -11,7 +11,7 @@ import {Icon} from "rsuite";
 
 const CustomTableCell = withStyles(theme => ({
     head: {
-        backgroundColor: theme.palette.common.black,
+        backgroundColor: '#464141',
         color: theme.palette.common.white,
     },
     body: {
@@ -21,12 +21,7 @@ const CustomTableCell = withStyles(theme => ({
 
 const styles = theme => ({
     root: {
-        width: '60%',
-        marginTop: theme.spacing.unit * 3,
         overflowX: 'auto',
-    },
-    table: {
-        minWidth: 700,
     },
     row: {
         '&:nth-of-type(odd)': {
