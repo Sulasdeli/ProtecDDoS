@@ -31,7 +31,7 @@ def get_provider(id):
 
   if provider is None:
     raise BadRequest("Provider with the specified ID does not exist")
-  return jsonify(provider.serialize)
+  return jsonify(provider.serialize)\
 
 @app.route("/v1/recommend", methods=['POST'])
 def recommend_provider():
@@ -51,3 +51,9 @@ def recommend_provider():
   re = RecEngine(helper, custProfile)
 
   return jsonify([i.serialize for i in re.recommend_services()])
+
+@app.route("/v1/upload", methods=['POST'])
+def upload_review():
+
+  print(request.get_json())
+  return "Hi"

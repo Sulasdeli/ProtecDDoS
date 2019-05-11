@@ -2,16 +2,23 @@ import React, { Component } from 'react';
 import styled from 'styled-components'
 import {getDomain} from "../helpers/getDomain";
 import {Alert, Loader, Divider, Button, Icon, Panel} from "rsuite";
-import {CardContent, Typography} from "@material-ui/core";
+import {CardContent, Fab, Typography} from "@material-ui/core";
 import ServiceLogo from "../views/ServiceLogo";
 import {Card} from "@material-ui/core";
 import ServiceTypography from "../views/ServiceTypography";
 import FeatureTable from "../views/FeatureTable";
 import Reviews from "../views/Reviews";
+import AddReviewModal from "../views/AddReviewModal";
 
 const Container = styled.div`
     width: 70vh;
     margin-top: 45px;
+`;
+
+const ReviewsHeaderContainer = styled.span`
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
 `;
 
 class ServiceDetails extends Component {
@@ -19,9 +26,23 @@ class ServiceDetails extends Component {
         super();
         this.state = {
             service: null,
-            isLoading: false
+            isLoading: false,
+            show: false
         };
     }
+
+    closeModal = () => {
+        this.setState({
+            ...this.state,
+            show: false
+        });
+    };
+    openModal = () => {
+        this.setState({
+            ...this.state,
+            show: true
+        });
+    };
 
     componentWillMount() {
         this.setState({
@@ -93,6 +114,18 @@ class ServiceDetails extends Component {
                                         <hr/>
                                         <FeatureTable protectionFeatures={this.state.service.features}/>
                                         <Divider/>
+                                        <ReviewsHeaderContainer>
+                                            <Typography variant="h4" style={{fontWeight: 'bold'}}>
+                                                Reviews
+                                            </Typography>
+                                            <Fab style={{background: '#41a5f5'}} onClick={this.openModal} size="medium" aria-label="Add">
+                                                <Icon icon="plus" style={{color: "white"}} size={"lg"}/>
+                                            </Fab>
+                                            {this.state.show ? (
+                                                <AddReviewModal show={this.state.show} close={this.closeModal}/>
+                                            ): (null)}
+                                        </ReviewsHeaderContainer>
+                                        <hr/>
                                         <Reviews reviews={null}/>
                                         <Divider/>
                                     </div>
