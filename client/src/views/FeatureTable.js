@@ -11,7 +11,6 @@ import {Icon} from "rsuite";
 
 const CustomTableCell = withStyles(theme => ({
     head: {
-        backgroundColor: '#464141',
         color: theme.palette.common.white,
     },
     body: {
@@ -51,8 +50,8 @@ const FeatureTable = (props) => {
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <TableHead>
-                    <TableRow>
-                        <CustomTableCell style={{fontSize: "18px"}}>DDos Attack Protection</CustomTableCell>
+                    <TableRow style={{background: 'linear-gradient(0deg, rgb(38, 198, 218), rgb(0, 172, 193))'}}>
+                        <CustomTableCell style={{fontSize: "23px"}}>Attack Protection</CustomTableCell>
                         <CustomTableCell align="right"/>
                     </TableRow>
                 </TableHead>
@@ -63,7 +62,7 @@ const FeatureTable = (props) => {
                                 {row.name}
                             </CustomTableCell>
                             <CustomTableCell align="right">
-                                <Icon icon="check-square" size="lg"/>
+                                <Icon icon="check-square-o" size="lg"/>
                             </CustomTableCell>
                         </TableRow>
                     ))}

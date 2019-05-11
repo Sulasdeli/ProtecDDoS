@@ -224,7 +224,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=1090, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
-                         imageName='f5silverline.png',
+                         imageName='f5.png',
                          description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
                                     ' (network, DNS, SSL, and HTTP) against distributed denial-of-service attacks. '
                                     'Leveraging the intrinsic security capabilities of intelligent traffic management '
