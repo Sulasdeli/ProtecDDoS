@@ -218,7 +218,7 @@ def load_data(app, db):
                                     'threat intelligence derived from visibility across our global infrastructure and '
                                     'data correlation. Tailored for any business and IT/security budget, our flexible '
                                     'managed service can proactively detect and mitigate the threats of today to help '
-                                    'ensure business-as-usual for employees, partners and customers',
+                                    'ensure business-as-usual for employees, partners and customers.',
                         type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='MINUTES',
                         leasingPeriod='DAYS', price=1090, currency='USD')

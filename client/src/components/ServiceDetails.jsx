@@ -7,7 +7,7 @@ import ServiceLogo from "../views/ServiceLogo";
 import {Card} from "@material-ui/core";
 import ServiceTypography from "../views/ServiceTypography";
 import FeatureTable from "../views/FeatureTable";
-import Reviews from "./Reviews";
+import Reviews from "../views/Reviews";
 
 const Container = styled.div`
     width: 70vh;
@@ -90,10 +90,11 @@ class ServiceDetails extends Component {
                                         <Typography variant="h4" style={{fontWeight: 'bold'}}>
                                             Features
                                         </Typography>
-                                        <Divider/>
+                                        <hr/>
                                         <FeatureTable protectionFeatures={this.state.service.features}/>
                                         <Divider/>
-                                        <Reviews/>
+                                        <Reviews reviews={null}/>
+                                        <Divider/>
                                     </div>
                                 </div>
                             </CardContent>
