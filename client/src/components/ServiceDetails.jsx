@@ -11,7 +11,7 @@ import Reviews from "../views/Reviews";
 import AddReviewModal from "../views/AddReviewModal";
 
 const Container = styled.div`
-    width: 70vh;
+    width: 1200px;
     margin-top: 45px;
 `;
 
@@ -122,7 +122,7 @@ class ServiceDetails extends Component {
                                                 <Icon icon="plus" style={{color: "white"}} size={"lg"}/>
                                             </Fab>
                                             {this.state.show ? (
-                                                <AddReviewModal show={this.state.show} close={this.closeModal}/>
+                                                <AddReviewModal show={this.state.show} close={this.closeModal} serviceId={this.state.service.id}/>
                                             ): (null)}
                                         </ReviewsHeaderContainer>
                                         <hr/>

@@ -8,7 +8,6 @@ store = HttpExposedFileSystemStore(
     path='tmp/images',
     prefix='static/images/'
 )
-
 app.wsgi_app = store.wsgi_middleware(app.wsgi_app)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database/app.db'

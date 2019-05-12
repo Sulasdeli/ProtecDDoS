@@ -11,24 +11,27 @@ from engine import store
 Base = declarative_base()
 
 
-class User(db.Model):
+### Service Models ####################################################################################################
+
+
+class Review(db.Model):
+    """Service Review model"""
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(60), nullable=False)
+    provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
+    fileName = db.Column(db.Text, nullable=False)
+    fileData = db.Column(db.LargeBinary)
+    rating = db.Column(db.Integer, nullable=False)
+    comment = db.Column(db.Text, nullable=False)
 
     @property
     def serialize(self):
         """Return object data in easily serializable format"""
         return {
             'id': self.id,
-            'username': self.username,
-            'email': self.email,
-            'password': self.password
+            'fileName': self.fileName,
+            'rating': self.rating,
+            'comment': self.comment,
         }
-
-    def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
 
 
 class Provider(db.Model):
@@ -47,6 +50,7 @@ class Provider(db.Model):
     leasingPeriod = db.Column(db.Text, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     currency = db.Column(db.Text, nullable=False)
+    reviews = db.relationship('Review', backref="provider", lazy='dynamic')
     __tablename__ = 'provider'
 
 
@@ -66,6 +70,7 @@ class Provider(db.Model):
             'leasingPeriod': self.leasingPeriod,
             'price': self.price,
             'currency': self.currency,
+            'reviews': [r.serialize for r in self.reviews]
         }
 
     def __repr__(self):
@@ -77,6 +82,9 @@ class ProviderImage(db.Model, Image):
     provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
     provider = db.relationship('Provider')
     __tablename__ = 'provider_image'
+
+
+### Customer Models ####################################################################################################
 
 
 class CustomerProfile(db.Model):
@@ -118,6 +126,8 @@ class CustomerProfile(db.Model):
         self.budget = json["budget"]
         self.budgetWeight = json["budgetWeight"]
         return self
+
+########################################################################################################################
 
 
 def load_data(app, db):

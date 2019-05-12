@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
 import {Typography} from "@material-ui/core";
-import {Divider, Modal, Button, Input, Icon, Radio, RadioGroup} from "rsuite";
+import {Divider, Modal, Button, Input, Icon, Radio, RadioGroup, Alert} from "rsuite";
 import FileUploader from "./FileUploader";
 import ReactJson from "react-json-view";
-import styled from "styled-components";
-
-const Container = styled.div`
-display: flex;
-justify-content: center;
-flex-direction: column;
-align-items: center;
-`;
+import {getDomain} from "../helpers/getDomain";
 
 class AddReviewModal extends Component {
 
@@ -18,6 +11,7 @@ class AddReviewModal extends Component {
         super();
         this.state = {
             uploadedFile: null,
+            fileContent: '',
             comment: '',
             rating: 1
         };
@@ -31,8 +25,46 @@ class AddReviewModal extends Component {
     };
 
     submit = () => {
-        // TODO Review Submission
-        this.props.close()
+
+        let data = new FormData();
+        data.append('serviceId', this.props.serviceId);
+        data.append('file', this.state.uploadedFile);
+        data.append('rating', this.state.rating);
+        data.append('comment', this.state.comment);
+        this.setState({
+            ...this.state,
+            isLoading: true
+        });
+
+        fetch(`${getDomain()}/v1/upload`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+            },
+            body: data
+        })
+            .then(res => res.json())
+            .then(jsonResponse => {
+
+                console.log(jsonResponse)
+
+                setTimeout(() => {
+                    this.setState(
+                        {
+                            ...this.state,
+                            isLoading: false
+                        }
+                    );
+                    //this.props.close()
+                }, 1000)
+            })
+            .catch(err => {
+                if (err.message.match(/Failed to fetch/)) {
+                    Alert.error('The server cannot be reached');
+                } else {
+                    Alert.error( err.message);
+                }
+            });
     };
 
     render() {
@@ -46,10 +78,10 @@ class AddReviewModal extends Component {
                         Attack Log File
                     </Typography>
                     <hr/>
-                        <FileUploader handleFile={this.handleChange('uploadedFile')} fileContent={this.state.uploadedFile}/>
+                        <FileUploader handleFile={this.handleChange('uploadedFile')} handleFileContent={this.handleChange('fileContent')} fileContent={this.state.uploadedFile}/>
                         {this.state.uploadedFile !== null ? (
                                 <div style={{overflow: 'scroll', maxHeight: 350, marginBottom: 30}}>
-                                    <ReactJson displayDataTypes={false} enableClipboard={false} src={this.state.uploadedFile}/>
+                                    <ReactJson displayDataTypes={false} enableClipboard={false} src={this.state.fileContent}/>
                                 </div>
                             ):null}
                             <span/>
