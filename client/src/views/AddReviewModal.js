@@ -102,7 +102,7 @@ class AddReviewModal extends Component {
                     <Button onClick={this.props.close} appearance="subtle">
                         Cancel
                     </Button>
-                    <Button onClick={this.submit} disabled={this.state.uploadedFile === null || this.state.comment === ''} appearance="primary">
+                    <Button onClick={this.submit} disabled={ this.state.comment === ''} appearance="primary">
                         Submit
                     </Button>
                 </Modal.Footer>

@@ -1,5 +1,6 @@
 import React  from 'react';
 import styled from 'styled-components'
+import Review from "./Review";
 
 const EmptyList = styled.div`
     display: flex;
@@ -8,17 +9,14 @@ const EmptyList = styled.div`
 `;
 
 const Reviews = ({reviews}) =>{
-
     return(
         <div>
-            { reviews === null ? (
+            { reviews.length === 0 ? (
                 <EmptyList>
                     The list of reviews is empty
                 </EmptyList>
             ):(
-                <div>
-                    List Reviews
-                </div>
+                reviews.map(r => <Review review={r}/>)
             )
             }
         </div>

@@ -73,4 +73,4 @@ def upload_review():
     else:
         raise BadRequest("The review does not include a Log File")
 
-    return jsonify("Review submitted successfully")
+    return "Review submitted successfully"

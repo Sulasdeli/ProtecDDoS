@@ -25,12 +25,16 @@ import Services from "./Services";
 import Loader from "../views/Loader"
 
 const PageContent = styled.div`
-  margin-top: 45px;  
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  margin-top: 45px;
   @media (min-width: 1900px) {
+    display: flex;
     flex-direction: row;
+    justify-content: space-around;
+    align-items: baseline;
+    width: 100%;
   }
 `;
 

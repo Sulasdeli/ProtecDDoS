@@ -245,6 +245,15 @@ def load_data(app, db):
                          region=['EUROPE'], deployment='HOURS',
                          leasingPeriod='DAYS', price=890, currency='USD')
 
+
+    review1 = Review(provider_id=9, fileName='fingerprint.json', fileData=bytearray(), rating=1, comment="Comment#1")
+    review2 = Review(provider_id=9, fileName='fingerprint.json', fileData=bytearray(), rating=1, comment="Comment#2")
+
+    with app.app_context():
+        db.session.add(review1)
+        db.session.add(review2)
+        db.session.commit()
+
     set_image(service1)
     set_image(service2)
     set_image(service3)

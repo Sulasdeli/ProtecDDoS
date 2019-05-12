@@ -18,7 +18,7 @@ const Container = styled.div`
 const ReviewsHeaderContainer = styled.span`
     justify-content: space-between;
     display: flex;
-    align-items: center;
+    align-items: baseline;
 `;
 
 class ServiceDetails extends Component {
@@ -86,7 +86,7 @@ class ServiceDetails extends Component {
                     {this.state.isLoading && this.state.service === null ? (
                             <Loader backdrop content="loading..." vertical />
                         ):
-                        <Card style={{borderRadius: "10px 10px 10px 10px"}}>
+                        <Card style={{borderRadius: "10px 10px 10px 10px", marginBottom: 80}}>
                             <CardContent>
                                 <div style={{display: 'flex', alignItems: 'center', marginTop: '15px'}}>
                                     <ServiceLogo imageUrl={this.state.service.image} width={200} alignSelf="flex-start" marginRight="20px"/>
@@ -126,7 +126,7 @@ class ServiceDetails extends Component {
                                             ): (null)}
                                         </ReviewsHeaderContainer>
                                         <hr/>
-                                        <Reviews reviews={null}/>
+                                        <Reviews reviews={this.state.service.reviews}/>
                                         <Divider/>
                                     </div>
                                 </div>
