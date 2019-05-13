@@ -79,6 +79,16 @@ class ServiceDetails extends Component {
             });
     }
 
+    // append the new review to the Service
+    updateService = (newReview) => {
+        let updatedService = this.state.service;
+        updatedService.reviews.push(newReview);
+        this.setState({
+            ...this.state,
+            service: updatedService
+        })
+    };
+
 
     render() {
         return (
@@ -122,7 +132,7 @@ class ServiceDetails extends Component {
                                                 <Icon icon="plus" style={{color: "white"}} size={"lg"}/>
                                             </Fab>
                                             {this.state.show ? (
-                                                <AddReviewModal show={this.state.show} close={this.closeModal} serviceId={this.state.service.id}/>
+                                                <AddReviewModal show={this.state.show} close={this.closeModal} serviceId={this.state.service.id} onNewReview={this.updateService}/>
                                             ): (null)}
                                         </ReviewsHeaderContainer>
                                         <hr/>

@@ -67,10 +67,13 @@ def upload_review():
             with app.app_context():
                 db.session.add(customerReview)
                 db.session.commit()
+                db.session.refresh(customerReview)
+                db.session.close()
+
+            return jsonify(customerReview.serialize)
         else:
             raise NotFound("Provider with given id does not exist")
 
     else:
         raise BadRequest("The review does not include a Log File")
 
-    return "Review submitted successfully"

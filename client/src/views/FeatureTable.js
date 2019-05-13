@@ -50,7 +50,7 @@ const FeatureTable = (props) => {
         <Paper className={classes.root}>
             <Table className={classes.table}>
                 <TableHead>
-                    <TableRow style={{background: 'linear-gradient(0deg, rgb(38, 198, 218), rgb(0, 172, 193))'}}>
+                    <TableRow style={{background: 'linear-gradient(60deg, #26c6da, #00acc1)'}}>
                         <CustomTableCell style={{fontSize: "23px"}}>Attack Protection</CustomTableCell>
                         <CustomTableCell align="right"/>
                     </TableRow>

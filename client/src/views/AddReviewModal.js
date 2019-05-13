@@ -11,7 +11,7 @@ class AddReviewModal extends Component {
         super();
         this.state = {
             uploadedFile: null,
-            fileContent: '',
+            fileContent: null,
             comment: '',
             rating: 1
         };
@@ -46,7 +46,8 @@ class AddReviewModal extends Component {
             .then(res => res.json())
             .then(jsonResponse => {
 
-                console.log(jsonResponse)
+                this.props.onNewReview(jsonResponse);
+                this.props.close()
 
                 setTimeout(() => {
                     this.setState(
@@ -55,14 +56,13 @@ class AddReviewModal extends Component {
                             isLoading: false
                         }
                     );
-                    //this.props.close()
                 }, 1000)
             })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {
                     Alert.error('The server cannot be reached');
                 } else {
-                    Alert.error( err.message);
+                    Alert.error(err.message);
                 }
             });
     };
@@ -78,12 +78,12 @@ class AddReviewModal extends Component {
                         Attack Log File
                     </Typography>
                     <hr/>
-                        <FileUploader handleFile={this.handleChange('uploadedFile')} handleFileContent={this.handleChange('fileContent')} fileContent={this.state.uploadedFile}/>
-                        {this.state.uploadedFile !== null ? (
+                        <FileUploader handleFile={this.handleChange('uploadedFile')} handleFileContent={this.handleChange('fileContent')}/>
+                        {this.state.fileContent !== null ? (
                                 <div style={{overflow: 'scroll', maxHeight: 350, marginBottom: 30}}>
-                                    <ReactJson displayDataTypes={false} enableClipboard={false} src={this.state.fileContent}/>
+                                    <ReactJson displayDataTypes={false} name={'LogFile'} enableClipboard={false} src={this.state.fileContent}/>
                                 </div>
-                            ):null}
+                            ):this.state.fileContent}
                             <span/>
                     <Divider/>
                     <Typography variant="h6" style={{fontWeight: 'bold'}}>

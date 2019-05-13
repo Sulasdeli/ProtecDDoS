@@ -4,15 +4,16 @@ import {Alert} from "rsuite";
 
 const FileUploader = ({handleFile, handleFileContent}) => {
 
-    let fileReader;
     const handleFileRead = (e) => {
         const content = fileReader.result;
         try {
             handleFileContent(JSON.parse(content));
         } catch (err) {
-            Alert.warning('Invalid JSON File');
+           console.log(err)
         }
     };
+
+    let fileReader;
     const handleFileChosen = (file) => {
         if (file[0]) {
             fileReader = new FileReader();
@@ -20,7 +21,8 @@ const FileUploader = ({handleFile, handleFileContent}) => {
             fileReader.readAsText(file[0].file);
             handleFile(file[0].file)
         } else {
-            handleFile(null)
+            handleFile(null);
+            handleFileContent(null);
         }
     };
 
@@ -28,6 +30,9 @@ const FileUploader = ({handleFile, handleFileContent}) => {
         <div>
             <FilePond
                 allowMultiple={false}
+                onremovefile={() => {
+
+                }}
                 onupdatefiles={(files) => {
                     handleFileChosen(files)
                 }}

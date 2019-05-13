@@ -6,7 +6,8 @@ const CommentContainer = styled.div`
     background-color: rgb(237, 244, 255);
     border-radius: 4px;
     padding: 12px;
-    color: black
+    color: black;
+    font-size: 15px
 `;
 
 const RatingContainer = styled.div`
