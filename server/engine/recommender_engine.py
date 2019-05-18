@@ -36,14 +36,14 @@ class RecEngine:
         #Store similarities per service --> (service id : ranking)
         similarity = {}
 
-        #Steps below are needed to "encode" our characteristics
+        # assign an int to each characteristic
         self.calc_customer_index()
         self.calc_service_index()
 
         customerProfileWeights = [cs.deploymentTimeWeight, cs.leasingPeriodWeight, cs.budgetWeight]
         print('CUSTOMER WEIGHTS: ', customerProfileWeights)
 
-        #Customer definitions/requirements
+        # Customer definitions/requirements
         x = np.multiply(cs.serviceSimilarity, customerProfileWeights)
         print('CUSTOMER * WEIGHTS: ', x)
 
@@ -52,18 +52,24 @@ class RecEngine:
             y = np.multiply(s.serviceSimilarity, customerProfileWeights)
             print('SERVICE * WEIGHTS: ', y)
 
-            #Calc of metrics
-            s.euclideanDistance = euclidean_distance(x, y) #higher -> better
-            s.jaccardSimilarity = jaccard_similarity(x, y) #higher -> better
-            s.cosineSimilarity = cosine_similarity(x, y) #higher -> better
-            s.manhattanDistance = manhattan_distance(x,y) #lower -> better
+            # Calculation of Similarity
+            s.euclideanDistance = euclidean_distance(x, y)  #higher -> better
+            s.jaccardSimilarity = jaccard_similarity(x, y)  #higher -> better
+            s.cosineSimilarity = cosine_similarity(x, y)    #higher -> better
+            s.manhattanDistance = manhattan_distance(x,y)   #lower -> better
+
             #Rating is given based on a normalization of all ratings
             s.rating = np.linalg.norm([s.euclideanDistance, s.jaccardSimilarity, s.cosineSimilarity, s.manhattanDistance])
             similarity.update({s.id:s.rating})
 
         #Sort services by similarity index
-        sortedCosineSimilarity = [(k, similarity[k]) for k in sorted(similarity, key=similarity.get)]
-        return sortedCosineSimilarity
+        # sortedCosineSimilarity = [k.serialize for k in sorted(sh.services, key=lambda x: x.cosineSimilarity, reverse=True)]
+        # sortedJaccardSimilarity = [k.serialize for k in sorted(sh.services, key=lambda x: x.jaccardSimilarity, reverse=True)]
+        # sortedEuclideanDistance = [k.serialize for k in sorted(sh.services, key=lambda x: x.euclideanDistance, reverse=True)]
+        # sortedManhattanDistance = [k.serialize for k in sorted(sh.services, key=lambda x: x.manhattanDistance)]
+        sortedNormalizedSimilarities = [(k, similarity[k]) for k in sorted(similarity, key=similarity.get)]
+
+        return sortedNormalizedSimilarities
 
     def recommend_services(self, topNServices = -1):
         "Filter the sorted services to find the most (topServices) similar ones"
@@ -79,7 +85,7 @@ class RecEngine:
                     print("Rating:", s.rating, "Euclidean", s.euclideanDistance, "Jaccard:", s.jaccardSimilarity,
                           "Cosine:", s.cosineSimilarity, "Manhattan:", s.manhattanDistance)
                     print('---------------------------------------------------------------------------------------')
-                    result.append(s)
+                    result.append(s.serialize(s.cosineSimilarity,s.jaccardSimilarity, s.euclideanDistance, s.manhattanDistance))
 
         if topNServices > 0:
             # Return top n services that match customer's profile

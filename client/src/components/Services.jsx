@@ -30,7 +30,14 @@ class Services extends Component {
 
     render() {
         const {currentPage, servicesPerPage } = this.state;
-        const services = this.props.services;
+        let services = [...this.props.services];
+        // Apply selected algorithm
+        if(this.props.selectedAlgorithm !== 'DEFAULT') {
+            services = services.sort((s1,s2) =>
+                (this.props.selectedAlgorithm === 'manhattanDistance') ?
+                    s1[this.props.selectedAlgorithm] < s2[this.props.selectedAlgorithm] ? 1: -1:
+                    s1[this.props.selectedAlgorithm] > s2[this.props.selectedAlgorithm] ? 1: -1);
+        }
         // Logic for displaying recommended services
         const indexOfLastService = currentPage * servicesPerPage;
         const indexOfFirstService = indexOfLastService - servicesPerPage;
@@ -38,7 +45,7 @@ class Services extends Component {
 
         const renderServices = currentServices.map((service, index) => {
             return (
-                <Service service={service} index={index} currentPage={this.state.currentPage} history={this.props.history}/>
+                <Service key={index} service={service} index={index} currentPage={this.state.currentPage} history={this.props.history}/>
             )
         });
 

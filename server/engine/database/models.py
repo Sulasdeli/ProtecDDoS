@@ -53,9 +53,7 @@ class Provider(db.Model):
     reviews = db.relationship('Review', backref="provider", lazy='dynamic')
     __tablename__ = 'provider'
 
-
-    @property
-    def serialize(self):
+    def serialize(self, cosine_similarity, jaccard_similarity, euclidean_distance, manhattan_distance):
         """Return object data in easily serializable format"""
         return {
             'id': self.id,
@@ -70,7 +68,11 @@ class Provider(db.Model):
             'leasingPeriod': self.leasingPeriod,
             'price': self.price,
             'currency': self.currency,
-            'reviews': [r.serialize for r in self.reviews]
+            'reviews': [r.serialize for r in self.reviews],
+            'cosineSimilarity': cosine_similarity,
+            'jaccardSimilarity': jaccard_similarity,
+            'euclideanDistance': euclidean_distance,
+            'manhattanDistance': manhattan_distance
         }
 
     def __repr__(self):

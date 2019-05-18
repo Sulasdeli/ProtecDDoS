@@ -23,6 +23,7 @@ import deploymentTimes from "../const/deploymentTimes";
 import {getDomain} from "../helpers/getDomain";
 import Services from "./Services";
 import Loader from "../views/Loader"
+import algorithms from "../const/recAlgos";
 
 const PageContent = styled.div`
   align-items: center;
@@ -49,7 +50,7 @@ const EmptyListContainer = styled.div`
 const ProviderCard = styled.div`
   width: 800px;
   max-height: 80vh;
-  margin-bottom: 90px;
+  margin-bottom: 450px;
 `;
 
 const styles = {
@@ -59,14 +60,15 @@ const styles = {
         verticalAlign: 'middle'
     },
     inputForm: {
-        width: '250px'
+        width: '250px',
+        marginRight: 10
     },
     picker: {
         width: '525px'
     },
     formGroup: {
         display: 'flex',
-        alignItems: "flex-end"
+        alignItems: "center"
     }
 };
 
@@ -87,8 +89,13 @@ class ExplorePage extends Component {
                 budget: 5000,
                 budgetWeight: 1
             },
+            selectedAlgo: 'DEFAULT',
             services: []
         };
+    }
+
+    componentDidMount() {
+        this.submitForm()
     }
 
     handleChange = name => event => {
@@ -98,6 +105,23 @@ class ExplorePage extends Component {
                 [name]: event
             }
         });
+    };
+
+    handleSelectedAlgorithm = () => event => {
+        this.setState({
+            ...this.state,
+            isLoading: true,
+            selectedAlgo: event
+        });
+
+        setTimeout(() => {
+            this.setState(
+                {
+                    ...this.state,
+                    isLoading: false
+                }
+            );
+        }, 900);
     };
 
     // Fetch services from server based on user profile
@@ -130,7 +154,7 @@ class ExplorePage extends Component {
                             isLoading: false
                         }
                     );
-                }, 1000)
+                }, 900)
             })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {
@@ -144,7 +168,7 @@ class ExplorePage extends Component {
     render() {
         return (
                 <PageContent>
-                    <Card style={{height: "450px", borderRadius: "10px 10px 10px 10px"}}>
+                    <Card style={{height: "550px", borderRadius: "10px 10px 10px 10px"}}>
                         <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(0deg, #26c6da, #00acc1)'/>
                         <CardContent>
                             <Form layout="horizontal">
@@ -160,8 +184,6 @@ class ExplorePage extends Component {
                                 <FormGroup style={styles.formGroup}>
                                     <ControlLabel>Deployment Time</ControlLabel>
                                     <InputPicker data={deploymentTimes} value={this.state.userProfile.deploymentTime} onChange={this.handleChange("deploymentTime")} style={styles.inputForm}/>
-                                    &nbsp;
-                                    &nbsp;
                                     <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
                                         <span style={styles.radioGroupLabel}>Priority: </span>
                                         <Radio onChange={this.handleChange("deploymentTimeWeight")} value={1}>Low</Radio>
@@ -172,8 +194,6 @@ class ExplorePage extends Component {
                                 <FormGroup style={styles.formGroup}>
                                     <ControlLabel>Leasing Period</ControlLabel>
                                     <InputPicker data={leasingPeriods} value={this.state.userProfile.leasingPeriod} onChange={this.handleChange("leasingPeriod")} style={styles.inputForm}/>
-                                    &nbsp;
-                                    &nbsp;
                                     <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
                                         <span style={styles.radioGroupLabel}>Priority: </span>
                                         <Radio onChange={this.handleChange("leasingPeriodWeight")} value={1}>Low</Radio>
@@ -184,14 +204,17 @@ class ExplorePage extends Component {
                                 <FormGroup style={styles.formGroup}>
                                     <ControlLabel>Budget</ControlLabel>
                                     <InputNumber value={this.state.userProfile.budget} onChange={this.handleChange("budget")} postfix="CHF" style={styles.inputForm}/>
-                                    &nbsp;
-                                    &nbsp;
                                     <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
                                         <span style={styles.radioGroupLabel}>Priority: </span>
                                         <Radio onChange={this.handleChange("budgetWeight")} value={1}>Low</Radio>
                                         <Radio onChange={this.handleChange("budgetWeight")} value={2}>Medium</Radio>
                                         <Radio onChange={this.handleChange("budgetWeight")} value={3}>High</Radio>
                                     </RadioGroup>
+                                </FormGroup>
+                                <hr/>
+                                <FormGroup style={styles.formGroup}>
+                                    <ControlLabel>Recommendation Algorithm</ControlLabel>
+                                    <InputPicker data={algorithms} value={this.state.selectedAlgo} onChange={this.handleSelectedAlgorithm()} style={styles.picker}/>
                                 </FormGroup>
                                 <FormGroup style={{float: 'right', marginBottom: '15px'}}>
                                     <ButtonToolbar>
@@ -210,7 +233,7 @@ class ExplorePage extends Component {
                                 this.state.isLoading ? (
                                     <Loader text='Loading...'/>
                                 ) : (
-                                    <Services {...this.props} services={this.state.services} />
+                                    <Services {...this.props} services={this.state.services} selectedAlgorithm={this.state.selectedAlgo} />
                                 )
                             ) : (
                                 <EmptyListContainer>

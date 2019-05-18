@@ -50,7 +50,7 @@ def recommend_provider():
 
     re = RecEngine(helper, custProfile)
 
-    return jsonify([i.serialize for i in re.recommend_services()])
+    return jsonify(re.recommend_services())
 
 
 @app.route("/v1/upload", methods=['POST'])
