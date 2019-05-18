@@ -16,7 +16,7 @@ const Reviews = ({reviews}) =>{
                     The list of reviews is empty
                 </EmptyList>
             ):(
-                reviews.map(r => <Review review={r}/>)
+                reviews.map((r, i) => <Review key={i} review={r}/>)
             )
             }
         </div>
