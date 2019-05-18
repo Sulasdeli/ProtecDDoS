@@ -1,6 +1,5 @@
 import React  from 'react';
 import {FilePond} from "react-filepond";
-import {Alert} from "rsuite";
 
 const FileUploader = ({handleFile, handleFileContent}) => {
 

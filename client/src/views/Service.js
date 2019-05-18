@@ -1,6 +1,6 @@
 import React from 'react'
 import {Divider, Panel, Button, Icon} from "rsuite";
-import {Card, CardContent, Fab, Typography} from "@material-ui/core";
+import {Card, CardContent, Typography} from "@material-ui/core";
 import PriceTag from "./PriceTag";
 import ServiceLogo from "./ServiceLogo";
 import styled from 'styled-components'

@@ -63,10 +63,6 @@ class RecEngine:
             similarity.update({s.id:s.rating})
 
         #Sort services by similarity index
-        # sortedCosineSimilarity = [k.serialize for k in sorted(sh.services, key=lambda x: x.cosineSimilarity, reverse=True)]
-        # sortedJaccardSimilarity = [k.serialize for k in sorted(sh.services, key=lambda x: x.jaccardSimilarity, reverse=True)]
-        # sortedEuclideanDistance = [k.serialize for k in sorted(sh.services, key=lambda x: x.euclideanDistance, reverse=True)]
-        # sortedManhattanDistance = [k.serialize for k in sorted(sh.services, key=lambda x: x.manhattanDistance)]
         sortedNormalizedSimilarities = [(k, similarity[k]) for k in sorted(similarity, key=similarity.get)]
 
         return sortedNormalizedSimilarities

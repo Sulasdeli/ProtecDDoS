@@ -31,7 +31,7 @@ def get_provider(id):
 
     if provider is None:
         raise BadRequest("Provider with the specified ID does not exist")
-    return jsonify(provider.serialize)
+    return jsonify(provider.serialize())
 
 
 @app.route("/v1/recommend", methods=['POST'])

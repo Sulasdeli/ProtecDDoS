@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 import {getDomain} from "../helpers/getDomain";
-import {Alert, Loader, Divider, Button, Icon, Panel} from "rsuite";
+import {Alert, Loader, Divider, Icon} from "rsuite";
 import {CardContent, Fab, Typography} from "@material-ui/core";
 import ServiceLogo from "../views/ServiceLogo";
 import {Card} from "@material-ui/core";
@@ -19,6 +19,7 @@ const ReviewsHeaderContainer = styled.span`
     justify-content: space-between;
     display: flex;
     align-items: baseline;
+    margin-bottom: 30px;
 `;
 
 class ServiceDetails extends Component {
@@ -98,7 +99,7 @@ class ServiceDetails extends Component {
                         ):
                         <Card style={{borderRadius: "10px 10px 10px 10px", marginBottom: 80}}>
                             <CardContent>
-                                <div style={{display: 'flex', alignItems: 'center', marginTop: '15px'}}>
+                                <div style={{display: 'flex', alignItems: 'center', marginTop: '15px', padding: 10}}>
                                     <ServiceLogo imageUrl={this.state.service.image} width={200} alignSelf="flex-start" marginRight="20px"/>
                                     <div>
                                         <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 35}}>

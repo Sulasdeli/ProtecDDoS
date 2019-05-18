@@ -14,7 +14,7 @@ import {
     Form,
     Radio,
     RadioGroup,
-    PanelGroup, InputNumber,
+    InputNumber,
 } from "rsuite";
 import regions from "../const/regions";
 import serviceTypes from "../const/serviceTypes";
@@ -218,7 +218,7 @@ class ExplorePage extends Component {
                                 </FormGroup>
                                 <FormGroup style={{float: 'right', marginBottom: '15px'}}>
                                     <ButtonToolbar>
-                                        <Button htmlType="submit" onClick={this.submitForm} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
+                                        <Button onClick={this.submitForm} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
                                     </ButtonToolbar>
                                 </FormGroup>
                             </Form>
