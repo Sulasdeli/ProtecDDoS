@@ -7,11 +7,14 @@
     "filepond": "^4.4.5",
     "filepond-plugin-image-exif-orientation": "^1.0.6",
     "filepond-plugin-image-preview": "^4.1.1",
+    "highcharts": "^7.0.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.8",
     "react-dom": "^16.8.6",
     "react-filepond": "^7.0.1",
     "react-json-view": "latest",
+    "react-jsx-highcharts": "^3.5.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "react-sticky-el": "latest",
@@ -37,7 +40,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
-    "babel-loader": "^8.0.5",
-    "webpack": "^4.28.3"
+    "babel-loader": "8.0.5",
+    "webpack": "4.28.3"
   }
 }

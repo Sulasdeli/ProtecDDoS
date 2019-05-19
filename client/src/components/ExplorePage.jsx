@@ -24,6 +24,7 @@ import {getDomain} from "../helpers/getDomain";
 import Services from "./Services";
 import Loader from "../views/Loader"
 import algorithms from "../const/recAlgos";
+import ScatterPlot from "../views/scatterPlot";
 
 const PageContent = styled.div`
   align-items: center;
@@ -79,7 +80,7 @@ class ExplorePage extends Component {
         super();
         this.state = {
             isLoading: false,
-            userIndex: null,
+            userIndex: [],
             userProfile: {
                 region: ['EUROPE'],
                 serviceType: ['REACTIVE'],
@@ -142,7 +143,9 @@ class ExplorePage extends Component {
         })
             .then(res => res.json())
             .then(jsonResponse => {
-                
+
+                console.log(jsonResponse)
+
                 this.setState({
                     ...this.state,
                     services: jsonResponse.recommendedServices,
@@ -170,64 +173,69 @@ class ExplorePage extends Component {
     render() {
         return (
                 <PageContent>
-                    <Card style={{height: "550px", borderRadius: "10px 10px 10px 10px"}}>
-                        <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(0deg, #26c6da, #00acc1)'/>
-                        <CardContent>
-                            <Form layout="horizontal">
-                                <FormGroup style={styles.formGroup}>
-                                    <ControlLabel>Coverage Region(s)</ControlLabel>
-                                    <TagPicker data={regions} value={this.state.userProfile.region} onChange={this.handleChange("region")} style={styles.picker}/>
-                                </FormGroup>
-                                <FormGroup style={styles.formGroup}>
-                                    <ControlLabel>Service Type(s)</ControlLabel>
-                                    <TagPicker data={serviceTypes} value={this.state.userProfile.serviceType} onChange={this.handleChange("serviceType")} style={styles.picker}/>
-                                    <HelpBlock tooltip>Required</HelpBlock>
-                                </FormGroup>
-                                <FormGroup style={styles.formGroup}>
-                                    <ControlLabel>Deployment Time</ControlLabel>
-                                    <InputPicker data={deploymentTimes} value={this.state.userProfile.deploymentTime} onChange={this.handleChange("deploymentTime")} style={styles.inputForm}/>
-                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
-                                        <span style={styles.radioGroupLabel}>Priority: </span>
-                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value={1}>Low</Radio>
-                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value={2}>Medium</Radio>
-                                        <Radio onChange={this.handleChange("deploymentTimeWeight")} value={3}>High</Radio>
-                                    </RadioGroup>
-                                </FormGroup>
-                                <FormGroup style={styles.formGroup}>
-                                    <ControlLabel>Leasing Period</ControlLabel>
-                                    <InputPicker data={leasingPeriods} value={this.state.userProfile.leasingPeriod} onChange={this.handleChange("leasingPeriod")} style={styles.inputForm}/>
-                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
-                                        <span style={styles.radioGroupLabel}>Priority: </span>
-                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value={1}>Low</Radio>
-                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value={2}>Medium</Radio>
-                                        <Radio onChange={this.handleChange("leasingPeriodWeight")} value={3}>High</Radio>
-                                    </RadioGroup>
-                                </FormGroup>
-                                <FormGroup style={styles.formGroup}>
-                                    <ControlLabel>Budget</ControlLabel>
-                                    <InputNumber value={this.state.userProfile.budget} onChange={this.handleChange("budget")} postfix="CHF" style={styles.inputForm}/>
-                                    <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
-                                        <span style={styles.radioGroupLabel}>Priority: </span>
-                                        <Radio onChange={this.handleChange("budgetWeight")} value={1}>Low</Radio>
-                                        <Radio onChange={this.handleChange("budgetWeight")} value={2}>Medium</Radio>
-                                        <Radio onChange={this.handleChange("budgetWeight")} value={3}>High</Radio>
-                                    </RadioGroup>
-                                </FormGroup>
-                                <hr/>
-                                <FormGroup style={styles.formGroup}>
-                                    <ControlLabel>Recommendation Algorithm</ControlLabel>
-                                    <InputPicker data={algorithms} value={this.state.selectedAlgo} onChange={this.handleSelectedAlgorithm()} style={styles.picker}/>
-                                </FormGroup>
-                                <FormGroup style={{float: 'right', marginBottom: '15px'}}>
-                                    <ButtonToolbar>
-                                        <Button onClick={this.submitForm} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
-                                    </ButtonToolbar>
-                                </FormGroup>
-                            </Form>
-                        </CardContent>
-                    </Card>
-                    <br/>
-                    <br/>
+                    <div>
+                        <Card style={{height: "550px", borderRadius: "10px 10px 10px 10px", marginBottom: 45}}>
+                            <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(0deg, #26c6da, #00acc1)'/>
+                            <CardContent>
+                                <Form layout="horizontal">
+                                    <FormGroup style={styles.formGroup}>
+                                        <ControlLabel>Coverage Region(s)</ControlLabel>
+                                        <TagPicker data={regions} value={this.state.userProfile.region} onChange={this.handleChange("region")} style={styles.picker}/>
+                                    </FormGroup>
+                                    <FormGroup style={styles.formGroup}>
+                                        <ControlLabel>Service Type(s)</ControlLabel>
+                                        <TagPicker data={serviceTypes} value={this.state.userProfile.serviceType} onChange={this.handleChange("serviceType")} style={styles.picker}/>
+                                        <HelpBlock tooltip>Required</HelpBlock>
+                                    </FormGroup>
+                                    <FormGroup style={styles.formGroup}>
+                                        <ControlLabel>Deployment Time</ControlLabel>
+                                        <InputPicker data={deploymentTimes} value={this.state.userProfile.deploymentTime} onChange={this.handleChange("deploymentTime")} style={styles.inputForm}/>
+                                        <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
+                                            <span style={styles.radioGroupLabel}>Priority: </span>
+                                            <Radio onChange={this.handleChange("deploymentTimeWeight")} value={1}>Low</Radio>
+                                            <Radio onChange={this.handleChange("deploymentTimeWeight")} value={2}>Medium</Radio>
+                                            <Radio onChange={this.handleChange("deploymentTimeWeight")} value={3}>High</Radio>
+                                        </RadioGroup>
+                                    </FormGroup>
+                                    <FormGroup style={styles.formGroup}>
+                                        <ControlLabel>Leasing Period</ControlLabel>
+                                        <InputPicker data={leasingPeriods} value={this.state.userProfile.leasingPeriod} onChange={this.handleChange("leasingPeriod")} style={styles.inputForm}/>
+                                        <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
+                                            <span style={styles.radioGroupLabel}>Priority: </span>
+                                            <Radio onChange={this.handleChange("leasingPeriodWeight")} value={1}>Low</Radio>
+                                            <Radio onChange={this.handleChange("leasingPeriodWeight")} value={2}>Medium</Radio>
+                                            <Radio onChange={this.handleChange("leasingPeriodWeight")} value={3}>High</Radio>
+                                        </RadioGroup>
+                                    </FormGroup>
+                                    <FormGroup style={styles.formGroup}>
+                                        <ControlLabel>Budget</ControlLabel>
+                                        <InputNumber value={this.state.userProfile.budget} onChange={this.handleChange("budget")} postfix="CHF" style={styles.inputForm}/>
+                                        <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
+                                            <span style={styles.radioGroupLabel}>Priority: </span>
+                                            <Radio onChange={this.handleChange("budgetWeight")} value={1}>Low</Radio>
+                                            <Radio onChange={this.handleChange("budgetWeight")} value={2}>Medium</Radio>
+                                            <Radio onChange={this.handleChange("budgetWeight")} value={3}>High</Radio>
+                                        </RadioGroup>
+                                    </FormGroup>
+                                    <hr/>
+                                    <FormGroup style={styles.formGroup}>
+                                        <ControlLabel>Recommendation Algorithm</ControlLabel>
+                                        <InputPicker data={algorithms} value={this.state.selectedAlgo} onChange={this.handleSelectedAlgorithm()} style={styles.picker}/>
+                                    </FormGroup>
+                                    <FormGroup style={{float: 'right', marginBottom: '15px'}}>
+                                        <ButtonToolbar>
+                                            <Button onClick={this.submitForm} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
+                                        </ButtonToolbar>
+                                    </FormGroup>
+                                </Form>
+                            </CardContent>
+                        </Card>
+                        {/*3D Scatter Plot*/}
+                        {this.state.services.length !== 0 && this.state.userIndex.length !== 0 ? (
+                            <ScatterPlot services={this.state.services} userIndex={this.state.userIndex}/>
+                        ) : (null)}
+                    </div>
+
                     <ProviderCard>
                         <Card style={{borderRadius: "10px 10px 10px 10px"}}>
                             <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(0deg, #ffa726, #fb8c00)'/>
