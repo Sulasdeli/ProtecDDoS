@@ -1,6 +1,6 @@
 import numpy as np
 from engine.helpers.similarity_functions import euclidean_distance, jaccard_similarity, cosine_similarity,\
-    manhattan_distance, pearson_correlation
+    manhattan_distance, pearson_correlation, minkowski_distance
 import json
 
 
@@ -56,6 +56,7 @@ class RecEngine:
             s.cosineSimilarity = cosine_similarity(cs.weighted_similarity, s.weighted_similarity)       #higher -> better
             s.manhattanDistance = manhattan_distance(cs.weighted_similarity, s.weighted_similarity)     #lower -> better
             s.pearsonCorrelation = pearson_correlation(cs.weighted_similarity, s.weighted_similarity)   #higher -> better
+            s.minkowskiDistance = minkowski_distance(cs.weighted_similarity, s.weighted_similarity, len(s.weighted_similarity)) #higher -> better
 
             #Rating is given based on a normalization of all ratings
             s.rating = np.linalg.norm([s.euclideanDistance, s.jaccardSimilarity, s.cosineSimilarity, s.manhattanDistance])
@@ -79,7 +80,8 @@ class RecEngine:
                     print('---------------------------------------------------------------------------------------')
                     print(s.currency, s.price, s.type, s.region, s.deployment, s.leasingPeriod, 'Features:', s.features)
                     print("Rating:", s.rating, "Euclidean", s.euclideanDistance, "Jaccard:", s.jaccardSimilarity,
-                          "Cosine:", s.cosineSimilarity, "Manhattan:", s.manhattanDistance, "Pearson:", s.pearsonCorrelation)
+                          "Cosine:", s.cosineSimilarity, "Manhattan:", s.manhattanDistance, "Pearson:",
+                          s.pearsonCorrelation, "Minkowski:", s.minkowskiDistance)
                     print('---------------------------------------------------------------------------------------')
                     result.append(s.serialize(s.cosineSimilarity, s.jaccardSimilarity, s.euclideanDistance, s.manhattanDistance, s.pearsonCorrelation, json.dumps(s.weighted_similarity.tolist())))
 

@@ -235,7 +235,7 @@ def load_data(app, db):
                                     'ensure business-as-usual for employees, partners and customers.',
                         type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                         region=['EUROPE'], deployment='MINUTES',
-                        leasingPeriod='DAYS', price=1090, currency='USD')
+                        leasingPeriod='DAYS', price=400, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
                          imageName='f5.png',
@@ -247,7 +247,7 @@ def load_data(app, db):
                                     'demanding conditions',
                          type=['REACTIVE'], features=['APPLICATION', 'VOLUMETRIC'],
                          region=['EUROPE'], deployment='HOURS',
-                         leasingPeriod='DAYS', price=890, currency='USD')
+                         leasingPeriod='DAYS', price=50, currency='USD')
 
 
     review1 = Review(provider_id=9, fileName='fingerprint.json', fileData=bytearray(), rating=1, comment="Comment#1")

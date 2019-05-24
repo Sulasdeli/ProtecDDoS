@@ -1,5 +1,5 @@
 import numpy as np
-
+from decimal import Decimal
 
 def square_rooted(x):
     return np.sqrt(sum([a * a for a in x]))
@@ -24,5 +24,15 @@ def euclidean_distance(x, y):
 def manhattan_distance(x, y):
     return sum(abs(a-b) for a, b in zip(x, y))
 
+
 def pearson_correlation(x, y):
     return np.corrcoef(x, y)[0, 1]
+
+
+def nth_root(value, n_root):
+    root_value = 1 / float(n_root)
+    return round(Decimal(value) ** Decimal(root_value), 3)
+
+
+def minkowski_distance(x, y, p_value):
+    return nth_root(sum(pow(abs(a - b), p_value) for a, b in zip(x, y)), p_value)

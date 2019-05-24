@@ -20,6 +20,10 @@ export default [
         value: 'manhattanDistance',
     },
     {
+        label: 'Minkowski Distance',
+        value: 'minkowskiDistance',
+    },
+    {
         label: 'Pearson Correlation',
         value: 'pearsonCorrelation',
     }
