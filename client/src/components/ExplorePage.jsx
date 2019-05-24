@@ -143,7 +143,8 @@ class ExplorePage extends Component {
         })
             .then(res => res.json())
             .then(jsonResponse => {
-                
+                console.log(jsonResponse)
+
                 this.setState({
                     ...this.state,
                     services: jsonResponse.recommendedServices,

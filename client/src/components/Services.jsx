@@ -35,9 +35,10 @@ class Services extends Component {
         if(this.props.selectedAlgorithm !== 'DEFAULT') {
             services = services.sort((s1,s2) =>
                 (this.props.selectedAlgorithm === 'manhattanDistance') ?
-                    s1[this.props.selectedAlgorithm] < s2[this.props.selectedAlgorithm] ? 1: -1:
-                    s1[this.props.selectedAlgorithm] > s2[this.props.selectedAlgorithm] ? 1: -1);
+                    s1[this.props.selectedAlgorithm] < s2[this.props.selectedAlgorithm] ? -1 : 1:
+                    s1[this.props.selectedAlgorithm] > s2[this.props.selectedAlgorithm]? -1 : 1);
         }
+
         // Logic for displaying recommended services
         const indexOfLastService = currentPage * servicesPerPage;
         const indexOfFirstService = indexOfLastService - servicesPerPage;

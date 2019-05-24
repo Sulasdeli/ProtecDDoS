@@ -23,3 +23,6 @@ def euclidean_distance(x, y):
 
 def manhattan_distance(x, y):
     return sum(abs(a-b) for a, b in zip(x, y))
+
+def pearson_correlation(x, y):
+    return np.corrcoef(x, y)[0, 1]

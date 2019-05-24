@@ -18,5 +18,9 @@ export default [
     {
         label: 'Manhattan Distance',
         value: 'manhattanDistance',
+    },
+    {
+        label: 'Pearson Correlation',
+        value: 'pearsonCorrelation',
     }
 ];
