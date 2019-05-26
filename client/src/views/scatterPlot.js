@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Highcharts3dChart, withHighcharts, XAxis, YAxis, ZAxis, Tooltip, ScatterSeries, Scatter3dSeries, LineSeries}
     from 'react-jsx-highcharts'
 import Highcharts from 'highcharts';
-import {Slider} from 'rsuite';
+import {Button, Slider} from 'rsuite';
 import addHighcharts3DModule from 'highcharts/highcharts-3d';
 import styled from "styled-components";
 import {Card} from "@material-ui/core";
@@ -37,10 +37,10 @@ class ScatterPlot extends Component {
     render() {
         return (
             <ChartContainer>
-                <Card style={{borderRadius: "10px", height: 650}}>
+                <Card style={{borderRadius: "10px", height: 690}}>
                     <CardHeader title='Scatter Plot' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                        <Highcharts3dChart alpha={this.state.alpha} beta={this.state.beta} depth="300">
+                        <Highcharts3dChart alpha={this.state.alpha} beta={this.state.beta} depth="300" legend={{enabled: true}}>
                             <Tooltip/>
                             <XAxis min={0}>
                                 <XAxis.Title style={{fontWeight: "bold", fontSize: 15}} margin={40}>Deployment Time</XAxis.Title>
@@ -62,6 +62,8 @@ class ScatterPlot extends Component {
                         <br/>
                         <h6 style={{fontWeight: 'bold', fontSize: 16}}>Alpha Angle</h6>
                         <Slider style={{ width: 250 }} value={this.state.alpha} onChange={(e) => this.handleSliderChange(e, "alpha")}/>
+                        <br/>
+                        <Button color="blue" appearance="ghost" onClick={() => this.setState({beta: 22, alpha: 20})}>Reset</Button>
                     </SettingsContainer>
                 </Card>
             </ChartContainer>
