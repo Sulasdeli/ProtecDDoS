@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Highcharts3dChart, withHighcharts, XAxis, YAxis, ZAxis, Tooltip, ScatterSeries, Scatter3dSeries}
+import {Highcharts3dChart, withHighcharts, XAxis, YAxis, ZAxis, Tooltip, ScatterSeries, Scatter3dSeries, LineSeries}
     from 'react-jsx-highcharts'
 import Highcharts from 'highcharts';
 import {Slider} from 'rsuite';
@@ -50,9 +50,8 @@ class ScatterPlot extends Component {
                             </YAxis>
                             <ZAxis min={0}>
                                 <ZAxis.Title style={{fontWeight: "bold", fontSize: 15}} skex3d={true} margin={-400}>Budget</ZAxis.Title>
-                                <Scatter3dSeries name="User Profile Index" color={"red"} data={[this.props.userIndex]}/>
-
-                                {this.props.services.map((s, i) => <ScatterSeries key={i} name={s.providerName} data={[JSON.parse(s.weightedSimilarity)]}/>)}
+                                <Scatter3dSeries name="User Profile Index" color={"red"} lineWidth={2} data={[[0,0,0], this.props.userIndex]}/>
+                                {this.props.services.map((s, i) => <ScatterSeries key={i} lineWidth={1} name={s.providerName} data={[[0,0,0], JSON.parse(s.weightedSimilarity)]}/>)}
                             </ZAxis>
                         </Highcharts3dChart>
                     </div>
