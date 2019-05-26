@@ -9,8 +9,17 @@ const PaginationContainer = styled.div`
     align-items: center;
 `;
 
+const CardFooter = styled.div`
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    margin-bottom: 20px;
+`;
+
 const Container = styled.div`
     justify-content: space-between;
+    position: relative;
+    min-height: 1226px;
 `;
 
 class Services extends Component {
@@ -59,19 +68,21 @@ class Services extends Component {
         return (
             <Container>
                 {renderServices}
-                <PaginationContainer>
-                    <Pagination
-                        prev
-                        last
-                        next
-                        first
-                        size="sm"
-                        pages={pageNumbers.length}
-                        activePage={this.state.currentPage}
-                        onSelect={this.handleClick}
-                    />
-                </PaginationContainer>
-                <br/>
+                <CardFooter>
+                    <hr/>
+                    <PaginationContainer>
+                        <Pagination
+                            prev
+                            last
+                            next
+                            first
+                            size="sm"
+                            pages={pageNumbers.length}
+                            activePage={this.state.currentPage}
+                            onSelect={this.handleClick}
+                        />
+                    </PaginationContainer>
+                </CardFooter>
             </Container>
         );
     }

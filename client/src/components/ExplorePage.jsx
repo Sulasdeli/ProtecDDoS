@@ -42,7 +42,7 @@ const PageContent = styled.div`
 
 const EmptyListContainer = styled.div`
   text-align: center;
-  min-height: 800px;
+  min-height: 1226px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -235,7 +235,7 @@ class ExplorePage extends Component {
                     </div>
 
                     <ProviderCard>
-                        <Card style={{borderRadius: "10px 10px 10px 10px"}}>
+                        <Card style={{borderRadius: "10px 10px 10px 10px", height: 1290}}>
                             <CardHeader title='Recommended Providers' iconName='thumbs-o-up' backgroundColor='linear-gradient(0deg, #ffa726, #fb8c00)'/>
                             {this.state.services.length > 0 ? (
                                 this.state.isLoading ? (
