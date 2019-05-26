@@ -60,8 +60,6 @@ class ServiceDetails extends Component {
                     service: jsonResponse,
                 });
 
-                console.log(jsonResponse)
-
                 setTimeout(() => {
                     this.setState(
                         {

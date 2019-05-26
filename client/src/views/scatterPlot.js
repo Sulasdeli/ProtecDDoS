@@ -1,7 +1,8 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {Highcharts3dChart, withHighcharts, XAxis, YAxis, ZAxis, Tooltip, ScatterSeries, Scatter3dSeries}
     from 'react-jsx-highcharts'
 import Highcharts from 'highcharts';
+import {Slider} from 'rsuite';
 import addHighcharts3DModule from 'highcharts/highcharts-3d';
 import styled from "styled-components";
 import {Card} from "@material-ui/core";
@@ -12,31 +13,61 @@ const ChartContainer = styled.div`
   margin-bottom: 45px;
 `;
 
-const ScatterPlot = ({services, userIndex}) => (
-    <ChartContainer>
-        <Card style={{borderRadius: "10px 10px 10px 10px"}}>
-            <CardHeader title='Scatter Plot' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
-            <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                    <Highcharts3dChart alpha="20" beta="20" depth="270">
-                        <Tooltip/>
-                        <XAxis min={0}>
-                            <XAxis.Title style={{fontWeight: "bold", fontSize: 15}} margin={40}>Deployment Time</XAxis.Title>
-                        </XAxis>
-                        <YAxis min={0}>
-                            <YAxis.Title style={{fontWeight: "bold", fontSize: 15}} margin={40}>Leasing Period</YAxis.Title>
-                        </YAxis>
-                        <ZAxis min={0}>
-                            <ZAxis.Title style={{fontWeight: "bold", fontSize: 15}} skex3d={true} margin={-400}>Budget</ZAxis.Title>
-                            <Scatter3dSeries name="User Profile Index" color={"red"} data={[userIndex]}/>
+const SettingsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 
-                            {services.map((s, i) => <ScatterSeries key={i} name={s.providerName} data={[JSON.parse(s.weightedSimilarity)]}/>)}
-                        </ZAxis>
-                    </Highcharts3dChart>
+class ScatterPlot extends Component {
+    constructor() {
+        super();
+        this.state = {
+            beta: 22,
+            alpha: 20
+        };
+    }
 
-            </div>
-        </Card>
-    </ChartContainer>
-);
+    handleSliderChange = (e, name) => {
+        this.setState({
+            [name]: e
+        });
+    };
+
+    render() {
+        return (
+            <ChartContainer>
+                <Card style={{borderRadius: "10px", height: 650}}>
+                    <CardHeader title='Scatter Plot' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
+                    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+                        <Highcharts3dChart alpha={this.state.alpha} beta={this.state.beta} depth="300">
+                            <Tooltip/>
+                            <XAxis min={0}>
+                                <XAxis.Title style={{fontWeight: "bold", fontSize: 15}} margin={40}>Deployment Time</XAxis.Title>
+                            </XAxis>
+                            <YAxis min={0}>
+                                <YAxis.Title style={{fontWeight: "bold", fontSize: 15}} margin={40}>Leasing Period</YAxis.Title>
+                            </YAxis>
+                            <ZAxis min={0}>
+                                <ZAxis.Title style={{fontWeight: "bold", fontSize: 15}} skex3d={true} margin={-400}>Budget</ZAxis.Title>
+                                <Scatter3dSeries name="User Profile Index" color={"red"} data={[this.props.userIndex]}/>
+
+                                {this.props.services.map((s, i) => <ScatterSeries key={i} name={s.providerName} data={[JSON.parse(s.weightedSimilarity)]}/>)}
+                            </ZAxis>
+                        </Highcharts3dChart>
+                    </div>
+                    <hr/>
+                    <SettingsContainer>
+                        <h6 style={{fontWeight: 'bold', fontSize: 16}}>Beta Angle</h6>
+                        <Slider style={{ width: 250 }} value={this.state.beta} onChange={(e) => this.handleSliderChange(e, "beta")}/>
+                        <br/>
+                        <h6 style={{fontWeight: 'bold', fontSize: 16}}>Alpha Angle</h6>
+                        <Slider style={{ width: 250 }} value={this.state.alpha} onChange={(e) => this.handleSliderChange(e, "alpha")}/>
+                    </SettingsContainer>
+                </Card>
+            </ChartContainer>
+        );
+    }
+}
 
 export default withHighcharts(ScatterPlot, Highcharts);
-
