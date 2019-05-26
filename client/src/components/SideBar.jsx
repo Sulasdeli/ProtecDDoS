@@ -32,13 +32,6 @@ class SideBar extends Component {
                                 <Nav.Item componentClass={Link} to='/explore' icon={<Icon icon="search" />}>
                                     Explore
                                 </Nav.Item>
-                                <Dropdown
-                                    placement="rightTop"
-                                    title="Ratings"
-                                    icon={<Icon icon="star-o"/>}
-                                >
-                                    <Dropdown.Item componentClass={Link} to='/upload' icon={<Icon icon="file-upload"/>}>Upload Attack Log File</Dropdown.Item>
-                                </Dropdown>
                             </Nav>
                         </Sidenav.Body>
                     </Sidenav>
