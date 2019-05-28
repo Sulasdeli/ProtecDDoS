@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Highcharts3dChart, withHighcharts, XAxis, YAxis, ZAxis, Tooltip, ScatterSeries, Scatter3dSeries, LineSeries}
+import {Highcharts3dChart, withHighcharts, XAxis, YAxis, ZAxis, Tooltip, ScatterSeries, Scatter3dSeries, Chart}
     from 'react-jsx-highcharts'
 import Highcharts from 'highcharts';
 import {Button, Slider} from 'rsuite';
@@ -7,6 +7,8 @@ import addHighcharts3DModule from 'highcharts/highcharts-3d';
 import styled from "styled-components";
 import {Card} from "@material-ui/core";
 import CardHeader from "./CardHeader";
+import * as ReactDOM from "react-dom";
+import debounce from "lodash/debounce"
 addHighcharts3DModule(Highcharts);
 
 const ChartContainer = styled.div`
@@ -29,8 +31,40 @@ class ScatterPlot extends Component {
         super();
         this.state = {
             beta: 22,
-            alpha: 20
+            alpha: 20,
+            dragged: false,
+            posY: null,
+            posX: null
         };
+        this.updateChart = debounce(this.updateChart, 0)
+    }
+
+    updateChart =(e)=> {
+        this.setState({
+            //alpha: this.state.alpha + (e.chartY - e.clientY) / 5,
+            beta: this.state.beta + (e.pageX - e.chartX) / 5
+        })
+    }
+
+    componentDidMount() {
+        let domNode = ReactDOM.findDOMNode(this.domNode)
+        console.log(this.domNode)
+        domNode.addEventListener('mousedown', (e)=>{
+            console.log(e)
+            this.setState({
+                dragged: true,
+            })
+        });
+        domNode.addEventListener('mousemove', (e)=>{{
+            if(this.state.dragged){
+                this.updateChart(e)
+            }
+        }})
+        domNode.addEventListener('mouseup', ()=>{
+            this.setState({
+                dragged: false
+            })
+        })
     }
 
     handleSliderChange = (e, name) => {
@@ -45,7 +79,7 @@ class ScatterPlot extends Component {
                 <Card style={{borderRadius: "10px", height: 690}}>
                     <CardHeader title='Scatter Plot' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-                        <Highcharts3dChart alpha={this.state.alpha} beta={this.state.beta} depth="300" legend={{enabled: true}}>
+                        <Highcharts3dChart ref={node => this.domNode = node}  alpha={this.state.alpha} beta={this.state.beta} depth="300" legend={{enabled: true}} >
                             <Tooltip formatter={pointFormatter}/>
                             <XAxis min={0}>
                                 <XAxis.Title style={{fontWeight: "bold", fontSize: 15}} margin={40}>Deployment Time</XAxis.Title>

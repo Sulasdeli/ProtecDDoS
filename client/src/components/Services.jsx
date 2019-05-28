@@ -47,6 +47,7 @@ class Services extends Component {
                     s1[this.props.selectedAlgorithm] < s2[this.props.selectedAlgorithm] ? -1 : 1:
                     s1[this.props.selectedAlgorithm] > s2[this.props.selectedAlgorithm]? -1 : 1);
         }
+        console.log(services)
 
         // Logic for displaying recommended services
         const indexOfLastService = currentPage * servicesPerPage;
