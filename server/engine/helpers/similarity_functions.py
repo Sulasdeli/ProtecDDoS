@@ -31,7 +31,7 @@ def pearson_correlation(x, y):
 
 def nth_root(value, n_root):
     root_value = 1 / float(n_root)
-    return round(Decimal(value) ** Decimal(root_value), 3)
+    return float(round(Decimal(value) ** Decimal(root_value), 3))
 
 
 def minkowski_distance(x, y, p_value):

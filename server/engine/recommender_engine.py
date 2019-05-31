@@ -51,7 +51,7 @@ class RecEngine:
             s.weighted_similarity = np.multiply(s.serviceSimilarity, customerProfileWeights)
 
             # Calculation of Similarity
-            s.euclideanDistance = euclidean_distance(cs.weighted_similarity, s.weighted_similarity)     #higher -> better
+            s.euclideanDistance = euclidean_distance(cs.weighted_similarity, s.weighted_similarity)     #lower -> better
             s.jaccardSimilarity = jaccard_similarity(cs.weighted_similarity, s.weighted_similarity)     #higher -> better
             s.cosineSimilarity = cosine_similarity(cs.weighted_similarity, s.weighted_similarity)       #higher -> better
             s.manhattanDistance = manhattan_distance(cs.weighted_similarity, s.weighted_similarity)     #lower -> better
@@ -59,7 +59,7 @@ class RecEngine:
             s.minkowskiDistance = minkowski_distance(cs.weighted_similarity, s.weighted_similarity, len(s.weighted_similarity)) #higher -> better
 
             #Rating is given based on a normalization of all ratings
-            s.rating = np.linalg.norm([s.euclideanDistance, s.jaccardSimilarity, s.cosineSimilarity, s.manhattanDistance])
+            s.rating = np.linalg.norm([s.euclideanDistance, s.jaccardSimilarity, s.cosineSimilarity, s.manhattanDistance, s.pearsonCorrelation, s.minkowskiDistance])
             similarity.update({s.id:s.rating})
 
         #Sort services by similarity index
