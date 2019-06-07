@@ -20,11 +20,13 @@ import regions from "../const/regions";
 import serviceTypes from "../const/serviceTypes";
 import leasingPeriods from "../const/leasingPeriods";
 import deploymentTimes from "../const/deploymentTimes";
+import attackTypes from "../const/attackTypes";
 import {getDomain} from "../helpers/getDomain";
 import Services from "./Services";
 import Loader from "../views/Loader"
 import algorithms from "../const/recAlgos";
 import ScatterPlot from "../views/scatterPlot";
+import FileUploader from "../views/FileUploader";
 
 const PageContent = styled.div`
   align-items: center;
@@ -84,6 +86,7 @@ class ExplorePage extends Component {
             userProfile: {
                 region: ['EUROPE'],
                 serviceType: ['REACTIVE'],
+                attackType: [],
                 deploymentTime: 'SECONDS',
                 deploymentTimeWeight: 1,
                 leasingPeriod: 'DAYS',
@@ -168,11 +171,18 @@ class ExplorePage extends Component {
             });
     };
 
+    parseAttackType = (content) => {
+        if (content && content['protocol'] && !attackTypes.some(item => item.label === content['protocol'])) {
+            attackTypes.push({label: content['protocol'], value: content['protocol'].toUpperCase()});
+            Alert.success(`Attack Type "${content['protocol']}" successfully imported!`);
+        }
+    };
+
     render() {
         return (
                 <PageContent>
                     <div>
-                        <Card style={{height: "550px", borderRadius: "10px 10px 10px 10px", marginBottom: 45}}>
+                        <Card style={{borderRadius: "10px 10px 10px 10px", marginBottom: 45}}>
                             <CardHeader title='User Profile' iconName='vcard-o' backgroundColor='linear-gradient(0deg, #26c6da, #00acc1)'/>
                             <CardContent>
                                 <Form layout="horizontal">
@@ -184,6 +194,14 @@ class ExplorePage extends Component {
                                         <ControlLabel>Service Type(s)</ControlLabel>
                                         <TagPicker data={serviceTypes} value={this.state.userProfile.serviceType} onChange={this.handleChange("serviceType")} style={styles.picker}/>
                                         <HelpBlock tooltip>Required</HelpBlock>
+                                    </FormGroup>
+                                    <FormGroup style={{display: "flex"}}>
+                                        <ControlLabel>Attack Type(s)</ControlLabel>
+                                        <TagPicker data={attackTypes} value={this.state.userProfile.attackType} onChange={this.handleChange("attackType")} style={{width: 400, marginRight: 10}}/>
+                                        <div style={{width: 120}}>
+                                            <FileUploader handleFile={() => null} handleFileContent={this.parseAttackType}/>
+                                        </div>
+                                        <HelpBlock placement="topRight" tooltip>You can import an Attack Type by uploading a Log File</HelpBlock>
                                     </FormGroup>
                                     <FormGroup style={styles.formGroup}>
                                         <ControlLabel>Deployment Time</ControlLabel>
@@ -207,7 +225,7 @@ class ExplorePage extends Component {
                                     </FormGroup>
                                     <FormGroup style={styles.formGroup}>
                                         <ControlLabel>Budget</ControlLabel>
-                                        <InputNumber value={this.state.userProfile.budget} onChange={this.handleChange("budget")} postfix="CHF" style={styles.inputForm}/>
+                                        <InputNumber value={this.state.userProfile.budget} onChange={this.handleChange("budget")} postfix="USD" style={styles.inputForm}/>
                                         <RadioGroup name="radioList" inline appearance="picker" defaultValue={1}>
                                             <span style={styles.radioGroupLabel}>Priority: </span>
                                             <Radio onChange={this.handleChange("budgetWeight")} value={1}>Low</Radio>

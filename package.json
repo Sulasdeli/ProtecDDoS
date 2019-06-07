@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "filepond-plugin-file-validate-type": "^1.2.4"
+  }
+}

@@ -1,14 +1,19 @@
 import React  from 'react';
 import {FilePond} from "react-filepond";
-
+import {Alert} from "rsuite";
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import {registerPlugin} from "filepond";
+registerPlugin(FilePondPluginFileValidateType);
 const FileUploader = ({handleFile, handleFileContent}) => {
 
     const handleFileRead = (e) => {
         const content = fileReader.result;
-        try {
-            handleFileContent(JSON.parse(content));
-        } catch (err) {
-           console.log(err)
+        if (content) {
+            try {
+                handleFileContent(JSON.parse(content));
+            } catch (err) {
+                Alert.error("Uploaded File is not a valid Log File");
+            }
         }
     };
 
@@ -26,18 +31,14 @@ const FileUploader = ({handleFile, handleFileContent}) => {
     };
 
     return (
-        <div>
-            <FilePond
-                allowMultiple={false}
-                onremovefile={() => {
-
-                }}
-                onupdatefiles={(files) => {
-                    handleFileChosen(files)
-                }}
-                labelIdle='Drag & Drop a JSON file or <span class="filepond--label-action">Browse</span>'
-            />
-        </div>
+        <FilePond
+            acceptedFileTypes = {['application/json']}
+            allowMultiple={false}
+            onupdatefiles={(files) => {
+                handleFileChosen(files)
+            }}
+            labelIdle='Drag & Drop a JSON file or <span class="filepond--label-action">Browse</span>'
+        />
     );
 };
 

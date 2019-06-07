@@ -47,7 +47,7 @@ class AddReviewModal extends Component {
             .then(jsonResponse => {
 
                 this.props.onNewReview(jsonResponse);
-                this.props.close()
+                this.props.close();
 
                 setTimeout(() => {
                     this.setState(

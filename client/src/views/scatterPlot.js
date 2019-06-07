@@ -43,7 +43,7 @@ class ScatterPlot extends Component {
         return (
             <ChartContainer>
                 <Card style={{borderRadius: "10px", height: 690}}>
-                    <CardHeader title='Scatter Plot' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
+                    <CardHeader iconName={"line-chart"} title='Plot' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
                         <Highcharts3dChart alpha={this.state.alpha} beta={this.state.beta} depth="300" legend={{enabled: true}}>
                             <Tooltip formatter={pointFormatter}/>
