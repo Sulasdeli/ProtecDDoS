@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Highcharts3dChart, withHighcharts, XAxis, YAxis, ZAxis, Tooltip, ScatterSeries, Scatter3dSeries, LineSeries}
+import {Highcharts3dChart, withHighcharts, XAxis, YAxis, ZAxis, Tooltip, ScatterSeries, Scatter3dSeries}
     from 'react-jsx-highcharts'
 import Highcharts from 'highcharts';
 import {Button, Slider} from 'rsuite';
@@ -24,7 +24,7 @@ const pointFormatter = function()  {
             ${this.point.y}<br />Budget: ${this.point.z}`
 };
 
-class ScatterPlot extends Component {
+class IndexPlot extends Component {
     constructor() {
         super();
         this.state = {
@@ -76,4 +76,4 @@ class ScatterPlot extends Component {
     }
 }
 
-export default withHighcharts(ScatterPlot, Highcharts);
+export default withHighcharts(IndexPlot, Highcharts);

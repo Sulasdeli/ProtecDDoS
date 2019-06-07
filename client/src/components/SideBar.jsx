@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Sidenav, Nav, Dropdown, Icon} from "rsuite";
+import {Sidenav, Nav, Icon} from "rsuite";
 import {Link} from 'react-router-dom'
 
 

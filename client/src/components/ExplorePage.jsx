@@ -25,7 +25,7 @@ import {getDomain} from "../helpers/getDomain";
 import Services from "./Services";
 import Loader from "../views/Loader"
 import algorithms from "../const/recAlgos";
-import ScatterPlot from "../views/scatterPlot";
+import IndexPlot from "../views/indexPlot";
 import FileUploader from "../views/FileUploader";
 
 const PageContent = styled.div`
@@ -246,9 +246,9 @@ class ExplorePage extends Component {
                                 </Form>
                             </CardContent>
                         </Card>
-                        {/*3D Scatter Plot*/}
+                        {/*3D Index Plot*/}
                         {this.state.services.length !== 0 && this.state.userIndex.length !== 0 ? (
-                            <ScatterPlot services={this.state.services} userIndex={this.state.userIndex}/>
+                            <IndexPlot services={this.state.services} userIndex={this.state.userIndex}/>
                         ) : (null)}
                     </div>
 

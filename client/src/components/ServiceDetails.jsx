@@ -46,6 +46,10 @@ class ServiceDetails extends Component {
     };
 
     componentWillMount() {
+        this.getServiceDetails()
+    }
+
+    getServiceDetails = () => {
         this.setState({
             ...this.state,
             isLoading: true
