@@ -43,6 +43,8 @@ def recommend_provider():
     # Map Json request to model
     custProfile = CustomerProfile().json_to_obj(request.get_json())
 
+    print(custProfile)
+
     # Set the services helper
     # helper = mock_services()
     helper = ServicesHelper(Provider.query.all(), custProfile.budget)

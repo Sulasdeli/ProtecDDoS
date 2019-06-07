@@ -57,6 +57,19 @@ class ServicesHelper:
                 servicesFound.append(s)
         return servicesFound
 
+    def filter_by_attack_type(self, attackTypes, updatedServices = None):
+        """Return services that protect against a given attack type"""
+        assert isinstance(attackTypes, list), "Service Type should be a list"
+        servicesFound = []
+        if updatedServices is not None:
+            services = updatedServices
+        else:
+            services = self.services
+        for s in services:
+            if set(attackTypes) <= set(s.features):
+                servicesFound.append(s)
+        return servicesFound
+
     def filter_by_region(self, regions, updatedServices = None):
         """Return services of a given region"""
         assert isinstance(regions, list), "regions should be a list"
@@ -100,4 +113,5 @@ class ServicesHelper:
         list = self.filter_by_price(cs.budget)
         list = self.filter_by_region(cs.region, list)
         list = self.filter_by_type(cs.serviceType, list)
+        list = self.filter_by_attack_type(cs.attackType, list)
         self.services = list

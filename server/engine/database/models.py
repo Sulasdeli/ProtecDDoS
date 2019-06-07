@@ -95,6 +95,7 @@ class CustomerProfile(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     region = db.Column(db.PickleType, nullable=False)
     serviceType = db.Column(db.PickleType, nullable=False)
+    attackType = db.Column(db.PickleType, nullable=False)
     deploymentTime = db.Column(db.Text, nullable=False, default=datetime.utcnow)
     deploymentTimeWeight = db.Column(db.Integer, nullable=False)
     leasingPeriod = db.Column(db.PickleType, nullable=False)
@@ -109,6 +110,7 @@ class CustomerProfile(db.Model):
             'id': self.id,
             'region': self.region,
             'serviceType': self.serviceType,
+            'attackType': self.attackType,
             'deploymentTime': self.deploymentTime,
             'deploymentTimeWeight': self.deploymentTimeWeight,
             'leasingPeriod': self.leasingPeriod,
@@ -118,11 +120,12 @@ class CustomerProfile(db.Model):
         }
 
     def __repr__(self):
-        return f"CustomerProfile('{self.region}', '{self.serviceType}', '{self.deploymentTime}', '{self.leasingPeriod}', '{self.budget}')"
+        return f"CustomerProfile('{self.region}', '{self.serviceType}', '{self.deploymentTime}', '{self.leasingPeriod}', '{self.budget}', '{self.attackType}')"
 
     def json_to_obj(self, json):
         self.region = json["region"]
         self.serviceType = json["serviceType"]
+        self.attackType = json["attackType"]
         self.deploymentTime = json["deploymentTime"]
         self.deploymentTimeWeight = json["deploymentTimeWeight"]
         self.leasingPeriod = json["leasingPeriod"]
