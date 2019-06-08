@@ -197,7 +197,7 @@ class ExplorePage extends Component {
                                     </FormGroup>
                                     <FormGroup style={{display: "flex"}}>
                                         <ControlLabel>Attack Type(s)</ControlLabel>
-                                        <TagPicker data={attackTypes} value={this.state.userProfile.attackType} onChange={this.handleChange("attackType")} style={{width: 395, marginRight: 10}}/>
+                                        <TagPicker data={attackTypes} creatable value={this.state.userProfile.attackType} onChange={this.handleChange("attackType")} style={{width: 395, marginRight: 10}}/>
                                         <div style={{width: 120}}>
                                             <FileUploader handleFile={() => null} handleFileContent={this.parseAttackType}/>
                                         </div>

@@ -44,11 +44,8 @@ class MarketplacePage extends Component {
             serviceType: ['REACTIVE'],
             attackType: ['APPLICATION'],
             deploymentTime: 'SECONDS',
-            deploymentTimeWeight: 1,
             leasingPeriod: 'DAYS',
-            leasingPeriodWeight: 1,
-            budget: 5000,
-            budgetWeight: 1
+            price: 2400,
         };
     }
 
@@ -56,6 +53,10 @@ class MarketplacePage extends Component {
         this.setState({
             [name]: event
         });
+    };
+
+    submitService = () => {
+
     };
 
     render() {
@@ -109,7 +110,7 @@ class MarketplacePage extends Component {
                                 </FormGroup>
                                 <FormGroup>
                                     <ControlLabel>Attack Type(s)</ControlLabel>
-                                    <TagPicker data={attackTypes} value={this.state.attackType} onChange={this.handleChange("attackType")} style={styles.form}/>
+                                    <TagPicker data={attackTypes} creatable value={this.state.attackType} onChange={this.handleChange("attackType")} style={styles.form}/>
                                 </FormGroup>
                                 <FormGroup>
                                     <ControlLabel>Deployment Time</ControlLabel>
@@ -121,12 +122,12 @@ class MarketplacePage extends Component {
                                 </FormGroup>
                                 <FormGroup style={styles.formGroup}>
                                     <ControlLabel>Price</ControlLabel>
-                                    <InputNumber value={this.state.budget} onChange={this.handleChange("budget")} postfix="USD" style={styles.form}/>
+                                    <InputNumber value={this.state.price} onChange={this.handleChange("price")} postfix="USD" style={styles.form}/>
                                 </FormGroup>
                             </div>
                             <FormGroup style={{float: 'right', marginBottom: '15px'}}>
                                 <ButtonToolbar>
-                                    <Button onClick={this.submitForm} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
+                                    <Button onClick={this.submitService} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
                                 </ButtonToolbar>
                             </FormGroup>
                         </Form>
