@@ -5,7 +5,7 @@ import Highcharts from 'highcharts';
 import {Button, Slider} from 'rsuite';
 import addHighcharts3DModule from 'highcharts/highcharts-3d';
 import styled from "styled-components";
-import {Card} from "@material-ui/core";
+import {Card, Typography} from "@material-ui/core";
 import CardHeader from "./CardHeader";
 addHighcharts3DModule(Highcharts);
 
@@ -15,10 +15,10 @@ const ChartContainer = styled.div`
 
 const SettingsContainer = styled.div`
   padding:15px;
-  margin-top: -20px;
+  margin-top: -15px;
   display: flex;
   justify-content: space-evenly;
-  align-items: center;
+  margin-bottom: 15px;
 `;
 
 const pointFormatter = function()  {
@@ -63,17 +63,20 @@ class IndexPlot extends Component {
                         </Highcharts3dChart>
                     </div>
                     <hr/>
+                    <Typography variant="h6" style={{fontWeight: 'bold', fontSize: 20, marginLeft: 30}}>
+                        Settings
+                    </Typography>
                     <SettingsContainer>
                         <div>
-                            <h6 style={{fontWeight: 'bold', fontSize: 16}}>Beta Angle</h6>
+                            <h6 style={{fontWeight: 'bold', fontSize: 16, textAlign: "center"}}>Beta Angle</h6>
                             <Slider style={{ width: 250 }} value={this.state.beta} onChange={(e) => this.handleSliderChange(e, "beta")}/>
                         </div>
                         <div>
-                            <h6 style={{fontWeight: 'bold', fontSize: 16}}>Alpha Angle</h6>
+                            <h6 style={{fontWeight: 'bold', fontSize: 16, textAlign: "center"}}>Alpha Angle</h6>
                             <Slider style={{ width: 250 }} value={this.state.alpha} onChange={(e) => this.handleSliderChange(e, "alpha")}/>
                         </div>
+                        <Button color="blue" appearance="ghost" onClick={() => this.setState({beta: 22, alpha: 20})}>Reset</Button>
                     </SettingsContainer>
-                    <Button color="blue" appearance="ghost" onClick={() => this.setState({beta: 22, alpha: 20})}>Reset</Button>
                 </Card>
             </ChartContainer>
         );
