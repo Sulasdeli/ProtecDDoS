@@ -14,8 +14,10 @@ const ChartContainer = styled.div`
 `;
 
 const SettingsContainer = styled.div`
+  padding:15px;
+  margin-top: -20px;
   display: flex;
-  flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
 `;
 
@@ -42,7 +44,7 @@ class IndexPlot extends Component {
     render() {
         return (
             <ChartContainer>
-                <Card style={{borderRadius: "10px", height: 690}}>
+                <Card style={{borderRadius: "10px"}}>
                     <CardHeader iconName={"line-chart"} title='Plot' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
                         <Highcharts3dChart alpha={this.state.alpha} beta={this.state.beta} depth="300" legend={{enabled: true}}>
@@ -62,14 +64,16 @@ class IndexPlot extends Component {
                     </div>
                     <hr/>
                     <SettingsContainer>
-                        <h6 style={{fontWeight: 'bold', fontSize: 16}}>Beta Angle</h6>
-                        <Slider style={{ width: 250 }} value={this.state.beta} onChange={(e) => this.handleSliderChange(e, "beta")}/>
-                        <br/>
-                        <h6 style={{fontWeight: 'bold', fontSize: 16}}>Alpha Angle</h6>
-                        <Slider style={{ width: 250 }} value={this.state.alpha} onChange={(e) => this.handleSliderChange(e, "alpha")}/>
-                        <br/>
-                        <Button color="blue" appearance="ghost" onClick={() => this.setState({beta: 22, alpha: 20})}>Reset</Button>
+                        <div>
+                            <h6 style={{fontWeight: 'bold', fontSize: 16}}>Beta Angle</h6>
+                            <Slider style={{ width: 250 }} value={this.state.beta} onChange={(e) => this.handleSliderChange(e, "beta")}/>
+                        </div>
+                        <div>
+                            <h6 style={{fontWeight: 'bold', fontSize: 16}}>Alpha Angle</h6>
+                            <Slider style={{ width: 250 }} value={this.state.alpha} onChange={(e) => this.handleSliderChange(e, "alpha")}/>
+                        </div>
                     </SettingsContainer>
+                    <Button color="blue" appearance="ghost" onClick={() => this.setState({beta: 22, alpha: 20})}>Reset</Button>
                 </Card>
             </ChartContainer>
         );

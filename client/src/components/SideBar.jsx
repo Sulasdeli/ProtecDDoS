@@ -33,6 +33,11 @@ class SideBar extends Component {
                                     Explore
                                 </Nav.Item>
                             </Nav>
+                            <Nav>
+                                <Nav.Item componentClass={Link} to='/marketplace' icon={<Icon icon="suitcase" />}>
+                                    Marketplace
+                                </Nav.Item>
+                            </Nav>
                         </Sidenav.Body>
                     </Sidenav>
             </div>
