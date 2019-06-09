@@ -32,7 +32,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "deploy-local": "truffle deploy --network development && mv build src/abis",
-    "deploy-ropsten": "truffle deploy --network ropsten"
+    "deploy-ropsten": "truffle deploy --network ropsten && mv build src/abis"
   },
   "eslintConfig": {
     "extends": "react-app"

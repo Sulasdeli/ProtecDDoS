@@ -20,7 +20,7 @@ import deploymentTimes from "../const/deploymentTimes";
 import leasingPeriods from "../const/leasingPeriods";
 import { Web3Provider } from 'react-web3';
 import Web3 from "web3";
-import DMarketplace from '../abis/contracts/DMarketplace'
+import DMarketplace from '../abis/build/contracts/DMarketplace'
 
 let web3 = window.web3;
 
@@ -65,7 +65,7 @@ class MarketplacePage extends Component {
             service: {
                 productName: "new product",
                 provider: "Provider's name",
-                providerKey: "0x4a7a4074B0ae0E7B1eB4E701B70BB70f4BB5d646",
+                blockchainIndex: "0",
                 description: "this is a description",
                 region: ['EUROPE'],
                 serviceType: ['REACTIVE'],
@@ -73,10 +73,38 @@ class MarketplacePage extends Component {
                 deploymentTime: 'SECONDS',
                 leasingPeriod: 'DAYS',
                 price: 2400,
+                transactionHash: null
             },
+            user: null,
             web3: web3Instance,
             contract : dMarketplaceContract,
         };
+    }
+
+    componentDidMount() {
+        this.getUser()
+        const addEvent = this.state.contract.events.ServiceAdded();
+        addEvent.on('data', (res) => {
+            this.setState({
+                service: {
+                    ...this.state.service,
+                    blockchainIndex: res.returnValues.index
+                }
+            })
+        });
+    }
+
+    getUser() {
+        return this.state.web3.eth
+            .getAccounts()
+            .then(addresses => {
+                this.setState({
+                    user:addresses[0]
+                })
+            })
+            .catch(err => {
+                console.log('error getting address ' + err);
+            });
     }
 
     handleChange = name => event => {
@@ -92,30 +120,28 @@ class MarketplacePage extends Component {
         const {productName, provider, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price} = this.state.service;
         let toHash = this.state.web3.eth.abi.encodeParameters(['string', 'string', 'string', 'string[]', 'string[]', 'string[]', 'string', 'string', 'uint'], [productName, provider, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price]);
         let hashedService = this.state.web3.utils.keccak256(toHash);
-        console.log("hashed Service :", hashedService)
         this.state.contract.methods
             .storeService(hashedService)
-            .send({from: '0x4a7a4074B0ae0E7B1eB4E701B70BB70f4BB5d646'})
-            .on('transactionHash', (a) => {
-                console.log('transactionHash: ', a)
-            })
-            .on('confirmation', (confirmationNumber) => {
-                console.log('confirmation: ', confirmationNumber)
-            });
+            .send({from: this.state.user})
+            .then(res => console.log(res))
     };
 
+    storeService = () => {
+        console.log("sending the data to the db")
+    }
+
     validateService = () => {
-        const {productName, provider, providerKey, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price} = this.state.service;
+        const {productName, provider, blockchainIndex, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price} = this.state.service;
         let toHash = this.state.web3.eth.abi.encodeParameters(['string', 'string', 'string', 'string[]', 'string[]', 'string[]', 'string', 'string', 'uint'], [productName, provider, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price]);
         let hashedService = this.state.web3.utils.keccak256(toHash);
         console.log("hashed Service :", hashedService)
         this.state.contract.methods
-            .verifyService(providerKey, hashedService)
-            .call({from: '0x4a7a4074B0ae0E7B1eB4E701B70BB70f4BB5d646'})
+            .verifyService(blockchainIndex, hashedService)
+            .call({from: this.state.user})
             .then((result) => {
                 console.log('is valid:', result)
             });
-    }
+    };
 
     render() {
         return (
