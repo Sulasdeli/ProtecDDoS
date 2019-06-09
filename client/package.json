@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "filepond": "^4.4.5",
+    "filepond-plugin-file-validate-type": "^1.2.4",
     "filepond-plugin-image-exif-orientation": "^1.0.6",
     "filepond-plugin-image-preview": "^4.1.1",
     "highcharts": "^7.0.0",
@@ -18,16 +19,20 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "react-sticky-el": "latest",
+    "react-web3": "^1.2.0",
     "redux": "^4.0.1",
     "rsuite": "^3.8.3",
     "styled-components": "^4.2.0",
-    "filepond-plugin-file-validate-type": "^1.2.4"
+    "truffle-hdwallet-provider": "^1.0.10",
+    "web3": "^1.0.0-beta.55"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy-local": "truffle deploy --network development && mv build src/abis",
+    "deploy-ropsten": "truffle deploy --network ropsten"
   },
   "eslintConfig": {
     "extends": "react-app"
