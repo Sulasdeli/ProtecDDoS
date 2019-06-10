@@ -82,13 +82,14 @@ class MarketplacePage extends Component {
     }
 
     componentDidMount() {
-        this.getUser()
+        this.getUser();
         const addEvent = this.state.contract.events.ServiceAdded();
         addEvent.on('data', (res) => {
+            console.log(this.state.web3.utils.hexToNumber(res.returnValues.index._hex))
             this.setState({
                 service: {
                     ...this.state.service,
-                    blockchainIndex: res.returnValues.index
+                    blockchainIndex: this.state.web3.utils.hexToNumber(res.returnValues.index._hex)
                 }
             })
         });
