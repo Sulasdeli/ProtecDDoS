@@ -120,6 +120,12 @@ class ServiceDetails extends Component {
                                                 <ServiceTypography characteristic={"Price"} text={this.state.service.price + ' ' +this.state.service.currency}/>
                                             </div>
                                         </div>
+                                        <span style={{fontWeight: "bold"}}>
+                                        Service Hash: {this.state.service.serviceHash}
+                                        </span>
+                                        <span style={{fontWeight: "bold"}}>
+                                        Transaction Hash: {this.state.service.txHash}
+                                        </span>
                                         <Divider/>
                                         <Typography variant="h4" style={{fontWeight: 'bold'}}>
                                             Features

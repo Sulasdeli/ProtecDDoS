@@ -8,25 +8,21 @@ contract DMarketplace {
         owner = msg.sender;
     }
 
-    mapping(uint => string) services;
-    uint addedServices = 0;
+    mapping(string => bool) services;
 
     // Events
     event ServiceAdded(
-        uint index,
         string serviceHash
     );
 
-
     function storeService(string memory serviceHash) public {
         //require(services[msg.sender] == '', 'User can only upload one service');
-        services[addedServices] = serviceHash;
-        emit ServiceAdded(addedServices, serviceHash);
-        addedServices++;
+        services[serviceHash] = true;
+        emit ServiceAdded(serviceHash);
     }
 
-    function verifyService(uint index, string memory hashToVerify) public view returns (bool){
-        return keccak256(abi.encodePacked(services[index])) == keccak256(abi.encodePacked(hashToVerify));
+    function verifyService(string memory hashToVerify) public view returns (bool){
+        return !!services[hashToVerify];
     }
 
     //    function addProvides() public {

@@ -65,7 +65,6 @@ class MarketplacePage extends Component {
             service: {
                 productName: "new product",
                 provider: "Provider's name",
-                blockchainIndex: "0",
                 description: "this is a description",
                 region: ['EUROPE'],
                 serviceType: ['REACTIVE'],
@@ -73,7 +72,8 @@ class MarketplacePage extends Component {
                 deploymentTime: 'SECONDS',
                 leasingPeriod: 'DAYS',
                 price: 2400,
-                transactionHash: null
+                transactionHash: '',
+                serviceHash: ''
             },
             user: null,
             web3: web3Instance,
@@ -83,15 +83,14 @@ class MarketplacePage extends Component {
 
     componentDidMount() {
         this.getUser();
+
+        // calculate the initial hash
+        this.generateHash();
+
+        // Listen for event
         const addEvent = this.state.contract.events.ServiceAdded();
         addEvent.on('data', (res) => {
-            console.log(this.state.web3.utils.hexToNumber(res.returnValues.index._hex))
-            this.setState({
-                service: {
-                    ...this.state.service,
-                    blockchainIndex: this.state.web3.utils.hexToNumber(res.returnValues.index._hex)
-                }
-            })
+            console.log(res)
         });
     }
 
@@ -112,32 +111,40 @@ class MarketplacePage extends Component {
         this.setState({
             service: {
                 ...this.state.service,
-                [name]: event
+                [name]: event,
             }
         });
+
+        setTimeout( () => this.generateHash(), 0)
     };
 
     submitService = () => {
-        const {productName, provider, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price} = this.state.service;
-        let toHash = this.state.web3.eth.abi.encodeParameters(['string', 'string', 'string', 'string[]', 'string[]', 'string[]', 'string', 'string', 'uint'], [productName, provider, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price]);
-        let hashedService = this.state.web3.utils.keccak256(toHash);
+        this.generateHash();
         this.state.contract.methods
-            .storeService(hashedService)
+            .storeService(this.state.service.serviceHash)
             .send({from: this.state.user})
             .then(res => console.log(res))
     };
 
     storeService = () => {
         console.log("sending the data to the db")
-    }
+    };
 
-    validateService = () => {
-        const {productName, provider, blockchainIndex, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price} = this.state.service;
+    generateHash = () => {
+        const {productName, provider, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price} = this.state.service;
         let toHash = this.state.web3.eth.abi.encodeParameters(['string', 'string', 'string', 'string[]', 'string[]', 'string[]', 'string', 'string', 'uint'], [productName, provider, description, region, serviceType, attackType, deploymentTime, leasingPeriod, price]);
         let hashedService = this.state.web3.utils.keccak256(toHash);
-        console.log("hashed Service :", hashedService)
+        this.setState({
+            service: {
+                ...this.state.service,
+                serviceHash: hashedService,
+            }
+        });
+    };
+
+    validateService = () => {
         this.state.contract.methods
-            .verifyService(blockchainIndex, hashedService)
+            .verifyService(this.state.service.serviceHash)
             .call({from: this.state.user})
             .then((result) => {
                 console.log('is valid:', result)
@@ -152,7 +159,7 @@ class MarketplacePage extends Component {
                         <CardHeader title='Add new Protection Service' iconName='plus' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
                         <CardContent>
                             <Form layout="horizontal">
-                                <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 20}}>
+                                <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 25}}>
                                     General Information
                                 </Typography>
                                 <div style={styles.details}>
@@ -181,7 +188,7 @@ class MarketplacePage extends Component {
                                     </FormGroup>
                                 </div>
                                 <hr/>
-                                <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 20}}>
+                                <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 25}}>
                                     Technical Details
                                 </Typography>
                                 <div style={styles.details}>
@@ -211,6 +218,16 @@ class MarketplacePage extends Component {
                                         <InputNumber value={this.state.service.price} onChange={this.handleChange("price")} postfix="USD" style={styles.form}/>
                                     </FormGroup>
                                 </div>
+                                <hr/>
+
+                                <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 20, textAlign: "center"}}>
+                                    Generated Hash
+                                </Typography>
+                                <div style={{display: "flex", justifyContent: "center", marginTop: 25, marginBottom: 40}}>
+                                    <Input style={{width: 585, textAlign: "center"}} value={this.state.service.serviceHash} disabled/>
+                                </div>
+
+
                                 <FormGroup style={{float: 'right', marginBottom: '15px'}}>
                                     <ButtonToolbar>
                                         <Button onClick={this.submitService} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
