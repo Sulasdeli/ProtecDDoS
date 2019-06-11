@@ -11,7 +11,7 @@ import {
     InputNumber,
     InputPicker,
     Input,
-    TagPicker
+    TagPicker, Icon
 } from "rsuite";
 import regions from "../const/regions";
 import serviceTypes from "../const/serviceTypes";
@@ -21,6 +21,7 @@ import leasingPeriods from "../const/leasingPeriods";
 import { Web3Provider } from 'react-web3';
 import Web3 from "web3";
 import DMarketplace from '../abis/build/contracts/DMarketplace'
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 let web3 = window.web3;
 
@@ -75,6 +76,7 @@ class MarketplacePage extends Component {
                 transactionHash: '',
                 serviceHash: ''
             },
+            copied: false,
             user: null,
             web3: web3Instance,
             contract : dMarketplaceContract,
@@ -109,6 +111,7 @@ class MarketplacePage extends Component {
 
     handleChange = name => event => {
         this.setState({
+            copied: false,
             service: {
                 ...this.state.service,
                 [name]: event,
@@ -219,15 +222,24 @@ class MarketplacePage extends Component {
                                     </FormGroup>
                                 </div>
                                 <hr/>
-
                                 <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 20, textAlign: "center"}}>
                                     Generated Hash
                                 </Typography>
-                                <div style={{display: "flex", justifyContent: "center", marginTop: 25, marginBottom: 40}}>
+                                <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginTop: 25, marginBottom: 40}}>
                                     <Input style={{width: 585, textAlign: "center"}} value={this.state.service.serviceHash} disabled/>
+                                    <div style={{marginLeft: 10, width: 50}}>
+                                        {!this.state.copied ? (
+                                            <CopyToClipboard text={this.state.service.serviceHash}
+                                                             onCopy={() => this.setState({copied: true})}>
+                                                <Icon icon={'copy-o'}/>
+                                            </CopyToClipboard>
+                                        ): (
+                                            <div>
+                                                <span>Copied!</span>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-
-
                                 <FormGroup style={{float: 'right', marginBottom: '15px'}}>
                                     <ButtonToolbar>
                                         <Button onClick={this.submitService} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
