@@ -163,7 +163,7 @@ class MarketplacePage extends Component {
         })
             .then(res => res.json())
             .then(jsonResponse => {
-                console.log(jsonResponse)
+                // TODO show spinner
             })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {

@@ -47,7 +47,6 @@ def upload_service():
         new_service = Provider().form_to_obj(request.form, file)
 
         with app.app_context():
-            print(new_service.imageName)
             with open(f"static/images/{new_service.imageName}", 'rb') as f:
                 new_service.image.from_file(f)
             db.session.add(new_service)
