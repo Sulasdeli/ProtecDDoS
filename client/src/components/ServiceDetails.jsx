@@ -9,6 +9,7 @@ import ServiceTypography from "../views/ServiceTypography";
 import FeatureTable from "../views/FeatureTable";
 import Reviews from "../views/Reviews";
 import AddReviewModal from "../views/AddReviewModal";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 
 const Container = styled.div`
     width: 1200px;
@@ -28,7 +29,8 @@ class ServiceDetails extends Component {
         this.state = {
             service: null,
             isLoading: false,
-            show: false
+            show: false,
+            copied: false
         };
     }
 
@@ -58,7 +60,6 @@ class ServiceDetails extends Component {
         fetch(`${getDomain()}/v1/providers/${this.props.match.params.id}`)
             .then(res => res.json())
             .then(jsonResponse => {
-
                 this.setState({
                     ...this.state,
                     service: jsonResponse,
@@ -92,6 +93,10 @@ class ServiceDetails extends Component {
         })
     };
 
+    handleCopyToClipboard = () => {
+        this.setState({copied: true});
+        setTimeout(()=> this.setState({copied: false}), 1500)
+    };
 
     render() {
         return (
@@ -120,16 +125,46 @@ class ServiceDetails extends Component {
                                                 <ServiceTypography characteristic={"Price"} text={this.state.service.price + ' ' +this.state.service.currency}/>
                                             </div>
                                         </div>
-                                        <span style={{fontWeight: "bold"}}>
-                                        Service Hash: {this.state.service.serviceHash}
-                                        </span>
-                                        <span style={{fontWeight: "bold"}}>
-                                        Transaction Hash: {this.state.service.txHash}
-                                        </span>
-                                        <Divider/>
-                                        <Typography variant="h4" style={{fontWeight: 'bold'}}>
-                                            Features
-                                        </Typography>
+
+                                        <div style={{marginTop: 15}}>
+                                            {!this.state.service.txHash && !this.state.service.serviceHash ? (
+                                                <div style={{color: '#ffa500'}}>
+                                                    <Icon icon={'exclamation-circle2'} size={"lg"}/>
+                                                    <span style={{fontWeight: 'bold', fontSize: 16, marginLeft: 5}}>Service not stored on the Blockchain</span>
+                                                </div>
+                                            ) : (
+                                                <div>
+                                                    <div>
+                                                        <h6 style={{fontWeight: 'bold', fontSize: 18, color: '#2b2828'}}>Service Hash</h6>
+                                                        <div style={{display: 'flex', alignItems: 'center'}}>
+                                                            <Typography component="p" align="justify" color="textSecondary" style={{fontSize: 17, fontWeight: 'bold'}}>
+                                                                {this.state.service.serviceHash}
+                                                            </Typography>
+                                                            <div style={{marginLeft: 10, width: 50}}>
+                                                                {!this.state.copied ? (
+                                                                    <CopyToClipboard text={this.state.service.serviceHash}
+                                                                                     onCopy={this.handleCopyToClipboard}>
+                                                                        <Icon icon={'copy-o'}/>
+                                                                    </CopyToClipboard>
+                                                                ): (
+                                                                    <span>Copied!</span>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <h6 style={{fontWeight: 'bold', fontSize: 18, color: '#2b2828'}}>Transaction Hash</h6>
+                                                        <Typography component="p" align="justify" color="textSecondary" style={{fontSize: 17}}>
+                                                            <a href={`https://rinkeby.etherscan.io/tx/${this.state.service.txHash}`} target="_blank">{this.state.service.txHash}</a>
+                                                        </Typography>
+                                                        <Divider/>
+                                                        <Typography variant="h4" style={{fontWeight: 'bold'}}>
+                                                            Features
+                                                        </Typography>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                         <hr/>
                                         <FeatureTable protectionFeatures={this.state.service.features}/>
                                         <Divider/>

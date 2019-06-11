@@ -111,7 +111,6 @@ class MarketplacePage extends Component {
 
     handleChange = name => event => {
         this.setState({
-            copied: false,
             service: {
                 ...this.state.service,
                 [name]: event,
@@ -154,11 +153,16 @@ class MarketplacePage extends Component {
             });
     };
 
+    handleCopyToClipboard = () => {
+        this.setState({copied: true});
+        setTimeout(()=> this.setState({copied: false}), 1500)
+    };
+
     render() {
         return (
             <Web3Provider onChangeAccount={()=>{window.location.reload()}}>
                 <div style={{marginTop: 45}}>
-                    <Card style={{borderRadius: "10px 10px 10px 10px", marginBottom: 45}}>
+                    <Card style={{borderRadius: "10px 10px 10px 10px", marginBottom: 80}}>
                         <CardHeader title='Add new Protection Service' iconName='plus' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
                         <CardContent>
                             <Form layout="horizontal">
@@ -230,13 +234,11 @@ class MarketplacePage extends Component {
                                     <div style={{marginLeft: 10, width: 50}}>
                                         {!this.state.copied ? (
                                             <CopyToClipboard text={this.state.service.serviceHash}
-                                                             onCopy={() => this.setState({copied: true})}>
+                                                             onCopy={this.handleCopyToClipboard}>
                                                 <Icon icon={'copy-o'}/>
                                             </CopyToClipboard>
                                         ): (
-                                            <div>
-                                                <span>Copied!</span>
-                                            </div>
+                                            <span>Copied!</span>
                                         )}
                                     </div>
                                 </div>
