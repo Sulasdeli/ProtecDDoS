@@ -4,15 +4,19 @@ import {Alert} from "rsuite";
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import {registerPlugin} from "filepond";
 registerPlugin(FilePondPluginFileValidateType);
-const FileUploader = ({handleFile, handleFileContent}) => {
+const FileUploader = ({handleFile, handleFileContent, fileType, acceptedFiles}) => {
 
     const handleFileRead = (e) => {
         const content = fileReader.result;
         if (content) {
-            try {
-                handleFileContent(JSON.parse(content));
-            } catch (err) {
-                Alert.error("Uploaded File is not a valid Log File");
+            if (fileType === 'logo') {
+                handleFileContent(content);
+            } else {
+                try {
+                    handleFileContent(JSON.parse(content));
+                } catch (err) {
+                    Alert.error("Uploaded File is not a valid Log File");
+                }
             }
         }
     };
@@ -22,7 +26,11 @@ const FileUploader = ({handleFile, handleFileContent}) => {
         if (file[0]) {
             fileReader = new FileReader();
             fileReader.onloadend = handleFileRead;
-            fileReader.readAsText(file[0].file);
+            if (fileType === 'logo') {
+                fileReader.readAsText(file[0].file);
+            } else {
+                fileReader.readAsText(file[0].file);
+            }
             handleFile(file[0].file)
         } else {
             handleFile(null);
@@ -32,7 +40,7 @@ const FileUploader = ({handleFile, handleFileContent}) => {
 
     return (
         <FilePond
-            acceptedFileTypes = {['application/json']}
+            acceptedFileTypes={acceptedFiles}
             allowMultiple={false}
             onupdatefiles={(files) => {
                 handleFileChosen(files)

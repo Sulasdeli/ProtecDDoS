@@ -34,7 +34,7 @@ class SideBar extends Component {
                                 </Nav.Item>
                                 <Dropdown title="Marketplace" icon={<Icon icon="suitcase" />}>
                                     <Dropdown.Item componentClass={Link} to='/marketplace'> <Icon icon="plus" />Add new Service</Dropdown.Item>
-                                    <Dropdown.Item componentClass={Link} to='/marketplace'> <Icon icon="check-circle" />Verify</Dropdown.Item>
+                                    <Dropdown.Item componentClass={Link} to='/marketplace/verify'> <Icon icon="check-circle" />Verify</Dropdown.Item>
                                 </Dropdown>
                             </Nav>
                         </Sidenav.Body>

@@ -39,6 +39,8 @@ class Provider(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     providerName = db.Column(db.String(100), nullable=False)
+    serviceHash = db.Column(db.String(100))
+    txHash = db.Column(db.String(100))
     serviceName = db.Column(db.String(100), nullable=False)
     image = image_attachment('ProviderImage')
     imageName = db.Column(db.String(30), default='default.png')
@@ -49,7 +51,7 @@ class Provider(db.Model):
     deployment = db.Column(db.Text, nullable=False)
     leasingPeriod = db.Column(db.Text, nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    currency = db.Column(db.Text, nullable=False)
+    currency = db.Column(db.Text, nullable=False, default='USD')
     reviews = db.relationship('Review', backref="provider", lazy='dynamic')
     __tablename__ = 'provider'
 
@@ -59,6 +61,8 @@ class Provider(db.Model):
             'id': self.id,
             'providerName': self.providerName,
             'serviceName': self.serviceName,
+            'serviceHash': self.serviceHash,
+            'txHash': self.txHash,
             'image': self.image.locate(),
             'description': self.description,
             'type': self.type,
@@ -77,8 +81,39 @@ class Provider(db.Model):
             'weightedSimilarity': weighted_similarity
         }
 
+    def json_to_obj(self, json):
+        self.providerName = json["provider"]
+        self.serviceName = json["productName"]
+        self.description = json["description"]
+        self.image = json["logo"]
+        self.imageName = json["fileName"]
+        self.region = json["region"]
+        self.type = json["serviceType"]
+        self.features = json["attackType"]
+        self.deployment = json["deploymentTime"]
+        self.leasingPeriod = json["leasingPeriod"]
+        self.price = json["price"]
+        self.txHash = json["txHash"]
+        self.serviceHash = json["serviceHash"]
+        return self
+
+    def form_to_obj(self, form, file):
+        self.providerName = form["provider"]
+        self.serviceName = form["productName"]
+        self.description = form["description"]
+        self.imageName = file.filename
+        self.region = form["region"].split()
+        self.type = form["serviceType"].split()
+        self.features = form["attackType"].split()
+        self.deployment = form["deploymentTime"]
+        self.leasingPeriod = form["leasingPeriod"]
+        self.price = form["price"]
+        self.txHash = form["txHash"]
+        self.serviceHash = form["serviceHash"]
+        return self
+
     def __repr__(self):
-        return f"Provider('{self.serviceName}', '{self.type}', '{self.region}', '{self.price}', '{self.currency}')"
+        return f"Provider('{self.serviceName}', '{self.type}', '{self.region}', '{self.price}', '{self.currency}', '{self.txHash}', '{self.serviceHash}')"
 
 
 class ProviderImage(db.Model, Image):
@@ -139,6 +174,7 @@ class CustomerProfile(db.Model):
 
 def load_data(app, db):
     service1 = Provider(providerName='Akamai', serviceName='Kona Site Defender',
+                        serviceHash='', txHash='',
                         imageName='akamai.png',
                         description='Kona Site Defender combines automated DDoS mitigation with a highly '
                                     'scalable and accurate WAF to protect websites from a wide range of online threats,'
@@ -152,6 +188,7 @@ def load_data(app, db):
 
 
     service2 = Provider(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
+                        serviceHash='', txHash='',
                         imageName='cloudflare.png',
                         description='Cloudflare’s advanced DDoS protection, provisioned as a service at the network '
                                     'edge, matches the sophistication and scale of such threats, and can be used to '
@@ -162,6 +199,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=4900, currency='USD')
 
     service3 = Provider(providerName='Imperva', serviceName='Incapsula',
+                        serviceHash='', txHash='',
                         imageName='imperva.svg',
                         description='The Imperva Incapsula service delivers a multi-faceted approach to DDoS defense, '
                                     'providing blanket protection from all DDoS attacks to shield your critical '
@@ -173,6 +211,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=4500, currency='USD')
 
     service4 = Provider(providerName='Verisign', serviceName='Verisign DDoS Protection Service',
+                        serviceHash='', txHash='',
                         imageName='verisign.png',
                         description='Verisign DDoS Protection Services help organisations reduce the risk of '
                                     'catastrophic DDoS attacks by detecting and filtering malicious traffic aimed at '
@@ -184,6 +223,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=3700, currency='USD')
 
     service5 = Provider(providerName='Arbor Networks', serviceName='Arbor Cloud',
+                        serviceHash='', txHash='',
                         imageName='arbor.png',
                         description='Arbor Cloud is a DDoS service powered by the world’s leading experts in DDoS '
                                     'mitigation, together with the most widely deployed DDoS protection technology',
@@ -192,6 +232,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=3000, currency='USD')
 
     service6 = Provider(providerName='Check Point Software Technologies', serviceName='DDos Protector',
+                        serviceHash='', txHash='',
                         imageName='checkPoint.png',
                         description='Check Point DDoS Protector™Appliances block Denial of Service attacks within '
                                     'seconds with multi-layered protection and up to 40 Gbps of performance. Modern '
@@ -205,6 +246,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=2400, currency='USD')
 
     service7 = Provider(providerName='Corero Network Security, Inc.', serviceName='SmartWall® Threat Defense System',
+                        serviceHash='', txHash='',
                         imageName='corero.png',
                         description='The Corero SmartWall Threat Defense System (TDS) delivers comprehensive DDoS '
                                     'protection, eliminating attacks automatically and in real-time.The SmartWall '
@@ -218,6 +260,7 @@ def load_data(app, db):
                         leasingPeriod='MINUTES', price=3200, currency='USD')
 
     service8 = Provider(providerName='Flowmon Networks', serviceName='Flowmon DDoS Defender',
+                        serviceHash='', txHash='',
                         imageName='flowmon.png',
                         description='Flowmon DDoS Defender puts advanced artificial intelligence between your critical '
                                     'systems and criminals. Without any changes in infrastructure, in a matter of '
@@ -228,6 +271,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=2345, currency='USD')
 
     service9 = Provider(providerName='Level 3 Communications', serviceName='Level 3 DDos Mitigation',
+                        serviceHash='0x2986e65b3fe5edb46392c2685c7f45ef50b6d653781d7c1d6b12c06c920b81b3', txHash='0x2986e65b3fe5edb46392c2685c7f45ef50b6d653781d7c1d6b12c06c920b81b3',
                         imageName='level3.png',
                         description='Level 3 provides layers of defense through enhanced network routing, rate '
                                     'limiting and filtering that can be paired with advanced network-based detection '
@@ -241,6 +285,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=1200, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
+                         serviceHash='', txHash='',
                          imageName='f5.png',
                          description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
                                     ' (network, DNS, SSL, and HTTP) against distributed denial-of-service attacks. '

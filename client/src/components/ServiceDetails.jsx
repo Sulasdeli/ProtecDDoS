@@ -57,7 +57,7 @@ class ServiceDetails extends Component {
             isLoading: true
         });
 
-        fetch(`${getDomain()}/v1/providers/${this.props.match.params.id}`)
+        fetch(`${getDomain()}/v1/services/${this.props.match.params.id}`)
             .then(res => res.json())
             .then(jsonResponse => {
                 this.setState({
@@ -155,7 +155,7 @@ class ServiceDetails extends Component {
                                                     <div>
                                                         <h6 style={{fontWeight: 'bold', fontSize: 18, color: '#2b2828'}}>Transaction Hash</h6>
                                                         <Typography component="p" align="justify" color="textSecondary" style={{fontSize: 17}}>
-                                                            <a href={`https://rinkeby.etherscan.io/tx/${this.state.service.txHash}`} target="_blank">{this.state.service.txHash}</a>
+                                                            <a href={`https://rinkeby.etherscan.io/tx/${this.state.service.txHash}`} target="_blank" rel="noopener noreferrer">{this.state.service.txHash}</a>
                                                         </Typography>
                                                         <Divider/>
                                                         <Typography variant="h4" style={{fontWeight: 'bold'}}>

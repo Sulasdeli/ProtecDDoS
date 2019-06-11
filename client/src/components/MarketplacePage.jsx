@@ -11,7 +11,7 @@ import {
     InputNumber,
     InputPicker,
     Input,
-    TagPicker, Icon
+    TagPicker, Icon, Alert
 } from "rsuite";
 import regions from "../const/regions";
 import serviceTypes from "../const/serviceTypes";
@@ -22,6 +22,13 @@ import { Web3Provider } from 'react-web3';
 import Web3 from "web3";
 import DMarketplace from '../abis/build/contracts/DMarketplace'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
+import {getDomain} from "../helpers/getDomain";
+import { registerPlugin } from "react-filepond";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import FileUploader from "../views/FileUploader";
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 let web3 = window.web3;
 
@@ -64,6 +71,8 @@ class MarketplacePage extends Component {
 
         this.state = {
             service: {
+                imageContent: '',
+                logo: null,
                 productName: "new product",
                 provider: "Provider's name",
                 description: "this is a description",
@@ -73,7 +82,7 @@ class MarketplacePage extends Component {
                 deploymentTime: 'SECONDS',
                 leasingPeriod: 'DAYS',
                 price: 2400,
-                transactionHash: '',
+                txHash: '',
                 serviceHash: ''
             },
             copied: false,
@@ -85,14 +94,18 @@ class MarketplacePage extends Component {
 
     componentDidMount() {
         this.getUser();
-
-        // calculate the initial hash
+        // calculate the default hash
         this.generateHash();
-
         // Listen for event
         const addEvent = this.state.contract.events.ServiceAdded();
         addEvent.on('data', (res) => {
-            console.log(res)
+            this.setState({
+                service: {
+                    ...this.state.service,
+                    txHash: res.transactionHash
+                }
+            });
+            this.sendService()
         });
     }
 
@@ -116,7 +129,6 @@ class MarketplacePage extends Component {
                 [name]: event,
             }
         });
-
         setTimeout( () => this.generateHash(), 0)
     };
 
@@ -125,11 +137,41 @@ class MarketplacePage extends Component {
         this.state.contract.methods
             .storeService(this.state.service.serviceHash)
             .send({from: this.state.user})
-            .then(res => console.log(res))
     };
 
-    storeService = () => {
-        console.log("sending the data to the db")
+    sendService = () => {
+        let data = new FormData();
+        data.append('file', this.state.service.logo);
+        data.append('productName', this.state.service.productName);
+        data.append('provider', this.state.service.provider);
+        data.append('description', this.state.service.description);
+        data.append('region', this.state.service.region);
+        data.append('serviceType', this.state.service.serviceType);
+        data.append('attackType', this.state.service.attackType);
+        data.append('deploymentTime', this.state.service.deploymentTime);
+        data.append('leasingPeriod', this.state.service.leasingPeriod);
+        data.append('price', this.state.service.price);
+        data.append('txHash', this.state.service.txHash);
+        data.append('serviceHash', this.state.service.serviceHash);
+
+        fetch(`${getDomain()}/v1/services`, {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+            },
+            body: data
+        })
+            .then(res => res.json())
+            .then(jsonResponse => {
+                console.log(jsonResponse)
+            })
+            .catch(err => {
+                if (err.message.match(/Failed to fetch/)) {
+                    Alert.error('The server cannot be reached');
+                } else {
+                    Alert.error( err.message);
+                }
+            });
     };
 
     generateHash = () => {
@@ -142,15 +184,6 @@ class MarketplacePage extends Component {
                 serviceHash: hashedService,
             }
         });
-    };
-
-    validateService = () => {
-        this.state.contract.methods
-            .verifyService(this.state.service.serviceHash)
-            .call({from: this.state.user})
-            .then((result) => {
-                console.log('is valid:', result)
-            });
     };
 
     handleCopyToClipboard = () => {
@@ -170,6 +203,10 @@ class MarketplacePage extends Component {
                                     General Information
                                 </Typography>
                                 <div style={styles.details}>
+                                    <FormGroup>
+                                        <ControlLabel>Logo</ControlLabel>
+                                        <FileUploader handleFile={this.handleChange('logo')} handleFileContent={this.handleChange('imageContent')} fileType={'logo'} acceptedFiles={['image/png', 'image/jpeg']}/>
+                                    </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>Product Name</ControlLabel>
                                         <Input
@@ -245,9 +282,6 @@ class MarketplacePage extends Component {
                                 <FormGroup style={{float: 'right', marginBottom: '15px'}}>
                                     <ButtonToolbar>
                                         <Button onClick={this.submitService} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
-                                    </ButtonToolbar>
-                                    <ButtonToolbar>
-                                        <Button onClick={this.validateService} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>VALIDATE</Button>
                                     </ButtonToolbar>
                                 </FormGroup>
                             </Form>

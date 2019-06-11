@@ -78,7 +78,7 @@ class AddReviewModal extends Component {
                         Attack Log File
                     </Typography>
                     <hr/>
-                        <FileUploader handleFile={this.handleChange('uploadedFile')} handleFileContent={this.handleChange('fileContent')}/>
+                        <FileUploader handleFile={this.handleChange('uploadedFile')} handleFileContent={this.handleChange('fileContent')} acceptedFiles={['application/json']}/>
                         {this.state.fileContent !== null ? (
                                 <div style={{overflow: 'scroll', maxHeight: 350, marginBottom: 30}}>
                                     <ReactJson displayDataTypes={false} name={'LogFile'} enableClipboard={false} src={this.state.fileContent}/>

@@ -16,7 +16,7 @@ contract DMarketplace {
     );
 
     function storeService(string memory serviceHash) public {
-        //require(services[msg.sender] == '', 'User can only upload one service');
+        //require(services[serviceHash] == '', 'Service is already stored');
         services[serviceHash] = true;
         emit ServiceAdded(serviceHash);
     }
