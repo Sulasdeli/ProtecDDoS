@@ -37,24 +37,28 @@ def get_service(id):
 
 @app.route("/v1/services", methods=['POST'])
 def upload_service():
+    # Avoid duplicate
+    if Provider.query.filter_by(serviceHash=request.form['serviceHash']).scalar() is None:
+        # Store logo locally
+        if request.files['file']:
+            file = request.files['file']
+            file.save(os.path.join('static/images', file.filename))
 
-    # Store logo locally
-    if request.files['file']:
-        file = request.files['file']
-        file.save(os.path.join('static/images', file.filename))
+            # Map Json request to model
+            new_service = Provider().form_to_obj(request.form, file)
 
-        # Map Json request to model
-        new_service = Provider().form_to_obj(request.form, file)
+            with app.app_context():
+                with open(f"static/images/{new_service.imageName}", 'rb') as f:
+                    new_service.image.from_file(f)
+                db.session.add(new_service)
+                db.session.commit()
+                db.session.refresh(new_service)
+                db.session.close()
 
-        with app.app_context():
-            with open(f"static/images/{new_service.imageName}", 'rb') as f:
-                new_service.image.from_file(f)
-            db.session.add(new_service)
-            db.session.commit()
-            db.session.refresh(new_service)
-            db.session.close()
+            return jsonify("Service stored successfully")
 
-    return jsonify("done")
+    else:
+        return jsonify("Service is already stored into the DB")
 
 
 

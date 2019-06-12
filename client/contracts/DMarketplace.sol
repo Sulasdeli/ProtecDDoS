@@ -17,7 +17,8 @@ contract DMarketplace {
 
     // Events
     event ServiceAdded(
-        string serviceHash
+        string serviceHash,
+        address provider
     );
 
     function storeService(string memory serviceHash) public {
@@ -27,10 +28,10 @@ contract DMarketplace {
         if (servicesToProvider[serviceHash] == address(0)) {
             servicesToProvider[serviceHash] = msg.sender;
         }
-        emit ServiceAdded(serviceHash);
+        emit ServiceAdded(serviceHash, msg.sender);
     }
 
-    function verifyService(string memory hashToVerify) public view returns (bool, bool){
+    function verifyService(string memory hashToVerify) public view returns (bool isServiceValid, bool isProviderVerified){
         return (services[hashToVerify], providerToVerified[servicesToProvider[hashToVerify]]);
     }
 
@@ -39,5 +40,4 @@ contract DMarketplace {
         require(providerToVerified[provider] == false, 'Provider is already verified');
         providerToVerified[provider] = true;
     }
-
 }

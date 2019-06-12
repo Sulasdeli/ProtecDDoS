@@ -99,7 +99,9 @@ class MarketplacePage extends Component {
         // Listen for event
         const addEvent = this.state.contract.events.ServiceAdded();
         addEvent.on('data', (res) => {
-            Alert.info('New Service added with txHash:', res.txHash)
+            if (this.state.user && this.state.user !== res.returnValues.provider) {
+                Alert.info('A User has submitted a service!')
+            }
         });
     }
 
@@ -172,7 +174,7 @@ class MarketplacePage extends Component {
         })
             .then(res => res.json())
             .then(jsonResponse => {
-                // TODO show spinner
+                jsonResponse === 'Service stored successfully' ? Alert.success(jsonResponse) : Alert.error(jsonResponse)
             })
             .catch(err => {
                 if (err.message.match(/Failed to fetch/)) {
