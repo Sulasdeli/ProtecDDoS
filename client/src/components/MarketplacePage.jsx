@@ -20,7 +20,7 @@ import deploymentTimes from "../const/deploymentTimes";
 import leasingPeriods from "../const/leasingPeriods";
 import { Web3Provider } from 'react-web3';
 import Web3 from "web3";
-import DMarketplace from '../abis/build/contracts/DMarketplace'
+import DMarketplace from '../../build/contracts/DMarketplace'
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import {getDomain} from "../helpers/getDomain";
 import { registerPlugin } from "react-filepond";
@@ -99,13 +99,7 @@ class MarketplacePage extends Component {
         // Listen for event
         const addEvent = this.state.contract.events.ServiceAdded();
         addEvent.on('data', (res) => {
-            this.setState({
-                service: {
-                    ...this.state.service,
-                    txHash: res.transactionHash
-                }
-            });
-            this.sendService()
+            Alert.info('New Service added with txHash:', res.txHash)
         });
     }
 
@@ -137,6 +131,21 @@ class MarketplacePage extends Component {
         this.state.contract.methods
             .storeService(this.state.service.serviceHash)
             .send({from: this.state.user})
+            .on('transactionHash', (txHash) => {
+                this.setState({
+                    service: {
+                        ...this.state.service,
+                        txHash: txHash
+                    }
+                });
+                this.sendService()
+            })
+            .on('confirmation', (confirmationNumber) => {
+                console.log("CONF Block:", confirmationNumber)
+            })
+            .on('receipt', (receipt) => {
+                console.log("Receipt:", receipt)
+            });
     };
 
     sendService = () => {
@@ -205,7 +214,7 @@ class MarketplacePage extends Component {
                                 <div style={styles.details}>
                                     <FormGroup>
                                         <ControlLabel>Logo</ControlLabel>
-                                        <FileUploader handleFile={this.handleChange('logo')} handleFileContent={this.handleChange('imageContent')} fileType={'logo'} acceptedFiles={['image/png', 'image/jpeg']}/>
+                                        <FileUploader handleFile={this.handleChange('logo')} handleFileContent={this.handleChange('imageContent')} fileType={'logo'} acceptedFiles={['image/png', 'image/jpeg']} label={'Drag & Drop an image or <span class="filepond--label-action">Browse</span>'}/>
                                     </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>Product Name</ControlLabel>

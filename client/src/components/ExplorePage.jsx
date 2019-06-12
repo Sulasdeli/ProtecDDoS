@@ -198,7 +198,7 @@ class ExplorePage extends Component {
                                         <ControlLabel>Attack Type(s)</ControlLabel>
                                         <TagPicker data={attackTypes} creatable value={this.state.userProfile.attackType} onChange={this.handleChange("attackType")} style={{width: 395, marginRight: 10}}/>
                                         <div style={{width: 120}}>
-                                            <FileUploader handleFile={() => null} handleFileContent={this.parseAttackType}/>
+                                            <FileUploader handleFile={() => null} handleFileContent={this.parseAttackType} acceptedFiles={['application/json']} label={'Drag & Drop a JSON file or <span class="filepond--label-action">Browse</span>'}/>
                                         </div>
                                         <HelpBlock placement="topRight" tooltip>You can import an Attack Type by uploading a Log File</HelpBlock>
                                     </FormGroup>

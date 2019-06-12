@@ -4,7 +4,7 @@ import {Alert} from "rsuite";
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import {registerPlugin} from "filepond";
 registerPlugin(FilePondPluginFileValidateType);
-const FileUploader = ({handleFile, handleFileContent, fileType, acceptedFiles}) => {
+const FileUploader = ({handleFile, handleFileContent, fileType, acceptedFiles, label}) => {
 
     const handleFileRead = (e) => {
         const content = fileReader.result;
@@ -26,11 +26,7 @@ const FileUploader = ({handleFile, handleFileContent, fileType, acceptedFiles}) 
         if (file[0]) {
             fileReader = new FileReader();
             fileReader.onloadend = handleFileRead;
-            if (fileType === 'logo') {
-                fileReader.readAsText(file[0].file);
-            } else {
-                fileReader.readAsText(file[0].file);
-            }
+            fileReader.readAsText(file[0].file);
             handleFile(file[0].file)
         } else {
             handleFile(null);
@@ -45,7 +41,7 @@ const FileUploader = ({handleFile, handleFileContent, fileType, acceptedFiles}) 
             onupdatefiles={(files) => {
                 handleFileChosen(files)
             }}
-            labelIdle='Drag & Drop a JSON file or <span class="filepond--label-action">Browse</span>'
+            labelIdle={label}
         />
     );
 };

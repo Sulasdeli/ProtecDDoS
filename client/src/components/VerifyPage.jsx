@@ -7,7 +7,7 @@ import {
 import CardHeader from "../views/CardHeader";
 import {Card, CardContent, Typography} from "@material-ui/core";
 import Web3 from "web3";
-import DMarketplace from "../abis/build/contracts/DMarketplace";
+import DMarketplace from "../../build/contracts/DMarketplace";
 
 let web3 = window.web3;
 
