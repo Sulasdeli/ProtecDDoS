@@ -210,13 +210,15 @@ class MarketplacePage extends Component {
                         <CardHeader title='Add new Protection Service' iconName='plus' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
                         <CardContent>
                             <Form layout="horizontal">
-                                <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 25}}>
+                                <Typography variant="h5" style={{fontWeight: 'bold', fontSize: 25, marginTop: 12}}>
                                     General Information
                                 </Typography>
                                 <div style={styles.details}>
                                     <FormGroup>
                                         <ControlLabel>Logo</ControlLabel>
-                                        <FileUploader handleFile={this.handleChange('logo')} handleFileContent={this.handleChange('imageContent')} fileType={'logo'} acceptedFiles={['image/png', 'image/jpeg']} label={'Drag & Drop an image or <span class="filepond--label-action">Browse</span>'}/>
+                                        <div style={{width: 707}}>
+                                            <FileUploader handleFile={this.handleChange('logo')} handleFileContent={this.handleChange('imageContent')} fileType={'logo'} acceptedFiles={['image/png', 'image/jpeg']} label={'Drag & Drop an image or <span class="filepond--label-action">Browse</span>'}/>
+                                        </div>
                                     </FormGroup>
                                     <FormGroup>
                                         <ControlLabel>Product Name</ControlLabel>
@@ -279,20 +281,20 @@ class MarketplacePage extends Component {
                                 </Typography>
                                 <div style={{display: "flex", justifyContent: "center", alignItems: "center", marginTop: 25, marginBottom: 40}}>
                                     <Input style={{width: 585, textAlign: "center"}} value={this.state.service.serviceHash} disabled/>
-                                    <div style={{marginLeft: 10, width: 50}}>
+                                    <div style={{marginLeft: 15, width: 50}}>
                                         {!this.state.copied ? (
                                             <CopyToClipboard text={this.state.service.serviceHash}
                                                              onCopy={this.handleCopyToClipboard}>
-                                                <Icon icon={'copy-o'}/>
+                                                <Icon icon={'copy-o'} size={"lg"}/>
                                             </CopyToClipboard>
                                         ): (
-                                            <span>Copied!</span>
+                                            <span style={{fontSize: 17}}>Copied!</span>
                                         )}
                                     </div>
                                 </div>
                                 <FormGroup style={{float: 'right', marginBottom: '15px'}}>
                                     <ButtonToolbar>
-                                        <Button onClick={this.submitService} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)'}} appearance='primary'>Submit</Button>
+                                        <Button onClick={this.submitService} style={{background: 'linear-gradient(60deg, #66bb6a, #43a047)', fontSize: 17}} appearance='primary'>Submit</Button>
                                     </ButtonToolbar>
                                 </FormGroup>
                             </Form>

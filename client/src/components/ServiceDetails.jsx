@@ -81,7 +81,7 @@ class ServiceDetails extends Component {
                     Alert.error( err.message);
                 }
             });
-    }
+    };
 
     // append the new review to the Service
     updateService = (newReview) => {
@@ -127,10 +127,10 @@ class ServiceDetails extends Component {
                                         </div>
 
                                         <div style={{marginTop: 15}}>
-                                            {!this.state.service.txHash && !this.state.service.serviceHash ? (
-                                                <div style={{color: '#ffa500'}}>
-                                                    <Icon icon={'exclamation-circle2'} size={"lg"}/>
-                                                    <span style={{fontWeight: 'bold', fontSize: 16, marginLeft: 5}}>Service not stored on the Blockchain</span>
+                                            {!this.state.service.txHash || !this.state.service.serviceHash ? (
+                                                <div style={{color: '#ffa500', marginTop: 25}}>
+                                                    <Icon icon={'exclamation-circle2'} size={"2x"}/>
+                                                    <span style={{fontWeight: 'bold', fontSize: 20, marginLeft: 7}}>Service not stored on the Blockchain</span>
                                                 </div>
                                             ) : (
                                                 <div>
@@ -155,7 +155,7 @@ class ServiceDetails extends Component {
                                                     <div>
                                                         <h6 style={{fontWeight: 'bold', fontSize: 18, color: '#2b2828'}}>Transaction Hash</h6>
                                                         <Typography component="p" align="justify" color="textSecondary" style={{fontSize: 17}}>
-                                                            <a href={`https://rinkeby.etherscan.io/tx/${this.state.service.txHash}`} target="_blank" rel="noopener noreferrer">{this.state.service.txHash}</a>
+                                                            <a href={`https://ropsten.etherscan.io/tx/${this.state.service.txHash}`} target="_blank" rel="noopener noreferrer">{this.state.service.txHash}</a>
                                                         </Typography>
                                                         <Divider/>
                                                         <Typography variant="h4" style={{fontWeight: 'bold'}}>

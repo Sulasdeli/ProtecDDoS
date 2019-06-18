@@ -174,7 +174,7 @@ class CustomerProfile(db.Model):
 
 def load_data(app, db):
     service1 = Provider(providerName='Akamai', serviceName='Kona Site Defender',
-                        serviceHash='hash1', txHash='',
+                        serviceHash='hash1',
                         imageName='akamai.png',
                         description='Kona Site Defender combines automated DDoS mitigation with a highly '
                                     'scalable and accurate WAF to protect websites from a wide range of online threats,'
@@ -186,9 +186,8 @@ def load_data(app, db):
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
                         leasingPeriod='MINUTES', price=3500, currency='USD')
 
-
     service2 = Provider(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
-                        serviceHash='hash2', txHash='',
+                        serviceHash='hash2',
                         imageName='cloudflare.png',
                         description='Cloudflare’s advanced DDoS protection, provisioned as a service at the network '
                                     'edge, matches the sophistication and scale of such threats, and can be used to '
@@ -199,7 +198,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=4900, currency='USD')
 
     service3 = Provider(providerName='Imperva', serviceName='Incapsula',
-                        serviceHash='hash3', txHash='',
+                        serviceHash='hash3',
                         imageName='imperva.svg',
                         description='The Imperva Incapsula service delivers a multi-faceted approach to DDoS defense, '
                                     'providing blanket protection from all DDoS attacks to shield your critical '
@@ -211,7 +210,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=4500, currency='USD')
 
     service4 = Provider(providerName='Verisign', serviceName='Verisign DDoS Protection Service',
-                        serviceHash='hash4', txHash='',
+                        serviceHash='hash4',
                         imageName='verisign.png',
                         description='Verisign DDoS Protection Services help organisations reduce the risk of '
                                     'catastrophic DDoS attacks by detecting and filtering malicious traffic aimed at '
@@ -223,7 +222,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=3700, currency='USD')
 
     service5 = Provider(providerName='Arbor Networks', serviceName='Arbor Cloud',
-                        serviceHash='hash5', txHash='',
+                        serviceHash='hash5',
                         imageName='arbor.png',
                         description='Arbor Cloud is a DDoS service powered by the world’s leading experts in DDoS '
                                     'mitigation, together with the most widely deployed DDoS protection technology',
@@ -232,7 +231,7 @@ def load_data(app, db):
                         leasingPeriod='MONTHS', price=3000, currency='USD')
 
     service6 = Provider(providerName='Check Point Software Technologies', serviceName='DDos Protector',
-                        serviceHash='hash6', txHash='',
+                        serviceHash='hash6',
                         imageName='checkPoint.png',
                         description='Check Point DDoS Protector™Appliances block Denial of Service attacks within '
                                     'seconds with multi-layered protection and up to 40 Gbps of performance. Modern '
@@ -246,7 +245,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=2400, currency='USD')
 
     service7 = Provider(providerName='Corero Network Security, Inc.', serviceName='SmartWall® Threat Defense System',
-                        serviceHash='hash7', txHash='',
+                        serviceHash='hash7',
                         imageName='corero.png',
                         description='The Corero SmartWall Threat Defense System (TDS) delivers comprehensive DDoS '
                                     'protection, eliminating attacks automatically and in real-time.The SmartWall '
@@ -260,7 +259,7 @@ def load_data(app, db):
                         leasingPeriod='MINUTES', price=3200, currency='USD')
 
     service8 = Provider(providerName='Flowmon Networks', serviceName='Flowmon DDoS Defender',
-                        serviceHash='hash8', txHash='',
+                        serviceHash='hash8',
                         imageName='flowmon.png',
                         description='Flowmon DDoS Defender puts advanced artificial intelligence between your critical '
                                     'systems and criminals. Without any changes in infrastructure, in a matter of '
@@ -285,7 +284,7 @@ def load_data(app, db):
                         leasingPeriod='DAYS', price=1200, currency='USD')
 
     service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
-                         serviceHash='hash9', txHash='',
+                         serviceHash='hash9',
                          imageName='f5.png',
                          description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
                                     ' (network, DNS, SSL, and HTTP) against distributed denial-of-service attacks. '
