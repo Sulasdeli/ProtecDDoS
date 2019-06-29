@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Sidenav, Nav, Icon} from "rsuite";
+import {Sidenav, Nav, Icon, Dropdown} from "rsuite";
 import {Link} from 'react-router-dom'
 
 
@@ -32,6 +32,10 @@ class SideBar extends Component {
                                 <Nav.Item componentClass={Link} to='/explore' icon={<Icon icon="search" />}>
                                     Explore
                                 </Nav.Item>
+                                <Dropdown title="Marketplace" icon={<Icon icon="suitcase" />}>
+                                    <Dropdown.Item componentClass={Link} to='/marketplace'> <Icon icon="plus" />Add new Service</Dropdown.Item>
+                                    <Dropdown.Item componentClass={Link} to='/marketplace/verify'> <Icon icon="check-circle" />Verify</Dropdown.Item>
+                                </Dropdown>
                             </Nav>
                         </Sidenav.Body>
                     </Sidenav>

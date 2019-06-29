@@ -10,7 +10,7 @@ const formatText = (text) => {
 
 const ServiceTypography = ({ characteristic, text }) => (
     <div>
-        <h6 style={{fontWeight: 'bold', fontSize: 16}}>{characteristic}</h6>
+        <h6 style={{fontWeight: 'bold', fontSize: 18, color: '#2b2828'}}>{characteristic}</h6>
         <Typography component="p" align="justify" color="textSecondary" style={{fontSize: 17}}>
             {formatText(text)}
         </Typography>

@@ -5,12 +5,14 @@
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "filepond": "^4.4.5",
+    "filepond-plugin-file-validate-type": "^1.2.4",
     "filepond-plugin-image-exif-orientation": "^1.0.6",
     "filepond-plugin-image-preview": "^4.1.1",
     "highcharts": "^7.0.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.8",
+    "react-copy-to-clipboard": "^5.0.1",
     "react-dom": "^16.8.6",
     "react-filepond": "^7.0.1",
     "react-json-view": "latest",
@@ -18,14 +20,17 @@
     "react-router-dom": "^5.0.0",
     "react-scripts": "2.1.8",
     "react-sticky-el": "latest",
+    "react-web3": "^1.2.0",
     "redux": "^4.0.1",
     "rsuite": "^3.8.3",
-    "styled-components": "^4.2.0"
+    "styled-components": "^4.2.0",
+    "truffle-hdwallet-provider": "^1.0.10",
+    "web3": "^1.0.0-beta.55"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -41,6 +46,7 @@
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "babel-loader": "8.0.5",
+    "react-app-rewired": "^2.1.3",
     "webpack": "4.28.3"
   }
 }

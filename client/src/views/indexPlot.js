@@ -5,7 +5,7 @@ import Highcharts from 'highcharts';
 import {Button, Slider} from 'rsuite';
 import addHighcharts3DModule from 'highcharts/highcharts-3d';
 import styled from "styled-components";
-import {Card} from "@material-ui/core";
+import {Card, Typography} from "@material-ui/core";
 import CardHeader from "./CardHeader";
 addHighcharts3DModule(Highcharts);
 
@@ -14,9 +14,11 @@ const ChartContainer = styled.div`
 `;
 
 const SettingsContainer = styled.div`
+  padding:15px;
+  margin-top: -15px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 15px;
 `;
 
 const pointFormatter = function()  {
@@ -42,7 +44,7 @@ class IndexPlot extends Component {
     render() {
         return (
             <ChartContainer>
-                <Card style={{borderRadius: "10px", height: 690}}>
+                <Card style={{borderRadius: "10px"}}>
                     <CardHeader iconName={"line-chart"} title='Plot' backgroundColor='linear-gradient(0deg, #66bb6a, #43a047)'/>
                     <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
                         <Highcharts3dChart alpha={this.state.alpha} beta={this.state.beta} depth="300" legend={{enabled: true}}>
@@ -61,13 +63,18 @@ class IndexPlot extends Component {
                         </Highcharts3dChart>
                     </div>
                     <hr/>
+                    <Typography variant="h6" style={{fontWeight: 'bold', fontSize: 20, marginLeft: 30}}>
+                        Settings
+                    </Typography>
                     <SettingsContainer>
-                        <h6 style={{fontWeight: 'bold', fontSize: 16}}>Beta Angle</h6>
-                        <Slider style={{ width: 250 }} value={this.state.beta} onChange={(e) => this.handleSliderChange(e, "beta")}/>
-                        <br/>
-                        <h6 style={{fontWeight: 'bold', fontSize: 16}}>Alpha Angle</h6>
-                        <Slider style={{ width: 250 }} value={this.state.alpha} onChange={(e) => this.handleSliderChange(e, "alpha")}/>
-                        <br/>
+                        <div>
+                            <h6 style={{fontWeight: 'bold', fontSize: 16, textAlign: "center"}}>Beta Angle</h6>
+                            <Slider style={{ width: 250 }} value={this.state.beta} onChange={(e) => this.handleSliderChange(e, "beta")}/>
+                        </div>
+                        <div>
+                            <h6 style={{fontWeight: 'bold', fontSize: 16, textAlign: "center"}}>Alpha Angle</h6>
+                            <Slider style={{ width: 250 }} value={this.state.alpha} onChange={(e) => this.handleSliderChange(e, "alpha")}/>
+                        </div>
                         <Button color="blue" appearance="ghost" onClick={() => this.setState({beta: 22, alpha: 20})}>Reset</Button>
                     </SettingsContainer>
                 </Card>
