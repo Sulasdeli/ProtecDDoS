@@ -8,7 +8,6 @@ from engine.database.models import Provider, CustomerProfile, Review
 from engine.helpers.service_helper import ServicesHelper
 from engine.recommender_engine import RecEngine
 from engine.schemas.recommend_provider_schema import recommend_provider_schema
-from engine.schemas.upload_service_schema import upload_service_schema
 
 
 @app.before_request

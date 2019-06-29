@@ -73,14 +73,15 @@ class VerifyPage extends Component {
             .verifyService(this.state.serviceHash)
             .call({from: this.state.user})
             .then((result) => {
-                console.log('is valid:', result);
                 setTimeout(() => {
                     this.setState({
                         isServiceStored: result.isServiceValid,
                         isProviderValid: result.isProviderVerified,
                         isLoading: false
                     });
-                    Alert.error('Hash not stored on to the Blockchain!')
+                    if (!result.isServiceValid) {
+                        Alert.error('Hash not stored on to the Blockchain!')
+                    }
                 }, 1500)
             });
     };
