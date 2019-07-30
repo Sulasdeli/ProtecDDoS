@@ -1,7 +1,7 @@
 from schema import Schema, And, Use
 from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYMENT_TIME, LEASING_PERIOD
 
-recommend_provider_schema = Schema({'region': [And(str, Use(str.upper), lambda s: s in REGIONS)],
+recommend_service_schema = Schema({'region': [And(str, Use(str.upper), lambda s: s in REGIONS)],
                                     'serviceType':  [And(str, Use(str.upper), lambda s: s in TYPE)],
                                     'attackType':  [And(Use(str.upper))],
                                     'deploymentTime':  And(str, Use(str.upper), lambda s: s in DEPLOYMENT_TIME),

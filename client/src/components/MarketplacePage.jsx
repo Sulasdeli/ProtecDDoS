@@ -129,7 +129,9 @@ class MarketplacePage extends Component {
     };
 
     submitService = () => {
+        // Generate the hash
         this.generateHash();
+        // Store generated hash onto the Blockchain
         this.state.contract.methods
             .storeService(this.state.service.serviceHash)
             .send({from: this.state.user})
@@ -140,6 +142,7 @@ class MarketplacePage extends Component {
                         txHash: txHash
                     }
                 });
+                // Submit service to the server
                 this.sendService()
             })
             .on('confirmation', (confirmationNumber) => {

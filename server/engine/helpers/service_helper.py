@@ -1,6 +1,7 @@
 from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYMENT_TIME, LEASING_PERIOD
 
-class ServicesHelper:
+
+class ServiceHelper:
     """Helper class of Services"""
 
     def __init__(self, services, customer_budget):
@@ -11,103 +12,104 @@ class ServicesHelper:
         self.deployment_dict = self.dict_characteristics(DEPLOYMENT_TIME)
         self.leasing_dict = self.dict_characteristics(LEASING_PERIOD)
 
-    def dict_characteristics(self, serviceCharacteristic):
+    def dict_characteristics(self, service_characteristic):
         """Return a dictionary of a given characteristic with calculated indices"""
-        assert isinstance(serviceCharacteristic, list), "Characteristic should be a list"
-        return {(i+1) * ((self.customer_budget/2) / len(serviceCharacteristic)): serviceCharacteristic[i] for i in range(0, len(serviceCharacteristic))}
+        assert isinstance(service_characteristic, list), "Characteristic should be a list"
+        return {service_characteristic[i]: (i+1) * ((self.customer_budget/2) / len(service_characteristic)) for i in range(0, len(service_characteristic))}
 
-    def calculate_index(self, serviceCharacteristic, indivCharacteristic):
-        assert isinstance(serviceCharacteristic, dict), "Characteristic should be a dictionary"
-        assert isinstance(indivCharacteristic, list) or isinstance(indivCharacteristic, str)
+    def calculate_index(self, service_characteristic, indiv_characteristic):
+        assert isinstance(service_characteristic, dict), "Characteristic should be a dictionary"
+        assert isinstance(indiv_characteristic, list) or isinstance(indiv_characteristic, str)
         index = 0
 
-        if isinstance(indivCharacteristic, list):
-            for key, item in serviceCharacteristic.items():
-                if item in indivCharacteristic:
-                    index += key
-        elif isinstance(indivCharacteristic, str):
-            for key, item in serviceCharacteristic.items():
-                if indivCharacteristic == item:
-                    index = key
+        if isinstance(indiv_characteristic, list):
+            for key, value in service_characteristic.items():
+                if key in indiv_characteristic:
+                    index += value
+        elif isinstance(indiv_characteristic, str):
+            for key, value in service_characteristic.items():
+                if indiv_characteristic == key:
+                    index = value
+
         return index
 
-    def filter_by_price(self,maxPrice = None, updatedServices = None):
+    def filter_by_price(self, max_price = None, updated_services = None):
         """Return services between a price range"""
-        servicesFound = []
-        if updatedServices is not None:
-            services = updatedServices
+        services_found = []
+        if updated_services is not None:
+            services = updated_services
         else:
             services = self.services
-        if maxPrice:
+        if max_price:
             for s in services:
-                if s.price <= maxPrice:
-                    servicesFound.append(s)
-        return servicesFound
+                if s.price <= max_price:
+                    services_found.append(s)
+        return services_found
 
-    def filter_by_type(self, types, updatedServices = None):
+    def filter_by_type(self, types, updated_services = None):
         """Return services of a given type"""
         assert isinstance(types, list), "Service Type should be a list"
-        servicesFound = []
-        if updatedServices is not None:
-            services = updatedServices
+        services_found = []
+        if updated_services is not None:
+            services = updated_services
         else:
             services = self.services
         for s in services:
             if set(types) <= set(s.type):
-                servicesFound.append(s)
-        return servicesFound
+                services_found.append(s)
+        return services_found
 
-    def filter_by_attack_type(self, attackTypes, updatedServices = None):
+    def filter_by_attack_type(self, attack_types, updated_services = None):
         """Return services that protect against a given attack type"""
-        assert isinstance(attackTypes, list), "Service Type should be a list"
-        servicesFound = []
-        if updatedServices is not None:
-            services = updatedServices
+        assert isinstance(attack_types, list), "Service Type should be a list"
+        services_found = []
+        if updated_services is not None:
+            services = updated_services
         else:
             services = self.services
         for s in services:
-            if set(attackTypes) <= set(s.features):
-                servicesFound.append(s)
-        return servicesFound
+            if set(attack_types) <= set(s.features):
+                services_found.append(s)
+        return services_found
 
-    def filter_by_region(self, regions, updatedServices = None):
+    def filter_by_region(self, regions, updated_services = None):
         """Return services of a given region"""
         assert isinstance(regions, list), "regions should be a list"
-        servicesFound = []
-        if updatedServices is not None:
-            services = updatedServices
+        services_found = []
+        if updated_services is not None:
+            services = updated_services
         else:
             services = self.services
         for s in services:
             if set(regions) <= set(s.region):
-                servicesFound.append(s)
-        return servicesFound
+                services_found.append(s)
+        return services_found
 
-    def filter_by_deployment(self, deploymentPeriod, list = None):
+    def filter_by_deployment(self, deployment_time, list = None):
         """Return services within a deployment time frame"""
-        assert deploymentPeriod in DEPLOYMENT_TIME, "Invalid Deployment Time"
-        servicesFound = []
+        assert deployment_time in DEPLOYMENT_TIME, "Invalid Deployment Time"
+        services_found = []
         if list is not None:
             services = list
         else:
             services = self.services
         for s in services:
-            if deploymentPeriod in s.deployment:
-                servicesFound.append(s)
-        return servicesFound
+            if deployment_time in s.deployment:
+                services_found.append(s)
+        return services_found
 
-    def filter_by_leasing(self, leasingPeriod, list = None):
+    def filter_by_leasing(self, leasing_period, list = None):
         """Return services within a leasing period"""
-        assert leasingPeriod in LEASING_PERIOD, ("Invalid Leasing Period")
-        servicesFound = []
+        assert leasing_period in LEASING_PERIOD, "Invalid Leasing Period"
+        services_found = []
         if list is not None:
             services = list
         else:
             services = self.services
         for s in services:
-            if leasingPeriod in s.leasingPeriod:
-                servicesFound.append(s)
-        return servicesFound
+            if leasing_period in s.leasingPeriod:
+                services_found.append(s)
+        return services_found
 
     def apply_filters_to_services(self, cs):
         list = self.filter_by_price(cs.budget)

@@ -5,33 +5,31 @@ import json
 
 
 class RecEngine:
-    "Recommendation Engine"
+    """Recommendation Engine"""
 
-    def __init__(self, services, customer):
-        self.services = services
+    def __init__(self, service_helper, customer):
+        self.service_helper = service_helper
         self.customer = customer
 
     def calc_customer_index(self):
-        "Return an array with the customer index"
+        """Computes the total index of a given customer profile"""
         cs = self.customer
-        sh = self.services
-        deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, cs.deploymentTime)
-        leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, cs.leasingPeriod)
-        cs.serviceSimilarity = [deploymentTimeIndex, leasingPeriodIndex, cs.budget]
-        print('CUSTOMER: ', cs.serviceSimilarity)
+        sh = self.service_helper
+        deployment_time_index = sh.calculate_index(sh.deployment_dict, cs.deploymentTime)
+        leasing_period_index = sh.calculate_index(sh.leasing_dict, cs.leasingPeriod)
+        cs.total_index = [deployment_time_index, leasing_period_index, cs.budget]
 
     def calc_service_index(self):
-        "Update the serviceSimilarity array of each service"
-        sh = self.services
+        """Computes the total index of each protection service"""
+        sh = self.service_helper
         for s in sh.services:
-            deploymentTimeIndex = sh.calculate_index(sh.deployment_dict, s.deployment)
-            leasingPeriodIndex = sh.calculate_index(sh.leasing_dict, s.leasingPeriod)
-            s.serviceSimilarity = [deploymentTimeIndex, leasingPeriodIndex, self.customer.budget - s.price]
-            print('SERVICE: ', s.serviceSimilarity)
+            deployment_time_index = sh.calculate_index(sh.deployment_dict, s.deployment)
+            leasing_period_index = sh.calculate_index(sh.leasing_dict, s.leasingPeriod)
+            s.total_index = [deployment_time_index, leasing_period_index, self.customer.budget - s.price]
 
     def calc_similarity(self):
-        "Calculate the cosine similarity of the service list and return a sorted list"
-        sh = self.services
+        """Computes the similarity score between customer and a list of services and returns a list of services, sorted by relevance"""
+        sh = self.service_helper
         cs = self.customer
 
         #Store similarities per service --> (service id : ranking)
@@ -44,11 +42,11 @@ class RecEngine:
         customerProfileWeights = [cs.deploymentTimeWeight, cs.leasingPeriodWeight, cs.budgetWeight]
 
         # Customer definitions/requirements
-        cs.weighted_similarity = np.multiply(cs.serviceSimilarity, customerProfileWeights)
+        cs.weighted_similarity = np.multiply(cs.total_index, customerProfileWeights)
 
         for s in sh.services:
             #Service characteristics
-            s.weighted_similarity = np.multiply(s.serviceSimilarity, customerProfileWeights)
+            s.weighted_similarity = np.multiply(s.total_index, customerProfileWeights)
 
             # Calculation of Similarity
             s.euclideanDistance = euclidean_distance(cs.weighted_similarity, s.weighted_similarity)     #lower -> better
@@ -75,7 +73,7 @@ class RecEngine:
 
         for i, (k, v) in enumerate(sortedServices):
             print("Ranking", i + 1, "Service ID:", k)
-            for s in self.services.services:
+            for s in self.service_helper.services:
                 if s.id == k:
                     print('---------------------------------------------------------------------------------------')
                     print(s.currency, s.price, s.type, s.region, s.deployment, s.leasingPeriod, 'Features:', s.features)

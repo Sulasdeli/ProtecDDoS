@@ -2,7 +2,7 @@ from schema import Schema, And, Use
 from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYMENT_TIME, LEASING_PERIOD
 
 upload_service_schema = Schema({'productName': Use(str),
-                                'provider':  Use(str),
+                                'Service':  Use(str),
                                 'logo':  Use(str),
                                 'fileName':  Use(str),
                                 'description':  Use(str),

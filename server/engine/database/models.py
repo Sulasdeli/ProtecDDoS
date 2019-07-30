@@ -1,6 +1,6 @@
 from datetime import datetime
 from engine import db
-from engine.helpers.service_helper import ServicesHelper
+from engine.helpers.service_helper import ServiceHelper
 from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYMENT_TIME, LEASING_PERIOD
 import random
 from sqlalchemy_imageattach.entity import Image, image_attachment
@@ -17,7 +17,7 @@ Base = declarative_base()
 class Review(db.Model):
     """Service Review model"""
     id = db.Column(db.Integer, primary_key=True)
-    provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'))
+    service_id = db.Column(db.Integer, db.ForeignKey('service.id'))
     fileName = db.Column(db.Text, nullable=False)
     fileData = db.Column(db.LargeBinary)
     rating = db.Column(db.Integer, nullable=False)
@@ -34,15 +34,15 @@ class Review(db.Model):
         }
 
 
-class Provider(db.Model):
-    """Provider model"""
+class Service(db.Model):
+    """Service model"""
 
     id = db.Column(db.Integer, primary_key=True)
     providerName = db.Column(db.String(100), nullable=False)
     serviceHash = db.Column(db.String(100), unique=True)
     txHash = db.Column(db.String(100))
     serviceName = db.Column(db.String(100), nullable=False)
-    image = image_attachment('ProviderImage')
+    image = image_attachment('ServiceImage')
     imageName = db.Column(db.String(30), default='default.png')
     description = db.Column(db.Text, nullable=False)
     type = db.Column(db.PickleType, nullable=False)
@@ -52,8 +52,8 @@ class Provider(db.Model):
     leasingPeriod = db.Column(db.Text, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     currency = db.Column(db.Text, nullable=False, default='USD')
-    reviews = db.relationship('Review', backref="provider", lazy='dynamic')
-    __tablename__ = 'provider'
+    reviews = db.relationship('Review', backref="service", lazy='dynamic')
+    __tablename__ = 'service'
 
     def serialize(self, cosine_similarity='', jaccard_similarity='', euclidean_distance='', manhattan_distance='', pearson_correlation='', weighted_similarity=[]):
         """Return object data in easily serializable format"""
@@ -113,14 +113,14 @@ class Provider(db.Model):
         return self
 
     def __repr__(self):
-        return f"Provider('{self.serviceName}', '{self.type}', '{self.region}', '{self.price}', '{self.currency}', '{self.txHash}', '{self.serviceHash}')"
+        return f"Service('{self.serviceName}', '{self.type}', '{self.region}', '{self.price}', '{self.currency}', '{self.txHash}', '{self.serviceHash}')"
 
 
-class ProviderImage(db.Model, Image):
-    """Provider Image model"""
-    provider_id = db.Column(db.Integer, db.ForeignKey('provider.id'), primary_key=True)
-    provider = db.relationship('Provider')
-    __tablename__ = 'provider_image'
+class ServiceImage(db.Model, Image):
+    """Service Service Image model"""
+    service_id = db.Column(db.Integer, db.ForeignKey('service.id'), primary_key=True)
+    service = db.relationship('Service')
+    __tablename__ = 'service_image'
 
 
 ### Customer Models ####################################################################################################
@@ -173,7 +173,7 @@ class CustomerProfile(db.Model):
 
 
 def load_data(app, db):
-    service1 = Provider(providerName='Akamai', serviceName='Kona Site Defender',
+    service1 = Service(providerName='Akamai', serviceName='Kona Site Defender',
                         serviceHash='hash1',
                         imageName='akamai.png',
                         description='Kona Site Defender combines automated DDoS mitigation with a highly '
@@ -186,7 +186,7 @@ def load_data(app, db):
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
                         leasingPeriod='MINUTES', price=3500, currency='USD')
 
-    service2 = Provider(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
+    service2 = Service(providerName='CloudFlare', serviceName='Advanced DDoS Attack Protection',
                         serviceHash='hash2',
                         imageName='cloudflare.png',
                         description='Cloudflare’s advanced DDoS protection, provisioned as a service at the network '
@@ -197,7 +197,7 @@ def load_data(app, db):
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=4900, currency='USD')
 
-    service3 = Provider(providerName='Imperva', serviceName='Incapsula',
+    service3 = Service(providerName='Imperva', serviceName='Incapsula',
                         serviceHash='hash3',
                         imageName='imperva.svg',
                         description='The Imperva Incapsula service delivers a multi-faceted approach to DDoS defense, '
@@ -209,7 +209,7 @@ def load_data(app, db):
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
                         leasingPeriod='DAYS', price=4500, currency='USD')
 
-    service4 = Provider(providerName='Verisign', serviceName='Verisign DDoS Protection Service',
+    service4 = Service(providerName='Verisign', serviceName='Verisign DDoS Protection Service',
                         serviceHash='hash4',
                         imageName='verisign.png',
                         description='Verisign DDoS Protection Services help organisations reduce the risk of '
@@ -221,7 +221,7 @@ def load_data(app, db):
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=3700, currency='USD')
 
-    service5 = Provider(providerName='Arbor Networks', serviceName='Arbor Cloud',
+    service5 = Service(providerName='Arbor Networks', serviceName='Arbor Cloud',
                         serviceHash='hash5',
                         imageName='arbor.png',
                         description='Arbor Cloud is a DDoS service powered by the world’s leading experts in DDoS '
@@ -230,7 +230,7 @@ def load_data(app, db):
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE'], deployment='DAYS',
                         leasingPeriod='MONTHS', price=3000, currency='USD')
 
-    service6 = Provider(providerName='Check Point Software Technologies', serviceName='DDos Protector',
+    service6 = Service(providerName='Check Point Software Technologies', serviceName='DDos Protector',
                         serviceHash='hash6',
                         imageName='checkPoint.png',
                         description='Check Point DDoS Protector™Appliances block Denial of Service attacks within '
@@ -244,7 +244,7 @@ def load_data(app, db):
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
                         leasingPeriod='DAYS', price=2400, currency='USD')
 
-    service7 = Provider(providerName='Corero Network Security, Inc.', serviceName='SmartWall® Threat Defense System',
+    service7 = Service(providerName='Corero Network Security, Inc.', serviceName='SmartWall® Threat Defense System',
                         serviceHash='hash7',
                         imageName='corero.png',
                         description='The Corero SmartWall Threat Defense System (TDS) delivers comprehensive DDoS '
@@ -258,7 +258,7 @@ def load_data(app, db):
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
                         leasingPeriod='MINUTES', price=3200, currency='USD')
 
-    service8 = Provider(providerName='Flowmon Networks', serviceName='Flowmon DDoS Defender',
+    service8 = Service(providerName='Flowmon Networks', serviceName='Flowmon DDoS Defender',
                         serviceHash='hash8',
                         imageName='flowmon.png',
                         description='Flowmon DDoS Defender puts advanced artificial intelligence between your critical '
@@ -269,8 +269,8 @@ def load_data(app, db):
                         region=['NORTH AMERICA', 'SOUTH AMERICA', 'EUROPE', 'ASIA'], deployment='SECONDS',
                         leasingPeriod='MONTHS', price=2345, currency='USD')
 
-    service9 = Provider(providerName='Level 3 Communications', serviceName='Level 3 DDos Mitigation',
-                        serviceHash='0x2986e65b3fe5edb40392c2685c7f45ef50b6d653781d7c1d6b12c06c920b81b3', txHash='0x2986e65b3fe5edb46392c9685c7f45ef50b6d653781d7c1d6b12c06c920b81b3',
+    service9 = Service(providerName='Level 3 Communications', serviceName='Level 3 DDos Mitigation',
+                        serviceHash='0x2986e65b3fe5edb46392c2685c7f45ef50b6d653781d7c1d6b12c06c920b81b3', txHash='0x693f91c947d546e97ba11525d8bd5ee3d2ce5c400835e2a939662feb3753b6c3',
                         imageName='level3.png',
                         description='Level 3 provides layers of defense through enhanced network routing, rate '
                                     'limiting and filtering that can be paired with advanced network-based detection '
@@ -283,7 +283,7 @@ def load_data(app, db):
                         region=['EUROPE'], deployment='MINUTES',
                         leasingPeriod='DAYS', price=1200, currency='USD')
 
-    service10 = Provider(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
+    service10 = Service(providerName='F5 Networks', serviceName='F5 Silverline DDoS Protection',
                          serviceHash='hash9',
                          imageName='f5.png',
                          description=' F5’s DDoS Protection solution protects the fundamental elements of an application'
@@ -297,8 +297,8 @@ def load_data(app, db):
                          leasingPeriod='DAYS', price=890, currency='USD')
 
 
-    review1 = Review(provider_id=9, fileName='fingerprint.json', fileData=bytearray(), rating=1, comment="Comment#1")
-    review2 = Review(provider_id=9, fileName='fingerprint.json', fileData=bytearray(), rating=1, comment="Comment#2")
+    review1 = Review(service_id=9, fileName='fingerprint.json', fileData=bytearray(), rating=1, comment="Comment#1")
+    review2 = Review(service_id=9, fileName='fingerprint.json', fileData=bytearray(), rating=1, comment="Comment#2")
 
     with app.app_context():
         db.session.add(review1)
@@ -327,9 +327,9 @@ def set_image(service):
 
 # For testing purposes
 def mock_services():
-    sh = ServicesHelper([])
+    sh = ServiceHelper([])
     for i in range(0, 1000):
-        s = Provider()
+        s = Service()
         s.id = i
         s.price = random.randint(0, 5000)
         s.type = "REACTIVE" if i % 2 == 0 else "PROACTIVE"

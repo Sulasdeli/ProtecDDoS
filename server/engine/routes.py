@@ -4,10 +4,10 @@ from werkzeug.exceptions import BadRequest, NotFound
 import os
 from engine import app, db
 from engine import store
-from engine.database.models import Provider, CustomerProfile, Review
-from engine.helpers.service_helper import ServicesHelper
+from engine.database.models import Service, CustomerProfile, Review
+from engine.helpers.service_helper import ServiceHelper
 from engine.recommender_engine import RecEngine
-from engine.schemas.recommend_provider_schema import recommend_provider_schema
+from engine.schemas.recommend_service_schema import recommend_service_schema
 
 
 @app.before_request
@@ -22,29 +22,29 @@ def stop_implicit_store_context(exception=None):
 
 @app.route("/v1/services")
 def get_services():
-    return jsonify([i.serialize() for i in Provider.query.all()])
+    return jsonify([i.serialize() for i in Service.query.all()])
 
 
 @app.route("/v1/services/<id>")
 def get_service(id):
-    provider = Provider.query.get(id)
+    currentService = Service.query.get(id)
 
-    if provider is None:
+    if Service is None:
         raise BadRequest("Service with the specified ID does not exist")
-    return jsonify(provider.serialize())
+    return jsonify(currentService.serialize())
 
 
 @app.route("/v1/services", methods=['POST'])
 def upload_service():
     # Avoid duplicate
-    if Provider.query.filter_by(serviceHash=request.form['serviceHash']).scalar() is None:
+    if Service.query.filter_by(serviceHash=request.form['serviceHash']).scalar() is None:
         # Store logo locally
         if request.files['file']:
             file = request.files['file']
             file.save(os.path.join('static/images', file.filename))
 
             # Map Json request to model
-            new_service = Provider().form_to_obj(request.form, file)
+            new_service = Service().form_to_obj(request.form, file)
 
             with app.app_context():
                 with open(f"static/images/{new_service.imageName}", 'rb') as f:
@@ -64,7 +64,7 @@ def upload_service():
 @app.route("/v1/recommend", methods=['POST'])
 def recommend_service():
     # Validate Data
-    if not recommend_provider_schema.is_valid(request.get_json()):
+    if not recommend_service_schema.is_valid(request.get_json()):
         raise BadRequest('Data is not valid')
 
     # Map Json request to model
@@ -72,7 +72,7 @@ def recommend_service():
 
     # Set the services helper
     # helper = mock_services()
-    helper = ServicesHelper(Provider.query.all(), custProfile.budget)
+    helper = ServiceHelper(Service.query.all(), custProfile.budget)
     helper.apply_filters_to_services(custProfile)
 
     re = RecEngine(helper, custProfile)
@@ -84,20 +84,20 @@ def recommend_service():
 def upload_review():
     if request.files['file']:
 
-        provider = Provider.query.get(request.form['serviceId'])
+        current_service = Service.query.get(request.form['serviceId'])
 
-        if provider is not None:
+        if current_service is not None:
 
-            customerReview = Review(provider_id=provider.id, rating=request.form['rating'],
+            customer_review = Review(service_id=current_service.id, rating=request.form['rating'],
                                     comment=request.form['comment'],
                                     fileName=request.files['file'].filename, fileData=request.files['file'].read())
             with app.app_context():
-                db.session.add(customerReview)
+                db.session.add(customer_review)
                 db.session.commit()
-                db.session.refresh(customerReview)
+                db.session.refresh(customer_review)
                 db.session.close()
 
-            return jsonify(customerReview.serialize)
+            return jsonify(customer_review.serialize)
         else:
             raise NotFound("Service with given id does not exist")
 
