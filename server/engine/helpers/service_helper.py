@@ -2,7 +2,7 @@ from engine.helpers.const.service_characteristics import TYPE, REGIONS, DEPLOYME
 
 
 class ServiceHelper:
-    """Helper class of Services"""
+    """Service Helper"""
 
     def __init__(self, services, customer_budget):
         self.customer_budget = customer_budget
