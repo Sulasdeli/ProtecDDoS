@@ -39,39 +39,38 @@ class RecEngine:
         self.calc_customer_index()
         self.calc_service_index()
 
-        customerProfileWeights = [cs.deploymentTimeWeight, cs.leasingPeriodWeight, cs.budgetWeight]
+        customer_profile_weights = [cs.deploymentTimeWeight, cs.leasingPeriodWeight, cs.budgetWeight]
 
         # Customer definitions/requirements
-        cs.weighted_similarity = np.multiply(cs.total_index, customerProfileWeights)
+        cs.weighted_total_index = np.multiply(cs.total_index, customer_profile_weights)
 
         for s in sh.services:
-            #Service characteristics
-            s.weighted_similarity = np.multiply(s.total_index, customerProfileWeights)
+            s.weighted_total_index = np.multiply(s.total_index, customer_profile_weights)
 
             # Calculation of Similarity
-            s.euclideanDistance = euclidean_distance(cs.weighted_similarity, s.weighted_similarity)     #lower -> better
-            s.jaccardSimilarity = jaccard_similarity(cs.weighted_similarity, s.weighted_similarity)     #higher -> better
-            s.cosineSimilarity = cosine_similarity(cs.weighted_similarity, s.weighted_similarity)       #higher -> better
-            s.manhattanDistance = manhattan_distance(cs.weighted_similarity, s.weighted_similarity)     #lower -> better
-            s.pearsonCorrelation = pearson_correlation(cs.weighted_similarity, s.weighted_similarity)   #higher -> better
-            s.minkowskiDistance = minkowski_distance(cs.weighted_similarity, s.weighted_similarity, len(s.weighted_similarity)) #higher -> better
+            s.euclideanDistance = euclidean_distance(cs.weighted_total_index, s.weighted_total_index)     #lower -> better
+            s.jaccardSimilarity = jaccard_similarity(cs.weighted_total_index, s.weighted_total_index)     #higher -> better
+            s.cosineSimilarity = cosine_similarity(cs.weighted_total_index, s.weighted_total_index)       #higher -> better
+            s.manhattanDistance = manhattan_distance(cs.weighted_total_index, s.weighted_total_index)     #lower -> better
+            s.pearsonCorrelation = pearson_correlation(cs.weighted_total_index, s.weighted_total_index)   #higher -> better
+            s.minkowskiDistance = minkowski_distance(cs.weighted_total_index, s.weighted_total_index, len(s.weighted_total_index)) #higher -> better
 
             #Rating is given based on a normalization of all ratings
             s.rating = np.linalg.norm([s.euclideanDistance, s.jaccardSimilarity, s.cosineSimilarity, s.manhattanDistance, s.pearsonCorrelation, s.minkowskiDistance])
-            similarity.update({s.id:s.rating})
+            similarity.update({s.id: s.rating})
 
         #Sort services by similarity index
-        sortedNormalizedSimilarities = [(k, similarity[k]) for k in sorted(similarity, key=similarity.get)]
+        sorted_normalized_similarities = [(k, similarity[k]) for k in sorted(similarity, key=similarity.get)]
 
-        return sortedNormalizedSimilarities
+        return sorted_normalized_similarities
 
     def recommend_services(self, topNServices = -1):
-        "Filter the sorted services to find the most (topServices) similar ones"
-        sortedServices = self.calc_similarity()
+        """Filter the sorted services to find the most (topServices) similar ones"""
+        sorted_services = self.calc_similarity()
 
         result = []
 
-        for i, (k, v) in enumerate(sortedServices):
+        for i, (k, v) in enumerate(sorted_services):
             print("Ranking", i + 1, "Service ID:", k)
             for s in self.service_helper.services:
                 if s.id == k:
@@ -81,9 +80,9 @@ class RecEngine:
                           "Cosine:", s.cosineSimilarity, "Manhattan:", s.manhattanDistance, "Pearson:",
                           s.pearsonCorrelation, "Minkowski:", s.minkowskiDistance)
                     print('---------------------------------------------------------------------------------------')
-                    result.append(s.serialize(s.cosineSimilarity, s.jaccardSimilarity, s.euclideanDistance, s.manhattanDistance, s.pearsonCorrelation, json.dumps(s.weighted_similarity.tolist())))
+                    result.append(s.serialize(s.cosineSimilarity, s.jaccardSimilarity, s.euclideanDistance, s.manhattanDistance, s.pearsonCorrelation, json.dumps(s.weighted_total_index.tolist())))
 
         return {
             "recommendedServices": result if topNServices <= 0 else result[0:topNServices],
-            "userIndex": self.customer.weighted_similarity.tolist()
+            "userIndex": self.customer.weighted_total_index.tolist()
         }
