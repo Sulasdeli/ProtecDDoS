@@ -1,0 +1,20 @@
+version: "2"
+services:
+  client:
+    build: client/.
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - /client
+      - /client/node_modules
+    links:
+      - protecddos-server
+    command: npm run start
+  protecddos-server:
+    build: server/.
+    restart: always
+    ports:
+      - "5000:5000"
+    volumes:
+      - /server
