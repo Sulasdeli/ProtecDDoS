@@ -1,9 +1,8 @@
-
+var fs  = require('fs');
 const HDWalletProvider = require('truffle-hdwallet-provider');
-const infuraKey = "62fbf70719604b9196c24a44af1c6ab6";
+const infuraKey = "ENTER YOUR INFURA KEY HERE";
 
-// const mnemonic = fs.readFileSync(".secret").toString().trim(); <- In production, mnemonic should be stored in a secret file
-const mnemonic = 'place extend wrap shove spell action wait sweet stove swift pigeon mistake grape fashion olive';
+const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 module.exports = {
   networks: {
