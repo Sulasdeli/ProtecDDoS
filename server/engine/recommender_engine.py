@@ -53,7 +53,7 @@ class RecEngine:
             s.cosineSimilarity = cosine_similarity(cs.weighted_total_index, s.weighted_total_index)       #higher -> better
             s.manhattanDistance = manhattan_distance(cs.weighted_total_index, s.weighted_total_index)     #lower -> better
             s.pearsonCorrelation = pearson_correlation(cs.weighted_total_index, s.weighted_total_index)   #higher -> better
-            s.minkowskiDistance = minkowski_distance(cs.weighted_total_index, s.weighted_total_index, len(s.weighted_total_index)) #higher -> better
+            s.minkowskiDistance = minkowski_distance(cs.weighted_total_index, s.weighted_total_index, len(s.weighted_total_index)) #lower -> better
 
             #Rating is given based on a normalization of all ratings
             s.rating = np.linalg.norm([s.euclideanDistance, s.jaccardSimilarity, s.cosineSimilarity, s.manhattanDistance, s.pearsonCorrelation, s.minkowskiDistance])
@@ -80,7 +80,7 @@ class RecEngine:
                           "Cosine:", s.cosineSimilarity, "Manhattan:", s.manhattanDistance, "Pearson:",
                           s.pearsonCorrelation, "Minkowski:", s.minkowskiDistance)
                     print('---------------------------------------------------------------------------------------')
-                    result.append(s.serialize(s.cosineSimilarity, s.jaccardSimilarity, s.euclideanDistance, s.manhattanDistance, s.pearsonCorrelation, json.dumps(s.weighted_total_index.tolist())))
+                    result.append(s.serialize(s.cosineSimilarity, s.jaccardSimilarity, s.euclideanDistance, s.manhattanDistance, s.pearsonCorrelation,s.minkowskiDistance, json.dumps(s.weighted_total_index.tolist())))
 
         return {
             "recommendedServices": result if topNServices <= 0 else result[0:topNServices],

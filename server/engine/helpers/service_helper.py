@@ -85,32 +85,6 @@ class ServiceHelper:
                 services_found.append(s)
         return services_found
 
-    def filter_by_deployment(self, deployment_time, list = None):
-        """Return services within a deployment time frame"""
-        assert deployment_time in DEPLOYMENT_TIME, "Invalid Deployment Time"
-        services_found = []
-        if list is not None:
-            services = list
-        else:
-            services = self.services
-        for s in services:
-            if deployment_time in s.deployment:
-                services_found.append(s)
-        return services_found
-
-    def filter_by_leasing(self, leasing_period, list = None):
-        """Return services within a leasing period"""
-        assert leasing_period in LEASING_PERIOD, "Invalid Leasing Period"
-        services_found = []
-        if list is not None:
-            services = list
-        else:
-            services = self.services
-        for s in services:
-            if leasing_period in s.leasingPeriod:
-                services_found.append(s)
-        return services_found
-
     def apply_filters_to_services(self, cs):
         list = self.filter_by_price(cs.budget)
         list = self.filter_by_region(cs.region, list)

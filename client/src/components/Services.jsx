@@ -43,7 +43,7 @@ class Services extends Component {
         // Apply selected algorithm
         if(this.props.selectedAlgorithm !== 'DEFAULT') {
             services = services.sort((s1,s2) =>
-                (['manhattanDistance', 'euclideanDistance'].includes(this.props.selectedAlgorithm)) ?
+                (['manhattanDistance', 'euclideanDistance', 'minkowskiDistance'].includes(this.props.selectedAlgorithm)) ?
                     s1[this.props.selectedAlgorithm] < s2[this.props.selectedAlgorithm] ? -1 : 1:
                     s1[this.props.selectedAlgorithm] > s2[this.props.selectedAlgorithm]? -1 : 1);
         }

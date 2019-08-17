@@ -55,7 +55,7 @@ class Service(db.Model):
     reviews = db.relationship('Review', backref="service", lazy='dynamic')
     __tablename__ = 'service'
 
-    def serialize(self, cosine_similarity='', jaccard_similarity='', euclidean_distance='', manhattan_distance='', pearson_correlation='', weighted_similarity=[]):
+    def serialize(self, cosine_similarity='', jaccard_similarity='', euclidean_distance='', manhattan_distance='',pearson_correlation='', minkowski_distance='', weighted_similarity=[]):
         """Return object data in easily serializable format"""
         return {
             'id': self.id,
@@ -78,6 +78,7 @@ class Service(db.Model):
             'euclideanDistance': euclidean_distance,
             'manhattanDistance': manhattan_distance,
             'pearsonCorrelation': pearson_correlation,
+            'minkowskiDistance': minkowski_distance,
             'weightedSimilarity': weighted_similarity
         }
 
