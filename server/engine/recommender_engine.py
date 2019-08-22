@@ -48,12 +48,12 @@ class RecEngine:
             s.weighted_total_index = np.multiply(s.total_index, customer_profile_weights)
 
             # Calculation of Similarity
-            s.euclideanDistance = euclidean_distance(cs.weighted_total_index, s.weighted_total_index)     #lower -> better
-            s.jaccardSimilarity = jaccard_similarity(cs.weighted_total_index, s.weighted_total_index)     #higher -> better
-            s.cosineSimilarity = cosine_similarity(cs.weighted_total_index, s.weighted_total_index)       #higher -> better
-            s.manhattanDistance = manhattan_distance(cs.weighted_total_index, s.weighted_total_index)     #lower -> better
-            s.pearsonCorrelation = pearson_correlation(cs.weighted_total_index, s.weighted_total_index)   #higher -> better
-            s.minkowskiDistance = minkowski_distance(cs.weighted_total_index, s.weighted_total_index, len(s.weighted_total_index)) #lower -> better
+            s.euclideanDistance = euclidean_distance(cs.weighted_total_index, s.weighted_total_index)
+            s.jaccardSimilarity = jaccard_similarity(cs.weighted_total_index, s.weighted_total_index)
+            s.cosineSimilarity = cosine_similarity(cs.weighted_total_index, s.weighted_total_index)
+            s.manhattanDistance = manhattan_distance(cs.weighted_total_index, s.weighted_total_index)
+            s.pearsonCorrelation = pearson_correlation(cs.weighted_total_index, s.weighted_total_index)
+            s.minkowskiDistance = minkowski_distance(cs.weighted_total_index, s.weighted_total_index, len(s.weighted_total_index))
 
             #Rating is given based on a normalization of all ratings
             s.rating = np.linalg.norm([s.euclideanDistance, s.jaccardSimilarity, s.cosineSimilarity, s.manhattanDistance, s.pearsonCorrelation, s.minkowskiDistance])
@@ -69,19 +69,10 @@ class RecEngine:
         sorted_services = self.calc_similarity()
 
         result = []
-
         for i, (k, v) in enumerate(sorted_services):
-            print("Ranking", i + 1, "Service ID:", k)
             for s in self.service_helper.services:
                 if s.id == k:
-                    print('---------------------------------------------------------------------------------------')
-                    print(s.currency, s.price, s.type, s.region, s.deployment, s.leasingPeriod, 'Features:', s.features)
-                    print("Rating:", s.rating, "Euclidean", s.euclideanDistance, "Jaccard:", s.jaccardSimilarity,
-                          "Cosine:", s.cosineSimilarity, "Manhattan:", s.manhattanDistance, "Pearson:",
-                          s.pearsonCorrelation, "Minkowski:", s.minkowskiDistance)
-                    print('---------------------------------------------------------------------------------------')
                     result.append(s.serialize(s.cosineSimilarity, s.jaccardSimilarity, s.euclideanDistance, s.manhattanDistance, s.pearsonCorrelation,s.minkowskiDistance, json.dumps(s.weighted_total_index.tolist())))
-
         return {
             "recommendedServices": result if topNServices <= 0 else result[0:topNServices],
             "userIndex": self.customer.weighted_total_index.tolist()

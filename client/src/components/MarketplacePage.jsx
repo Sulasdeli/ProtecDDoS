@@ -146,7 +146,7 @@ class MarketplacePage extends Component {
                 this.sendService()
             })
             .on('confirmation', (confirmationNumber) => {
-                console.log("CONF Block:", confirmationNumber)
+                console.log("Confirmation Block:", confirmationNumber)
             })
             .on('receipt', (receipt) => {
                 console.log("Receipt:", receipt)
