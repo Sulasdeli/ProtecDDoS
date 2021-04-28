@@ -7,6 +7,7 @@ from sqlalchemy_imageattach.entity import Image, image_attachment
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy_imageattach.context import store_context
 from engine import store
+import base64
 
 Base = declarative_base()
 
@@ -63,7 +64,7 @@ class Service(db.Model):
             'serviceName': self.serviceName,
             'serviceHash': self.serviceHash,
             'txHash': self.txHash,
-            'image': self.image.locate(),
+            'image': base64.b64encode(self.image.make_blob()).decode("utf-8"),
             'description': self.description,
             'type': self.type,
             'features': self.features,
@@ -200,7 +201,7 @@ def load_data(app, db):
 
     service3 = Service(providerName='Imperva', serviceName='Incapsula',
                         serviceHash='hash3',
-                        imageName='imperva.svg',
+                        imageName='imperva.png',
                         description='The Imperva Incapsula service delivers a multi-faceted approach to DDoS defense, '
                                     'providing blanket protection from all DDoS attacks to shield your critical '
                                     'online assets from these threats. Incapsula DDoS protection services are backed '
